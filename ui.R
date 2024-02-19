@@ -4,18 +4,19 @@
 # objective: Create a user interface
 # script start;
 
-
-
-
 bslib::page_navbar(
     title = "Beregner til Investeringer i Sundhed",
     id = "main_page",
-    nav_item(bslib::input_dark_mode(mode = "light")),
+    bslib::nav_item(bslib::input_dark_mode(mode = "light")),
+    
+    
+    
     lang = "en",
     window_title = "BIS",
     fillable_mobile = TRUE,
     sidebar = bslib::sidebar(
-    position = "left",width = "15%",
+    position = "left",
+    width = "360px",
     open = "always",
     title = "Parametre",
     
@@ -73,7 +74,9 @@ bslib::page_navbar(
         choiceValues = c(
             "treatment",
             "control"
-        )
+        ),
+        justified = FALSE,
+        width = "100%",size = "normal",direction = "vertical"
     ),
     
     shiny::conditionalPanel(
@@ -92,14 +95,14 @@ bslib::page_navbar(
             )
         }
     ),
+    
     shinyWidgets::actionBttn(
         inputId = "export",
         label = "Eksportér",
         style = "simple",
         block = TRUE,
         icon = shiny::icon("download"),
-        size = "xs",
-        color = "primary"
+        size = "md",color = "primary"
     )
 
 
@@ -113,6 +116,38 @@ bslib::page_navbar(
     bslib::nav_panel(
         title = "Målgruppemodellen",
         icon = shiny::icon("github"),
+        bslib::card(
+            bslib::layout_columns(
+                col_widths = c(3,3,3,3),
+                
+                bslib::value_box(
+                    title = "Lægemiddelforbrug",
+                    value = "Det offentliges betaling",
+                    showcase = bsicons::bs_icon("bank2")
+                    # ,
+                    # theme = "primary"
+                ),
+                bslib::value_box(
+                    title = "Patienttype",
+                    value = "Incident",
+                    showcase = bsicons::bs_icon("bank2"),
+                    theme = "teal"
+                ),
+                bslib::value_box(
+                    title = "Sygomdomsgruppe",
+                    value = "N = 23.340",
+                    showcase = bsicons::bs_icon("bank2"),
+                    theme = "primary"
+                ),
+                bslib::value_box(
+                    title = "Sammenligningsgruppe",
+                    value = "N = 43.342",
+                    showcase = bsicons::bs_icon("bank2"),
+                    theme = "teal"
+                )
+            )
+        ),
+        
         
         bslib::card(
             bslib::card_header(
@@ -153,6 +188,7 @@ bslib::page_navbar(
                 
                 
             ),
+            
             bslib::layout_columns(
                 col_widths = c(6,6),
                 plotly::plotlyOutput(

@@ -16,6 +16,7 @@ suppressPackageStartupMessages(
         library(shinyWidgets)
         library(data.table)
         library(workbookR)
+        library(DBI)
     }
 )
 
