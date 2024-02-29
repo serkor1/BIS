@@ -125,6 +125,7 @@ allocator <- input_parameters(
 )
 
 
+
 get_results <- dbSendQuery(
     conn = DB_connection,
     "

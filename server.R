@@ -11,6 +11,18 @@ server <- function(
         session
 ){
     
+    
+    
+    
+    reactivePlotTheme <- reactive({
+        if(input$app_theme == "light") {
+            lightModeTheme()
+        } else {
+            darkModeTheme()
+        }
+    })
+    
+    
     shiny::observeEvent(
         eventExpr = input$export,
         {
@@ -68,51 +80,15 @@ server <- function(
     DT <- shiny::reactive(
         {
             
-            # 1) generate query string;
-            query <- paste(
-                'SELECT * FROM model1 WHERE', paste(
-                    c(
-                        paste0('c_type = "', input$type, '"'),
-                        paste0('k_sector = "', input$sector, '"'),
-                        paste0('k_allocator = "', input$subsector, '"')
-                    ),
-                    
-                    collapse = ' AND '
-                )
+            extract_data(
+                DB_connection = DB_connection,
+                table         = "model1",
+                c_type        = input$type,
+                k_sector      = input$sector,
+                k_allocator   = input$subsector
             )
             
-            # 1.1) verbose the the query;
-            # TODO: might be that this should
-            # be moved toi the logger.
-            cli::cli_inform(
-                message = c(
-                    '!' = 'Query',
-                    'i' = query
-                )
-            )
-            
-            # 2) send the query
-            # to the db
-            get_results <- DBI::dbSendQuery(
-                conn = DB_connection,
-                statement = query
-            )
-            
-            # 3) Get the results
-            # and store as data.table
-            DT <- data.table::as.data.table(
-                DBI::dbFetch(
-                    res = get_results,
-                    n = -1
-                )
-            )
-            
-            # 4) clear results;
-            DBI::dbClearResult(get_results)
-            
-            return(
-                DT
-            )
+    
         }
     )
     
@@ -143,64 +119,14 @@ server <- function(
     DT_general <- shiny::reactive(
         {
             
-            # 1) generate query string;
-            query <- paste(
-                'SELECT * FROM general_population WHERE', paste(
-                    c(
-                        paste0('k_disease = "',  input$disease_treatment, '"'),
-                        paste0('k_sector = "', input$sector, '"'),
-                        paste0('k_allocator = "', input$subsector, '"')
-                    ),
-                    
-                    collapse = ' AND '
-                )
+            
+            extract_data(
+                DB_connection = DB_connection,
+                table         = "general_population",
+                k_disease     = input$disease_treatment,
+                k_sector      = input$sector,
+                k_allocator   = input$subsector
             )
-            
-            # 1.1) verbose the the query;
-            # TODO: might be that this should
-            # be moved toi the logger.
-            cli::cli_inform(
-                message = c(
-                    '!' = 'Query',
-                    'i' = query
-                )
-            )
-            
-            # 2) send the query
-            # to the db
-            get_results <- DBI::dbSendQuery(
-                conn = DB_connection,
-                statement = query
-            )
-            
-            # 3) Get the results
-            # and store as data.table
-            DT <- data.table::as.data.table(
-                DBI::dbFetch(
-                    res = get_results,
-                    n = -1
-                )
-            )
-            
-            
-            DT[
-                ,
-                k_disease := gsub(
-                    pattern = input$disease_treatment,
-                    replacement = 'general',
-                    x = k_disease
-                )
-                ,
-            ]
-            
-            # 4) clear results;
-            DBI::dbClearResult(get_results)
-            
-            return(
-                DT
-            )
-            
-            
             
             
         }
@@ -302,8 +228,12 @@ server <- function(
     output$cost_plot <-  plotly::renderPlotly(
         {
             
+            
+           
+            theme <- reactivePlotTheme()
+            
             plotly::layout(
-                
+
                 # cost-plot:
                 p = plotly::plot_ly(
                     plotting_data(),
@@ -316,18 +246,20 @@ server <- function(
                     mode = 'lines+markers',
                     line = list(shape = 'spline', smoothing = 1.3)
                 ),
-                
-                # layout-elements
+
+                # Layout Elements
                 title = 'Omkostninger',
-                legend = list(orientation = 'h'),
-                xaxis = list(
-                    range=c(-2,5),
-                    title = 'Tid'
-                ),
-                yaxis = list(
-                    title = units[k_allocator %chin% input$subsector]$c_unit
-                )
-                
+                legend = theme$legend,
+                xaxis = theme$xaxis,
+                yaxis = theme$yaxis,
+                plot_bgcolor = 'rgb(0,0,0,0)',#reactivePlotTheme()$plot_bgcolor,
+                paper_bgcolor ='rgb(0,0,0,0)', #reactivePlotTheme()$paper_bgcolor,
+                font         = theme$font
+
+                # ,
+                # plot_bgcolor='rgba(0,0,0,0)', # Transparent plot background
+                # paper_bgcolor='rgba(0,0,0,0)'
+
             )
             
 
@@ -336,6 +268,9 @@ server <- function(
     
     output$qty_plot <-  plotly::renderPlotly(
         {
+            
+            
+            theme <- reactivePlotTheme()
             
             plotly::layout(
                 # Quantity plot:
@@ -354,14 +289,12 @@ server <- function(
                 
                 # Layout Elements
                 title = 'Forbrug',
-                legend = list(orientation = 'h'),
-                xaxis = list(
-                    range=c(-2,5),
-                    title = 'Tid'
-                ),
-                yaxis = list(
-                    title = units[k_allocator %chin% input$subsector]$c_unit
-                )
+                legend = theme$legend,
+                xaxis = theme$xaxis,
+                yaxis = theme$yaxis,
+                plot_bgcolor = 'rgb(0,0,0,0)',#reactivePlotTheme()$plot_bgcolor,
+                paper_bgcolor ='rgb(0,0,0,0)', #reactivePlotTheme()$paper_bgcolor,
+                font         = theme$font
             )
             
             

@@ -5,12 +5,32 @@
 # script start;
 
 bslib::page_navbar(
+    shiny::tags$style(HTML("
+    .btn-transparent {
+      background-color: transparent !important;
+      border-color: transparent !important;
+    }
+  ")),
+    
+    shiny::tags$script('
+    document.addEventListener("DOMContentLoaded", function() {
+      var button = document.getElementById("openLinkBtn");
+      button.addEventListener("click", function() {
+        window.open("https://github.com/serkor1/BIS", "_blank");
+      });
+    });
+  '),
+    
     title = "Beregner til Investeringer i Sundhed",
     id = "main_page",
-    bslib::nav_item(bslib::input_dark_mode(mode = "light")),
-    
-    
-    
+    bslib::nav_spacer(),
+  
+  
+  bslib::nav_item(
+      shinyWidgets::actionBttn(
+          inputId = "openLinkBtn",label = NULL,icon = bsicons::bs_icon("github"), style = "simple", color = "default",class = "btn-transparent")
+      ),
+    bslib::nav_item(bslib::input_dark_mode(mode = "light",id = "app_theme")),
     lang = "en",
     window_title = "BIS",
     fillable_mobile = TRUE,
@@ -112,84 +132,51 @@ bslib::page_navbar(
         preset = "flatly"
         ),
     
-    # Model 1
-    bslib::nav_panel(
-        title = "Målgruppemodellen",
-        icon = shiny::icon("github"),
-        bslib::card(
-            bslib::layout_columns(
-                col_widths = c(3,3,3,3),
-                
-                bslib::value_box(
-                    title = "Lægemiddelforbrug",
-                    value = "Det offentliges betaling",
-                    showcase = bsicons::bs_icon("bank2")
-                    # ,
-                    # theme = "primary"
-                ),
-                bslib::value_box(
-                    title = "Patienttype",
-                    value = "Incident",
-                    showcase = bsicons::bs_icon("bank2"),
-                    theme = "teal"
-                ),
-                bslib::value_box(
-                    title = "Sygomdomsgruppe",
-                    value = "N = 23.340",
-                    showcase = bsicons::bs_icon("bank2"),
-                    theme = "primary"
-                ),
-                bslib::value_box(
-                    title = "Sammenligningsgruppe",
-                    value = "N = 43.342",
-                    showcase = bsicons::bs_icon("bank2"),
-                    theme = "teal"
-                )
-            )
+    bslib::layout_columns(
+        col_widths = 12,
+        row_heights = c(1,1),
+        card(
+            title = span(shiny::icon("cog"), "Ouput"),
+            header = NULL,
+            body = NULL,
+            footer = NULL
         ),
         
         
-        bslib::card(
-            bslib::card_header(
-                shiny::span(
-                    
-                    dropdownButton(
-                        
-                        tags$h3("Vælg Effekter"),
-                        
-                        lapply(
-                            1:5,
-                            function(x) {
-                                shiny::sliderInput(
-                                    inputId = paste0('effect_', x),
-                                    label = NULL,
-                                    width = '100%',
-                                    value = 0,
-                                    min = 0,
-                                    max = 100
-                                )
-                            }
-                            
-                        ),
-                        
-                        circle = FALSE,
-                        size = "default",
-                        #status = "info",
-                        icon = icon("gear"), 
-                        width = "300px",
-                        label = "Effekter",
-                        tooltip = tooltipOptions(title = "Klik for at vælge effektstørrelse!")
-                    )
-                    
-                    
-                    
-                   
-                )
+        card(
+            title = span(shiny::icon("cog"), "Ouput"),
+            header = shiny::div(
+                shinyWidgets::dropdownButton(
                 
+                tags$h3("Vælg Effekter"),
                 
-            ),
+                lapply(
+                    1:5,
+                    function(x) {
+                        shiny::sliderInput(
+                            inputId = paste0('effect_', x),
+                            label = NULL,
+                            width = '100%',
+                            value = 0,
+                            min = 0,
+                            max = 100
+                        )
+                    }
+                    
+                ),
+                
+                circle = FALSE,
+                size = "default",
+                #status = "info",
+                icon = icon("gear"), 
+                width = "300px",
+                label = "Vælg effekter",
+                tooltip = tooltipOptions(title = "Klik for at vælge effektstørrelse!")
+            )
+                ),
             
-            bslib::layout_columns(
+            footer = "Footer",
+            body = bslib::layout_columns(
                 col_widths = c(6,6),
                 plotly::plotlyOutput(
                     inline = FALSE,
@@ -201,16 +188,12 @@ bslib::page_navbar(
                     outputId = 'cost_plot',
                     height = '100%'
                 )
-            ),
-            bslib::card_footer("footer"),
-
-            full_screen = TRUE
+            )
         )
-        
-        
-       
-        
     ),
+    
+    
+
     collapsible = FALSE
     
     
