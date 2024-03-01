@@ -29,13 +29,16 @@ card <- function(
         ),
         
         # Card Body
-        bslib::card_body(shiny::tagList(
-            body
-        )),
+        bslib::card_body(
+            shiny::tagList(
+                body
+            )
+        ),
         
         bslib::card_footer(shiny::tagList(
             footer
-        ))
+        )
+        )
     )
     
 }

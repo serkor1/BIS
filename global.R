@@ -6,6 +6,7 @@
 
 # garbage collection
 rm(list = ls()); invisible(gc())
+
 options(warn = -1)
 # libraries for
 # shiny development
@@ -89,6 +90,7 @@ diseases <- input_parameters(
     variable_ = 'disease',
     as_list = TRUE
 )
+
 
 
 

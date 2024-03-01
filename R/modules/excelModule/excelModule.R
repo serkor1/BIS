@@ -13,6 +13,19 @@ export_module_ui <- function() {
   
   # 2) Allocators
   shiny::tagList(
+    
+    shiny::markdown(
+      "
+      
+      Dine valgte `sygdomsgrupper` vil blive eksporteret til `Excel` sammen med
+      de ekstra valg du foretager dig her.
+      
+      > **Bemærk:** Downloadtiden kan være lang hvis du vælger mange parametre.
+      
+      "
+    ),
+    
+    
     shinyWidgets::pickerInput(
       inputId = 'placeholder_sector',
       label = 'Outcome',
@@ -20,7 +33,8 @@ export_module_ui <- function() {
       width = '100%',
       choices = allocator,
       options = list(
-        `actions-box` = TRUE
+        `actions-box` = TRUE,
+        `live-search` = TRUE
       )
       
     ),
@@ -52,6 +66,9 @@ export_module_ui <- function() {
         `actions-box` = TRUE
       )
     )
+    
+    
+    
   )
   
   

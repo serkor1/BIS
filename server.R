@@ -8,11 +8,252 @@
 server <- function(
         input,
         output,
-        session
-){
+        session){
+    
+    { 
+        # 1) Generate recipe 
+        # object based on user-input
+        get_recipe <- shiny::reactive(
+            {
+                recipe(
+                    treatment = list(
+                        k_disease       = input$disease_treatment,
+                        c_gender        = input$char_gender_treatment,
+                        c_education     = input$char_education_treatment,
+                        c_socioeconomic = input$char_socioeconomic_treatment,
+                        c_age           = input$char_age_treatment
+                    ),
+                    
+                    control = list(
+                        k_disease       = input$disease_control,
+                        c_gender        = input$char_gender_control,
+                        c_education     = input$char_education_control,
+                        c_socioeconomic = input$char_socioeconomic_control,
+                        c_age           = input$char_age_control
+                    )
+                )
+            }
+        )
+        
+        # 2) Extract data from
+        # SQL database 
+        DT <- shiny::reactive(
+            {
+                
+                
+                extract_data(
+                    DB_connection = DB_connection,
+                    table         = "model1",
+                    c_type        = input$type,
+                    k_sector      = input$sector,
+                    k_allocator   = input$subsector
+                )
+            }
+        )
+        
+        # 3) Extract general
+        # population
+        # 
+        # NOTE: At this stage I have no clue
+        # what this does
+        DT_general <- shiny::reactive(
+            {
+                
+                
+                extract_data(
+                    DB_connection = DB_connection,
+                    table         = "general_population",
+                    k_disease     = input$disease_treatment,
+                    k_sector      = input$sector,
+                    k_allocator   = input$subsector
+                )
+                
+                
+            }
+        )
+    }
     
     
-    output$baselineTable <- renderDT({
+    {
+        
+        # observe the chosen
+        # sector and update 
+        # the available values 
+        # accordingly
+        shiny::observe(
+            {
+                
+                # Extract chosen sector
+                # values;
+                value <- input$sector
+                
+                shinyWidgets::updatePickerInput(
+                    session = session,
+                    inputId = "subsector",
+                    choices = sector[
+                        k_sector %chin% value
+                    ]$k_allocator
+                )
+            }
+        )
+        
+        reactivePlotTheme <- reactive({
+            if(input$app_theme == "light") {
+                lightModeTheme()
+            } else {
+                darkModeTheme()
+            }
+        })
+        
+    }
+    
+    
+    shiny::observeEvent(
+        eventExpr = input$export,
+        {
+            # 1) ShowModal
+            shiny::showModal(
+                
+                # 2) Contents of the Modal
+                shiny::modalDialog(
+                    title = shiny::span(bsicons::bs_icon("table"), "Eksportér til Excel"),
+                    size = "m",
+                    fade = TRUE,
+                    easyClose = FALSE,
+                    footer = div(
+                        modalButton('Luk',icon = shiny::icon("close")),
+                        downloadButton(
+                            "downloadData",
+                            "Download"
+                        )
+                        
+                    ),
+                    export_module_ui()
+                    
+                        
+                       
+                    
+                    
+                )
+            )
+            
+            # 3) export server
+            excel_server(
+                input = input,
+                output = output,
+                session = session
+            )
+        }
+    )
+    
+    
+    prepared_data <- shiny::reactive(
+        {
+            
+            
+            
+            if (grepl(x = input$disease_control, pattern = 'general')) {
+                
+                
+                DT <- rbind(
+                    DT(),
+                    DT_general()
+                )
+                
+                
+            } else {
+                
+                
+                DT <- DT()
+                
+                
+            }
+            
+            
+            
+            prepare_data(
+                DT = DT,
+                recipe = get_recipe()
+            )
+        }
+    )
+    
+    cooked_data <-shiny::reactive(
+        {
+            
+            
+            
+            aggregate_data(
+                DT = prepared_data(),
+                calc = expression(
+                    .(
+                        v_qty = sum(
+                            v_qty * v_weights, na.rm = TRUE
+                        )/sum(v_weights, na.rm = TRUE),
+                        
+                        v_cost = sum(
+                            v_cost * v_weights, na.rm = TRUE
+                        )/sum(v_weights, na.rm = TRUE)
+                    )
+                ),
+                by = c(
+                    "k_year",
+                    "k_sector",
+                    "k_disease",
+                    "k_assignment",
+                    "k_allocator",
+                    "c_type"
+                )
+            )
+        }
+    )
+    
+    flavored_data <- shiny::reactive(
+        {
+            
+            effect_data(
+                DT = cooked_data(),
+                effect = data.table::data.table(
+                    effect = c(
+                    input$effect_1/100,
+                    input$effect_2/100,
+                    input$effect_3/100,
+                    input$effect_4/100,
+                    input$effect_5/100
+                ),
+                k_year = -2:5
+                )
+            )
+        }
+    )
+    
+    
+    
+    
+    
+    final_data <- shiny::reactive(
+        {
+            
+            flavored_data()[
+                k_assignment %chin% c('control', 'treatment', 'counter_factual')
+            ][
+                ,
+                k_assignment := fcase(
+                    default = 'Sygdomsgruppe',
+                    k_assignment %chin% 'control', 'Sammenligningsgruppe',
+                    k_assignment %chin% 'counter_factual', 'Kontrafaktisk sygdomsgruppe'
+                )
+                ,
+            ]
+            
+        }
+    )
+    
+    
+    
+    
+    
+    output$baselineTable <- DT::renderDT({
         # Sample data frame
         # DT <- data.frame(
         #     `Variable Name` = c("Age", "Gender", "BMI", "Smoking Status"),
@@ -34,224 +275,15 @@ server <- function(
         )
         
         # Render the data table with custom styling
-        datatable(
+        DT::datatable(
             DT, 
-            options = list(autoWidth = TRUE, paging = FALSE, fillContainer = TRUE), 
+            options = list(autoWidth = TRUE, paging = FALSE, fillContainer = TRUE, searching = FALSE, info = FALSE, ordering = FALSE), 
             class = 'cell-border stripe', 
-            rownames = FALSE,
+            rownames = FALSE,width = "100%",
             selection = "none",
-            caption = "Caption"
+            caption = NULL
         )
     })
-    
-    reactivePlotTheme <- reactive({
-        if(input$app_theme == "light") {
-            lightModeTheme()
-        } else {
-            darkModeTheme()
-        }
-    })
-    
-    
-    shiny::observeEvent(
-        eventExpr = input$export,
-        {
-            # 1) ShowModal
-            shiny::showModal(
-                
-                # 2) Contents of the Modal
-                shiny::modalDialog(
-                    title = "Getrekt",
-                    size = "xl",fade = TRUE,
-                    easyClose = FALSE,
-                    export_module_ui(),
-                    downloadButton(
-                        "downloadData",
-                        "Eksporter"
-                    )
-                    
-                )
-            )
-            
-            # 3) export server
-            excel_server(
-                input = input,
-                output = output,
-                session = session
-            )
-        }
-    )
-    
-    
-    
-    
-    # observe the chosen
-    # sector and update 
-    # the available values 
-    # accordingly
-    shiny::observe(
-        {
-            
-            # Extract chosen sector
-            # values;
-            value <- input$sector
-            
-            shinyWidgets::updatePickerInput(
-                session = session,
-                inputId = "subsector",
-                choices = sector[
-                    k_sector %chin% value
-                ]$k_allocator
-            )
-        }
-    )
-    
-    # Extract base data
-    DT <- shiny::reactive(
-        {
-            
-            extract_data(
-                DB_connection = DB_connection,
-                table         = "model1",
-                c_type        = input$type,
-                k_sector      = input$sector,
-                k_allocator   = input$subsector
-            )
-            
-            
-        }
-    )
-    
-    
-    recipe_object <- shiny::reactive(
-        {
-            .recipe_object(
-                disease_treatment = input$disease_treatment,
-                disease_control = input$disease_control,
-                char_treatment = list(
-                    c_gender = input$char_gender_treatment,
-                    c_education = input$char_education_treatment,
-                    c_socioeconomic = input$char_socioeconomic_treatment,
-                    c_age           = input$char_age_treatment
-                ),
-                char_control = list(
-                    c_gender = input$char_gender_control,
-                    c_education = input$char_education_control,
-                    c_socioeconomic = input$char_socioeconomic_control,
-                    c_age           = input$char_age_control
-                )
-            )
-        }
-    )
-    
-    
-    
-    DT_general <- shiny::reactive(
-        {
-            
-            
-            extract_data(
-                DB_connection = DB_connection,
-                table         = "general_population",
-                k_disease     = input$disease_treatment,
-                k_sector      = input$sector,
-                k_allocator   = input$subsector
-            )
-            
-            
-        }
-    )
-    
-    
-    prepared_data <- shiny::reactive(
-        {
-            
-            if (grepl(x = input$disease_control, pattern = 'general')) {
-                
-                
-                DT <- rbind(
-                    DT(),
-                    DT_general()
-                )
-                
-                
-            } else {
-                
-                
-                DT <- DT()
-                
-                
-            }
-            
-            
-            
-            prepare(
-                DT = DT,
-                recipe = recipe_object()
-            )
-        }
-    )
-    
-    cooked_data <- shiny::reactive(
-        {
-            
-            
-            
-            cook(
-                DT = prepared_data()
-            )
-        }
-    )
-    
-    flavored_data <- shiny::reactive(
-        {
-            
-            
-            
-            flavor(
-                DT = cooked_data(),
-                effect = c(
-                    input$effect_1/100,
-                    input$effect_2/100,
-                    input$effect_3/100,
-                    input$effect_4/100,
-                    input$effect_5/100
-                )
-            )
-        }
-    )
-    
-    final_data <- shiny::reactive(
-        {
-            flavored_data()
-            
-        }
-    )
-    
-    
-    plotting_data <- shiny::reactive(
-        {
-            
-            # 1) extract the relevant
-            # measures
-            DT_ <-  final_data()[
-                k_assignment %chin% c('control', 'treatment', 'counter_factual')
-            ]
-            
-            # # 2) rename variable
-            DT_[
-                ,
-                k_assignment := fcase(
-                    default = 'Sygdomsgruppe',
-                    k_assignment %chin% 'control', 'Sammenligningsgruppe',
-                    k_assignment %chin% 'counter_factual', 'Kontrafaktisk sygdomsgruppe'
-                )
-                ,
-            ]
-            
-        }
-    )
-    
     
     
     
@@ -266,7 +298,7 @@ server <- function(
                 
                 # cost-plot:
                 p = plotly::plot_ly(
-                    plotting_data(),
+                    final_data(),
                     x = ~k_year,
                     y = ~v_cost,
                     color = ~k_assignment,
@@ -282,13 +314,10 @@ server <- function(
                 legend = theme$legend,
                 xaxis = theme$xaxis,
                 yaxis = theme$yaxis,
-                plot_bgcolor = 'rgb(0,0,0,0)',#reactivePlotTheme()$plot_bgcolor,
-                paper_bgcolor ='rgb(0,0,0,0)', #reactivePlotTheme()$paper_bgcolor,
+                plot_bgcolor = 'rgb(0,0,0,0)',
+                paper_bgcolor ='rgb(0,0,0,0)', 
                 font         = theme$font
                 
-                # ,
-                # plot_bgcolor='rgba(0,0,0,0)', # Transparent plot background
-                # paper_bgcolor='rgba(0,0,0,0)'
                 
             )
             
@@ -305,7 +334,7 @@ server <- function(
             plotly::layout(
                 # Quantity plot:
                 p = plotly::plot_ly(
-                    plotting_data(),
+                    final_data(),
                     x = ~k_year,
                     y = ~v_qty,
                     # fill = 'tozeroy',
@@ -322,8 +351,8 @@ server <- function(
                 legend = theme$legend,
                 xaxis = theme$xaxis,
                 yaxis = theme$yaxis,
-                plot_bgcolor = 'rgb(0,0,0,0)',#reactivePlotTheme()$plot_bgcolor,
-                paper_bgcolor ='rgb(0,0,0,0)', #reactivePlotTheme()$paper_bgcolor,
+                plot_bgcolor = 'rgb(0,0,0,0)',
+                paper_bgcolor ='rgb(0,0,0,0)', 
                 font         = theme$font
             )
             
@@ -333,14 +362,6 @@ server <- function(
             
         }
     )
-    
-    
-    
-    
-    
-    
-    
-    
     
 }
 

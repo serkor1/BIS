@@ -5,7 +5,6 @@
 # that are relevant for the backend
 # script start;
 
-
 darkModeTheme <- function() {
     list(
         # plot_bgcolor = '#303030', # Dark grey background for the plotting area

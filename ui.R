@@ -49,7 +49,7 @@ bslib::page_navbar(
     # TODO: Wrap these in a function
     # at a later point
     shinyWidgets::pickerInput(
-        inputId  = ('sector'),
+        inputId  = 'sector',
         label    = 'Sektor',
         # TODO: This wasnt necessary before.
         # Something changed.
@@ -126,15 +126,7 @@ bslib::page_navbar(
       width = "100%"
     )
     
-    # shinyWidgets::actionBttn(
-    #     inputId = "export",
-    #     label = "Eksportér",
-    #     style = "simple",
-    #     block = TRUE,
-    #     icon =  bsicons::bs_icon('download'),
-    #     size = "md",
-    #     color = "royal"
-    # )
+    
 
 
     ),
@@ -145,7 +137,7 @@ bslib::page_navbar(
     
     bslib::layout_columns(
         col_widths = 12,
-        row_heights = c("auto",1),
+        row_heights = c(1,1),
         card(
             title = span(bsicons::bs_icon("table"), "Baselinetabel"),
             header = NULL,
