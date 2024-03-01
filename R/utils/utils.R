@@ -56,7 +56,7 @@ lightModeTheme <- function() {
 
 
 extract_data <- function(
-        DB_connection,
+        DB_connection = NULL,
         table = 'model1',
         ...){
     
@@ -66,7 +66,7 @@ extract_data <- function(
     # the arg_list contains 
     # all actual values
     # these are passed in variable = arg_list
-    args_list <- list(...)
+    arg_list <- list(...)
     
     # the call list is the column
     # names from each argument
@@ -75,19 +75,34 @@ extract_data <- function(
     
     # 1) construct the SQL
     # query for model 1
-    query <-  paste(
-        paste("SELECT * FROM", table, "WHERE"),
-        #'SELECT * FROM model1 WHERE',
-        paste0(
-            call_list,
-            " = ",
-            '"',
-            args_list,
-            '"',
-            collapse = ' AND '
-        )
+    query <- vapply(
+        names(arg_list),
+        FUN.VALUE = character(1),
+        FUN = function(x) {
+            
+            
+            # extract element
+            arg_list <- arg_list[[grep(pattern = x, ignore.case = TRUE, x = names(arg_list))]]
+            
+            
+            paste0(
+                x,
+                " IN (",
+                paste0("'",arg_list, "'", collapse = ", "),
+                ")"
+            )
+            
+        }
     )
     
+    query <- paste(
+        paste("SELECT * FROM", table, "WHERE"),
+        paste0(
+            query,
+            collapse = " AND "
+        )
+    )
+
     # 2) send query and wrap
     # in try catch to capture possible
     # errors
@@ -113,7 +128,7 @@ extract_data <- function(
             )
         }
     )
-    
+
     # 3) Get the results
     # and store as data.table
     DT <- data.table::as.data.table(
@@ -122,10 +137,10 @@ extract_data <- function(
             n = -1
         )
     )
-    
+
     # 4) clear results;
     DBI::dbClearResult(get_results)
-    
+
     DT
 }
 

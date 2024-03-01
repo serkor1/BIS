@@ -5,6 +5,7 @@
 # script start;
 
 bslib::page_navbar(
+  
     shiny::tags$style(HTML("
     .btn-transparent {
       background-color: transparent !important;
@@ -21,7 +22,7 @@ bslib::page_navbar(
     });
   '),
     
-    title = "Beregner til Investeringer i Sundhed",
+    title = span(bsicons::bs_icon("box"), "Beregner til Investeringer i Sundhed"),
     id = "main_page",
     bslib::nav_spacer(),
   
@@ -38,7 +39,7 @@ bslib::page_navbar(
     position = "left",
     width = "360px",
     open = "always",
-    title = "Parametre",
+    title = shiny::h5(bsicons::bs_icon("calculator"), "Vælg Parametre"),
     
     
     # Sidebar elements;
@@ -96,7 +97,9 @@ bslib::page_navbar(
             "control"
         ),
         justified = FALSE,
-        width = "100%",size = "normal",direction = "vertical"
+        width = "100%",
+        size = "normal",
+        direction = "vertical",status = "secondary"
     ),
     
     shiny::conditionalPanel(
@@ -116,39 +119,51 @@ bslib::page_navbar(
         }
     ),
     
-    shinyWidgets::actionBttn(
-        inputId = "export",
-        label = "Eksportér",
-        style = "simple",
-        block = TRUE,
-        icon = shiny::icon("download"),
-        size = "md",color = "primary"
+    shiny::actionButton(
+      inputId = "export",
+      label = "Eksportér",
+      icon =  shiny::icon("download"),
+      width = "100%"
     )
+    
+    # shinyWidgets::actionBttn(
+    #     inputId = "export",
+    #     label = "Eksportér",
+    #     style = "simple",
+    #     block = TRUE,
+    #     icon =  bsicons::bs_icon('download'),
+    #     size = "md",
+    #     color = "royal"
+    # )
 
 
     ),
     theme = bslib::bs_theme(
         version =  5,
-        preset = "flatly"
+        preset = c("flatly")
         ),
     
     bslib::layout_columns(
         col_widths = 12,
-        row_heights = c(1,1),
+        row_heights = c("auto",1),
         card(
-            title = span(shiny::icon("cog"), "Ouput"),
+            title = span(bsicons::bs_icon("table"), "Baselinetabel"),
             header = NULL,
-            body = NULL,
+            body = bslib::layout_columns(
+              col_widths = 12,
+              DT::DTOutput("baselineTable")
+            ),
             footer = NULL
         ),
         
         
         card(
-            title = span(shiny::icon("cog"), "Ouput"),
+            title = span(bsicons::bs_icon("bar-chart-steps"), "Resultater"),
             header = shiny::div(
                 shinyWidgets::dropdownButton(
                 
-                tags$h3("Vælg Effekter"),
+                tags$h4("Vælg Effekter"),
+                shiny::hr(),
                 
                 lapply(
                     1:5,
@@ -175,7 +190,7 @@ bslib::page_navbar(
             )
                 ),
             
-            footer = "Footer",
+            footer = NULL,
             body = bslib::layout_columns(
                 col_widths = c(6,6),
                 plotly::plotlyOutput(

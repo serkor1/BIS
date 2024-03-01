@@ -12,7 +12,37 @@ server <- function(
 ){
     
     
-    
+    output$baselineTable <- renderDT({
+        # Sample data frame
+        # DT <- data.frame(
+        #     `Variable Name` = c("Age", "Gender", "BMI", "Smoking Status"),
+        #     `Group 1` = c("30 ± 5", "50% Male", "25 ± 3", "20% Smokers"),
+        #     `Group 2` = c("31 ± 4", "45% Male", "26 ± 2", "18% Smokers"),
+        #     check.names = FALSE
+        # )
+        
+        DT <- dcast(
+            data = extract_data(
+                DB_connection = DB_connection,
+                table         = "population_count",
+                k_disease     = list(input$disease_treatment, input$disease_control),
+                c_type        = list(input$type)
+            ),
+            formula = c_characteristic ~ k_disease,
+            value.var = "v_obs",
+            fun.aggregate = sum,na.rm = TRUE
+        )
+        
+        # Render the data table with custom styling
+        datatable(
+            DT, 
+            options = list(autoWidth = TRUE, paging = FALSE, fillContainer = TRUE), 
+            class = 'cell-border stripe', 
+            rownames = FALSE,
+            selection = "none",
+            caption = "Caption"
+        )
+    })
     
     reactivePlotTheme <- reactive({
         if(input$app_theme == "light") {
@@ -28,7 +58,7 @@ server <- function(
         {
             # 1) ShowModal
             shiny::showModal(
-
+                
                 # 2) Contents of the Modal
                 shiny::modalDialog(
                     title = "Getrekt",
@@ -39,7 +69,7 @@ server <- function(
                         "downloadData",
                         "Eksporter"
                     )
-
+                    
                 )
             )
             
@@ -88,7 +118,7 @@ server <- function(
                 k_allocator   = input$subsector
             )
             
-    
+            
         }
     )
     
@@ -229,11 +259,11 @@ server <- function(
         {
             
             
-           
+            
             theme <- reactivePlotTheme()
             
             plotly::layout(
-
+                
                 # cost-plot:
                 p = plotly::plot_ly(
                     plotting_data(),
@@ -246,7 +276,7 @@ server <- function(
                     mode = 'lines+markers',
                     line = list(shape = 'spline', smoothing = 1.3)
                 ),
-
+                
                 # Layout Elements
                 title = 'Omkostninger',
                 legend = theme$legend,
@@ -255,14 +285,14 @@ server <- function(
                 plot_bgcolor = 'rgb(0,0,0,0)',#reactivePlotTheme()$plot_bgcolor,
                 paper_bgcolor ='rgb(0,0,0,0)', #reactivePlotTheme()$paper_bgcolor,
                 font         = theme$font
-
+                
                 # ,
                 # plot_bgcolor='rgba(0,0,0,0)', # Transparent plot background
                 # paper_bgcolor='rgba(0,0,0,0)'
-
+                
             )
             
-
+            
         }
     )
     

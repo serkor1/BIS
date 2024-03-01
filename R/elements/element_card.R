@@ -12,6 +12,7 @@ card <- function(
         body   = NULL) {
     
     bslib::card(
+        full_screen = TRUE,
         # Card header
         bslib::card_header(
             shiny::tags$div(

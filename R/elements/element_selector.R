@@ -43,7 +43,7 @@ selectors <- function(
     shinyWidgets::pickerInput(
       inputId  = paste0("char_gender_", group),
       label    = "Køn",
-      multiple = FALSE,
+      multiple = TRUE,
       choices = gender,
       selected = sample(
         gender,
@@ -58,7 +58,7 @@ selectors <- function(
     shinyWidgets::pickerInput(
       inputId  = paste0("char_age_", group),
       label    = "Alder",
-      multiple = FALSE,
+      multiple = TRUE,
       choices = age,
       selected = sample(
         age,
@@ -73,7 +73,7 @@ selectors <- function(
     shinyWidgets::pickerInput(
       inputId  = paste0("char_education_", group),
       label    = "Uddannelse",
-      multiple = FALSE,
+      multiple = TRUE,
       choices = education,
       selected = sample(
         education,
@@ -88,7 +88,7 @@ selectors <- function(
     shinyWidgets::pickerInput(
       inputId  = paste0("char_socioeconomic_", group),
       label    = "Arbejdsmarkedsstatus",
-      multiple = FALSE,
+      multiple = TRUE,
       choices = socioeconomics,
       selected = sample(
         socioeconomics,

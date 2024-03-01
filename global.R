@@ -6,7 +6,7 @@
 
 # garbage collection
 rm(list = ls()); invisible(gc())
-
+options(warn = -1)
 # libraries for
 # shiny development
 suppressPackageStartupMessages(
