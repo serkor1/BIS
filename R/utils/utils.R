@@ -7,8 +7,6 @@
 
 darkModeTheme <- function() {
     list(
-        # plot_bgcolor = '#303030', # Dark grey background for the plotting area
-        # paper_bgcolor = '#1a1a1a', # Even darker grey for the surrounding paper
         font = list(color = '#e0e0e0'), # Light grey for text
         xaxis = list(
             range=c(-2,5),
@@ -59,6 +57,10 @@ extract_data <- function(
         table = 'model1',
         ...){
     
+    # NOTE: Nothing is passed
+    # to ... it returns the entire
+    # table from DB
+    
     # 0) Extract all relevant
     # parameters from ellipsis
     
@@ -94,15 +96,26 @@ extract_data <- function(
         }
     )
     
-    query <- paste(
-        paste("SELECT * FROM", table, "WHERE"),
-        paste0(
-            query,
-            collapse = " AND "
+    # 2) checks for empty
+    # query and returns the entire
+    # table if TRUE
+    if (identical(query, character(0))) {
+        
+        query <- paste("SELECT * FROM", table)
+        
+    } else {
+        
+        query <- paste(
+            paste("SELECT * FROM", table, "WHERE"),
+            paste0(
+                query,
+                collapse = " AND "
+            )
         )
-    )
-
-    # 2) send query and wrap
+        
+    }
+    
+    # 3) send query and wrap
     # in try catch to capture possible
     # errors
     get_results <- tryCatch(
@@ -142,5 +155,7 @@ extract_data <- function(
 
     DT
 }
+
+
 
 # script end;

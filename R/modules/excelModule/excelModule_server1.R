@@ -303,15 +303,6 @@ excel_server <- function(
     }
   )
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 

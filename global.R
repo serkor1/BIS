@@ -59,6 +59,7 @@ DB_connection <- DBI::dbConnect(
         )
 )
 
+
 # 4) Extract global
 # parameters for the model
 
@@ -142,8 +143,6 @@ sector <- as.data.table(
         res = get_results
     )
 )
-
-
 
 units <- as.data.table(
   dbFetch(
