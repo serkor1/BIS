@@ -1,0 +1,27 @@
+Package: BIS
+Title: PKG_TITLE
+Version: 0.0.0
+Authors@R: 
+    person("Serkan", "Korkmaz", , "serkor1@duck.com", role = c("cre", "aut"))
+Description: PKG_DESC.
+License: GPL (>= 2)
+URL: https://github.com/serkor1/bis-main
+BugReports: https://github.com/serkor1/bis-main/issues
+Imports: 
+    bsicons,
+    bslib,
+    config (>= 0.3.2),
+    golem (>= 0.4.1),
+    shiny (>= 1.8.0),
+    shinyWidgets
+Suggests: 
+    knitr,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.3.1
+VignetteBuilder: knitr

@@ -1,0 +1,171 @@
+#' landing UI Function
+#'
+#' @description A shiny Module.
+#'
+#' @param id,input,output,session Internal parameters for {shiny}.
+#'
+#' @noRd
+#'
+#' @importFrom shiny NS tagList
+mod_landing_ui <- function(id){
+  ns <- NS(id)
+  tagList(
+
+    tags$head(
+      tags$style(HTML("
+      /* The overlay: full-screen, semi-transparent, behind cards */
+      .dim-overlay {
+        position: fixed; /* or 'absolute' */
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5); /* Adjust color and opacity */
+        z-index: 1; /* Behind the cards */
+      }
+
+      /* Ensure card is above the overlay */
+      .shiny-bs4-card {
+        position: relative;
+        z-index: 2; /* Above the overlay */
+      }
+
+      /* Additional styling for centering the card */
+      .card-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        position: relative;
+        z-index: 2; /* Ensure it's above the overlay */
+      }
+    "))
+    ),
+
+    div(class="dim-overlay",
+      div(class="card-container",
+            div(
+              class = "d-flex justify-content-center align-items-center",
+              style = "height: 100%;",  # This ensures the div takes the full viewport height
+              bslib::layout_columns(
+                # div(id = ns("clickableCard1"),
+                #     bslib::card(
+                #       title = "Clickable Card 1",
+                #       "Click me to trigger a server action for Model 1.",
+                #       style = "cursor: pointer;"
+                #     )
+                # ),
+                # div(id = ns("clickableCard2"),
+                #     bslib::card(
+                #       title = "Clickable Card 2",
+                #       "Click me to trigger a server action for Model 2.",
+                #       style = "cursor: pointer;"
+                #     )
+                # )
+                # ,
+                clickable_card(
+                  inputid = ns("model1"),
+                  bslib::card_header(
+                    shiny::span(
+                      bsicons::bs_icon("box"),
+                      "Målgruppemodellen"
+                    )
+                  ),
+                  bslib::card_body("Click me to trigger a server action for Model 1."),
+                  outputval = "model1"
+
+                ),
+                clickable_card(
+                  inputid = ns("model2"),
+                  bslib::card_header(
+                    shiny::span(
+                      bsicons::bs_icon("box"),
+                      "Forældremodellen"
+                    )
+                  ),
+                  bslib::card_body("Click me to trigger a server action for Model 2."),
+                  outputval = "model2"
+
+                )
+              )
+
+
+            )
+      )
+  )
+  )
+
+    # # Javascript:
+    # tags$script(HTML(sprintf("
+    #   $(document).ready(function() {
+    #     $('#%s').on('click', function() {
+    #       Shiny.setInputValue('%s', 'model1', {priority: 'event'});
+    #     });
+    #     $('#%s').on('click', function() {
+    #       Shiny.setInputValue('%s', 'model2', {priority: 'event'});
+    #     });
+    #   });
+    # ", ns("clickableCard1"), ns("card_clicked"), ns("clickableCard2"), ns("card_clicked")))),
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
+
+#' landing Server Functions
+#'
+#' @noRd
+mod_landing_server <- function(id){
+  moduleServer(id, function(input, output, session){
+    ns <- session$ns
+
+
+    # observeEvent(
+    #   input$model1,
+    #   showModal(modalDialog(
+    #     title = "Card 1 Clicked!",
+    #     "You clicked the card for Model 1."
+    #   ))
+    # )
+    #
+    # observeEvent(
+    #   input$model2,
+    #   showModal(modalDialog(
+    #     title = "Card 2 Clicked!",
+    #     "You clicked the card for Model 2."
+    #   ))
+    # )
+
+
+    return(
+      reactive({
+        c(input$model1, input$model2)
+      })
+    )
+    # )
+    # # Determine chosen model
+    # # from the landing page
+    #
+    # return({
+    #   shiny::reactive({
+    #     input$model1
+    #   })
+    # })
+
+  })
+}
+
+## To be copied in the UI
+# mod_landing_ui("landing_1")
+
+## To be copied in the server
+# mod_landing_server("landing_1")
