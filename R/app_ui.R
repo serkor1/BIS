@@ -5,80 +5,88 @@
 #' @import shiny
 #' @noRd
 app_ui <- function(request) {
+
   tagList(
+    # tagList Start;
+
     # Leave this function for adding external resources
     golem_add_external_resources(),
 
     # Main page
     bslib::page_navbar(
+      # main page start;
+      window_title = "Beregner til Investeringer i Sundhed",
 
-      tags$head(
-        tags$style(HTML("
-      body {
-        -webkit-user-select: none; /* Safari */
-        -moz-user-select: none;    /* Firefox */
-        -ms-user-select: none;     /* Internet Explorer/Edge */
-        user-select: none;         /* Non-prefixed version, currently supported by Chrome, Opera, and Edge */
-      }
-    "))
+      # main page options and themes;
+      fillable = TRUE,
+      collapsible = FALSE,
+      theme = bslib::bs_theme(
+        version =  5,
+        preset = c("flatly")
       ),
 
-    shiny::tags$style(HTML("
+      # navbar content;
+      title = shinyWidgets::actionBttn(
+        label = "Beregner til Investeringer i Sundhed",
+        inputId = "home",
+        style = "simple",
+        color = "default",
+        class = "btn-transparent",
+        icon = bsicons::bs_icon("box")
+      ),
 
-    .btn-transparent {
-      background-color: transparent !important;
-      border-color: transparent !important;
-    }
-  ")),
+      # the spacer moves
+      # everything to the
+      # right
+      bslib::nav_spacer(),
 
-  shiny::tags$script('
-    document.addEventListener("DOMContentLoaded", function() {
-      var button = document.getElementById("openLinkBtn");
-      button.addEventListener("click", function() {
-        window.open("https://github.com/serkor1/BIS", "_blank");
-      });
-    });
-  '),
+      # dark-mode toggle;
+      bslib::nav_item(
+        bslib::input_dark_mode(
+          mode = "light",
+          id = "app_theme"
+        )
+      ),
 
-  title = shinyWidgets::actionBttn(
-    label = "Beregner til Investeringer i Sundhed",
-    inputId = "home", style = "simple", color = "default",class = "btn-transparent",icon = bsicons::bs_icon("box")),
-  window_title = "Beregner til Investeringer i Sundhed",
-  theme = bslib::bs_theme(
-    version =  5,
-    preset = c("flatly")
-  ),
-  # bslib::nav_item(
-  #     shinyWidgets::actionBttn(
-  #       inputId = "home",label = NULL,icon = bsicons::bs_icon(name = "house"), style = "simple", color = "default",class = "btn-transparent")
-  #
-  #
-  #
-  #
-  #   ),
-  bslib::nav_spacer(),
+      # github link;
+      bslib::nav_item(
+        shinyWidgets::actionBttn(
+          inputId = "openLinkBtn",
+          label = NULL,
+          icon = bsicons::bs_icon("github"),
+          style = "simple",
+          color = "default",
+          class = "btn-transparent"
+        )
+      ),
 
-  bslib::nav_item(bslib::input_dark_mode(mode = "light",id = "app_theme")),
-  bslib::nav_item(
-    shinyWidgets::actionBttn(
-      inputId = "openLinkBtn",
-      label = NULL,icon = bsicons::bs_icon("github"), style = "simple", color = "default",class = "btn-transparent")
-  )
+      # page body;
+      bslib::layout_columns(
+        col_widths = 12,
+        row_heights = c(1,1),
+        uiOutput(
+          "body"
+        )
+      ),
 
-  ,
+      # page sidebar;
+      sidebar = bslib::sidebar(
+        # sidebar options;
+        # NOTE: we need the ID for
+        # togglers
+        id = "sidebar",
+        position = "left",
+        open = "always",
+        title = "Parametre",
+        uiOutput(
+          "sidebar"
+        )
+      )
 
-  bslib::layout_columns(
-    uiOutput(
-      "ui"
+      # main page end;
     )
-  )
 
-
-
-
-
-    )
-
+    # tagList end;
   )
 }
 

@@ -107,59 +107,37 @@ mod_landing_ui <- function(id){
     #   });
     # ", ns("clickableCard1"), ns("card_clicked"), ns("clickableCard2"), ns("card_clicked")))),
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 #' landing Server Functions
 #'
 #' @noRd
-mod_landing_server <- function(id){
+mod_landing_server <- function(id, home){
   moduleServer(id, function(input, output, session){
+
+    # 0) Determine Namespace
     ns <- session$ns
 
 
-    # observeEvent(
-    #   input$model1,
-    #   showModal(modalDialog(
-    #     title = "Card 1 Clicked!",
-    #     "You clicked the card for Model 1."
-    #   ))
-    # )
-    #
-    # observeEvent(
-    #   input$model2,
-    #   showModal(modalDialog(
-    #     title = "Card 2 Clicked!",
-    #     "You clicked the card for Model 2."
-    #   ))
-    # )
+    observeEvent(home(), {
+      value(NULL) # Update the reactive value to "model1"
+    })
+    # Create a reactive value to store the selected model
+    value <- reactiveVal() # This initializes `value` without any data
 
+    # Observe changes to `input$model1` and update `value`
+    observeEvent(input$model1, {
+      value("model1") # Update the reactive value to "model1"
+    })
 
-    return(
-      reactive({
-        c(input$model1, input$model2)
-      })
-    )
-    # )
-    # # Determine chosen model
-    # # from the landing page
-    #
-    # return({
-    #   shiny::reactive({
-    #     input$model1
-    #   })
-    # })
+    # Observe changes to `input$model2` and update `value`
+    observeEvent(input$model2, {
+      value("model2") # Update the reactive value to "model2"
+    })
+
+    # Return a reactive expression that provides the value of `value`
+    return(reactive({ value() }))
+
 
   })
 }

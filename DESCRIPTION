@@ -10,6 +10,7 @@ BugReports: https://github.com/serkor1/bis-main/issues
 Imports: 
     bsicons,
     bslib,
+    cli,
     config (>= 0.3.2),
     golem (>= 0.4.1),
     shiny (>= 1.8.0),
