@@ -22,7 +22,8 @@ app_ui <- function(request) {
       collapsible = FALSE,
       theme = bslib::bs_theme(
         version =  5,
-        preset = c("flatly")
+        preset = c("flatly"),
+        font_scale = .9
       ),
 
       # navbar content;
@@ -66,20 +67,6 @@ app_ui <- function(request) {
         row_heights = c(1,1),
         uiOutput(
           "body"
-        )
-      ),
-
-      # page sidebar;
-      sidebar = bslib::sidebar(
-        # sidebar options;
-        # NOTE: we need the ID for
-        # togglers
-        id = "sidebar",
-        position = "left",
-        open = "always",
-        title = "Parametre",
-        uiOutput(
-          "sidebar"
         )
       )
 

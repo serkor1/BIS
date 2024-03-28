@@ -71,7 +71,12 @@ mod_landing_ui <- function(id){
                       "Målgruppemodellen"
                     )
                   ),
-                  bslib::card_body("Click me to trigger a server action for Model 1."),
+                  bslib::card_body(
+                    "
+                    Beregn sundhedsøkonomiske omkostninger
+                    af forskellige sygdomme.
+                    "
+                    ),
                   outputval = "model1"
 
                 ),
@@ -83,7 +88,12 @@ mod_landing_ui <- function(id){
                       "Forældremodellen"
                     )
                   ),
-                  bslib::card_body("Click me to trigger a server action for Model 2."),
+                  bslib::card_body(
+                    "
+                    Beregn produktivitetstab ved syge
+                    børn.
+                    "
+                    ),
                   outputval = "model2"
 
                 )

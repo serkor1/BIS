@@ -1,10 +1,3 @@
-# script: Helpers
-# author: Serkan Korkmaz, serkor1@duck.com
-# date: 2024-03-28
-# objective: Create a set of functions
-# that reduce repetetive coding
-# script start;
-
 #' Create a list of input values
 #'
 #' @param DT A [data.frame]-object containing the input parameters and
@@ -43,5 +36,3 @@ input_parameters <- function(
   parameters
 
 }
-
-# script end;

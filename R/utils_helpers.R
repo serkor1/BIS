@@ -1,77 +1,91 @@
-#' clickable_card
-#'
-#' Description
-#'
-#' @param inputid [character] of [length] 1. The id of the element. Can be wrapped in [NS].
-#' @param outputval [character] of [length] 1. The outputted value when the card is clicked.
-#' @param ... parameters passed into [bslib::card()]-funciton.
-#'
-#'
-#' @return The return value, if any, from executing the utility.
-clickable_card <- function(
-    inputid,
-    outputval,
-    ...) {
-
-
-  tagList(
-    # tagList start;
-
-    # define the clickable
-    # card
-    div(
-      id = inputid,
-      bslib::card(
-        style = "transition: box-shadow 0.3s ease-in-out; cursor: pointer; user-select: none;",
-        ... = ...,
-        class = "hover-elevate"
-      )
+darkModeTheme <- function() {
+  list(
+    font = list(color = '#e0e0e0'), # Light grey for text
+    xaxis = list(
+      range=c(-2,5),
+      title = 'Tid',
+      gridcolor = '#444444', # Slightly lighter grey for grid lines
+      tickfont = list(color = '#e0e0e0') # Light grey for tick labels
     ),
-
-    # define javascript
-    # on clicks
-    tags$script(
-      HTML(
-        sprintf("
-          $(document).ready(function() {
-            $('#%s').on('click', function() {
-              var card = $(this);
-              card.fadeOut(250, function() {
-                Shiny.setInputValue('%s', '%s', {priority: 'event'});
-                // Optional: remove the card from DOM after fadeOut
-                card.remove();
-              });
-            });
-          });
-        ",
-        # define input id
-        # in the script
-        inputid,
-        inputid,
-
-        # output value
-        # when clicked
-        outputval
-        )
-      )
+    yaxis = list(
+      gridcolor = '#444444',
+      tickfont = list(color = '#e0e0e0')
     ),
-
-    # set the style
-    # of the hover-elevate class
-    # TODO: Change to something
-    # else to avoid overwriting
-    # other tags
-    tags$style(
-      HTML("
-      .hover-elevate:hover {
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        transform: scale(1.05);
-      }
-    ")
+    legend = list(
+      orientation = "h",
+      bgcolor = '#303030', # Match the plot background
+      font = list(color = '#e0e0e0') # Light grey for legend text
     )
-    # tagList end;
   )
 }
+
+
+lightModeTheme <- function() {
+  list(
+    # plot_bgcolor = '#ffffff', # White background for the plotting area
+    # paper_bgcolor = '#f0f0f0', # Light grey for the surrounding paper
+    font = list(color = '#333333'), # Dark grey for text, ensuring readability
+    xaxis = list(
+      range=c(-2,5),
+      title = 'Tid',
+      gridcolor = '#cccccc', # Light grey for grid lines, subtle but visible
+      tickfont = list(color = '#333333') # Dark grey for tick labels
+    ),
+    yaxis = list(
+      gridcolor = '#cccccc',
+      tickfont = list(color = '#333333')
+    ),
+    legend = list(
+      orientation = "h",
+      bgcolor = '#f0f0f0', # Match the paper background
+      font = list(color = '#333333') # Dark grey for legend text
+    )
+  )
+}
+
+
+# Just for a clicable
+# card
+# choice_card <- function(
+#     ...) {
+#
+#
+#   tagList(
+#     # tagList start;
+#
+#     # define the clickable
+#     # card
+#     div(
+#       bslib::card(
+#         style = "transition: box-shadow 0.3s ease-in-out; cursor: pointer; user-select: none;",
+#         ... = ...,
+#         class = "hover-elevate"
+#       )
+#     ),
+#
+#
+#     # set the style
+#     # of the hover-elevate class
+#     # TODO: Change to something
+#     # else to avoid overwriting
+#     # other tags
+#     tags$style(
+#       HTML("
+#       .hover-elevate:hover {
+#         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+#         transform: scale(1.05);
+#       }
+#     ")
+#     )
+#     # tagList end;
+#   )
+# }
+
+# Options card
+# are for picker inputs
+# with overflows
+
+
 
 # clickable_card <- function(
     #     inputid,
@@ -128,7 +142,9 @@ card <- function(
   bslib::card(
     fill = TRUE,
     full_screen = TRUE,
-    # style = "margin-top: var(--bslib-mb-spacer);",
+    height = "100%",
+    #style = "overflow-y: auto;",
+    style = "margin-top: var(--bslib-mb-spacer);",
     # Card header
     bslib::card_header(
       shiny::tags$div(
@@ -154,6 +170,60 @@ card <- function(
     bslib::card_footer(shiny::tagList(
       footer
     )
+    )
+  )
+
+}
+
+
+
+#' Add a pickerinput
+#'
+#' A wrapper of the [shinyWidgets::pickerInput()]-function, with predefined
+#' danish wording.
+#'
+#'
+#' @param inputid A [character]-vector of [length] 1.
+#' @param label A [character]-vector of [length] 1.
+#' @param choices A [character]-vector of [length] N.
+#' @param selected A [character]-vector of [length] N.
+#' @param multiple A [logical]-vector of [length] 1.
+#' @param search A [logical]-vector of [length] 1.
+#' @param size A [numeric]-vector of [length] 1.
+#'
+#' @details
+#' See [shinyWidgets::pickerInput()] for usage.
+#'
+#' @return
+#' @export
+#'
+#' @examples
+picker_input <- function(
+    inputid,
+    label,
+    choices,
+    selected = NULL,
+    multiple = FALSE,
+    search    = TRUE,
+    size     = "auto"
+) {
+
+  shiny::tagList(
+    shinyWidgets::pickerInput(
+      inputId = inputid,
+      label = label,
+      choices = choices,
+      selected = selected,
+      multiple = multiple,
+      options  = shinyWidgets::pickerOptions(
+        size   = size,
+        liveSearch = search,
+        actionsBox = TRUE,
+        noneSelectedText = "Intet valgt",
+        deselectAllText = "Fravælg alle",
+        selectAllText   = "Vælg all",
+        noneResultsText = "Ingen match"
+      )
     )
   )
 

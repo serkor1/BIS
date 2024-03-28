@@ -12,6 +12,9 @@ Imports:
     bslib,
     cli,
     config (>= 0.3.2),
+    data.table,
+    DBI,
+    DT,
     golem (>= 0.4.1),
     shiny (>= 1.8.0),
     shinyWidgets
@@ -26,3 +29,5 @@ Language: en-US
 LazyData: true
 RoxygenNote: 7.3.1
 VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)

@@ -2,7 +2,7 @@
 
 
  /* disable highligthing on the app */
-body {
+html, body {
         -webkit-user-select: none; /* Safari */
         -moz-user-select: none;    /* Firefox */
         -ms-user-select: none;     /* Internet Explorer/Edge */
@@ -13,3 +13,37 @@ body {
       background-color: transparent !important;
       border-color: transparent !important;
     }
+
+
+/* Elevated cards */
+.clickable-card:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  transform: scale(1.05);
+  transition: box-shadow 0.3s ease-in-out;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+.options-card:hover {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        transform: scale(1.05);
+        overflow: visible !important; transition: box-shadow 0.3s ease-in-out;
+      }
+
+.options-card-body {
+  position: relative;
+  z-index: 1000;
+  overflow: visible !important;
+}
+
+/*
+NOTE: This works but a new class is needed
+to avoid affecting the remaining cards
+see: https://stackoverflow.com/questions/78134389/how-to-allow-selectizeinput-in-bslib-to-overlap-card
+*/
+
+/*
+.card-body{overflow: visible !important;}
+.card{overflow: visible !important;}
+*/
