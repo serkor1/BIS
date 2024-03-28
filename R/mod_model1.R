@@ -33,7 +33,7 @@ mod_model1_ui <- function(id){
 #' model1 Server Functions
 #'
 #' @noRd
-mod_model1_server <- function(id){
+mod_model1_server <- function(id, theme){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
@@ -48,36 +48,43 @@ mod_model1_server <- function(id){
                 bslib::layout_columns(
                   options_card(
                     header = "Sygdomsgruppe",
+                    footer = NULL,
                     picker_input(
-                      inputid = ns("randomid1"),
+                      inputid = ns("treatment_disease"),
                       label = NULL,
                       multiple = FALSE,
                       search = TRUE,
-                      choices = LETTERS,size = 5
+                      choices = model1_parameters$k_disease,
+                      size = 10
                     )
                   ),
                   options_card(
                     header = "Sammenligningsgruppe",
+                    footer = NULL,
                     picker_input(
-                      inputid = ns("randomid2"),
+                      inputid = ns("control_disease"),
                       label = NULL,
                       multiple = FALSE,
                       search = TRUE,
-                      choices = LETTERS,size = 5
+                      choices = model1_parameters$k_disease,
+                      size = 10
                     )
 
                   ),
                   options_card(
                     header = "Sektor",
+                    footer = NULL,
                     picker_input(
-                      inputid = ns("randomid3"),
+                      inputid = ns("k_sector"),
                       label = NULL,
                       multiple = FALSE,
                       search = TRUE,
-                      choices = LETTERS,size = 5
+                      choices = model1_parameters$k_sector,
+                      size = 10
                     )
 
                   ),
+
                   clickable_card(
                     inputid = ns("start"),
                     outputval = "temp",
@@ -124,26 +131,36 @@ mod_model1_server <- function(id){
               card(
                 title = span(bsicons::bs_icon(name = "person"),"Demografi"),
                 header = shiny::div(
-                  shinyWidgets::actionBttn(
-                    inputId = ns("restart"),
-                    label = NULL,
-
-                    color = "success",
-                    style = "simple",
-                    icon = bsicons::bs_icon("arrow-counterclockwise")
+                  div(style = "display: inline-block; vertical-align: top; margin-right: 1px;", # Add margin for some space between elements
+                      shinyWidgets::switchInput(
+                        label    = "Incidens",
+                        inputId  = ns("c_type"),
+                        width = "100%",onLabel = bsicons::bs_icon("check",size = "2em")
+                        )
+                  ),
+                  div(style = "display: inline-block; vertical-align: top;",
+                      shinyWidgets::actionBttn(inputId = ns("restart"), label = NULL, color = "success", style = "simple", icon = bsicons::bs_icon("arrow-counterclockwise"))
                   )
+
                 ),
                 body = bslib::layout_columns(
                   col_widths = c(6,6),
                   bslib::card(
                     bslib::card_header("Valgt Sygdomsgruppe"),
+
+
                     lapply(
-                      1:4,
-                      function(i){
-                        shinyWidgets::pickerInput(
-                          inputId = paste(i),
-                          label = paste0("choice",i),
-                          choices = model1_parameters,multiple = TRUE,width = "100%"
+                      names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+                      function(name){
+                        picker_input(
+                          inputid = ns(paste0(
+                            "treatment_",name
+                          )),
+                          choices = model1_parameters[[name]],
+                          label = name,
+                          multiple = TRUE,
+                          selected = NULL,
+                          search = TRUE
                         )
 
                       }
@@ -156,12 +173,17 @@ mod_model1_server <- function(id){
                   bslib::card(
                     bslib::card_header("Valgt Sammenligningsgruppe"),
                     lapply(
-                      1:4,
-                      function(i){
-                        shinyWidgets::pickerInput(
-                          inputId = paste(i * 100),multiple = TRUE,width = "100%",
-                          label = paste0("choice",i),
-                          choices = sample(LETTERS,size = 3)
+                      names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+                      function(name){
+                        picker_input(
+                          inputid = ns(paste0(
+                            "control_",name
+                          )),
+                          choices = model1_parameters[[name]],
+                          label = name,
+                          multiple = TRUE,
+                          selected = NULL,
+                          search = TRUE
                         )
 
                       }
@@ -183,18 +205,42 @@ mod_model1_server <- function(id){
               )
             ),
 
-            bslib::navset_card_tab(
-              bslib::nav_panel(title = "One", p("First tab content.")),
-              bslib::nav_panel(title = "Two", p("Second tab content.")),
-              bslib::nav_panel(title = "Three", p("Third tab content")),
-              bslib::nav_spacer(),
-              bslib::nav_menu(
+            create_tabs(
+              X = model1_parameters$sector[k_sector %chin% c(input$k_sector)]$k_allocator,
+              fn = function(x){
+
+
+                tagList(
+                  bslib::layout_columns(
+                    col_widths = c(6,6),
+                    plotly::plotlyOutput(
+                      outputId = ns(
+                        paste0(
+                          "cost_output",x
+                        )
+                      )
+                    ),
+                    plotly::plotlyOutput(
+                      outputId = ns(
+                        paste0(
+                          "qty_output",x
+                        )
+                      )
+                    )
+                  )
+                  )
+
+
+
+                },
+              header = bslib::nav_menu(
+
                 title = "Links",
+                bslib::nav_spacer(),
                 bslib::nav_item("link_shiny"),
                 bslib::nav_item("link_posit")
-              ),
-              full_screen = TRUE,
-              sidebar = NULL
+              )
+
             )
             # ,
             #
@@ -212,25 +258,289 @@ mod_model1_server <- function(id){
 
 
 
-    output$table1 <- DT::renderDT({
-      DT::datatable(
-        DT,
-        options = list(
-          autoWidth = TRUE,
-          responsive = TRUE,
-          columnDefs = list(list(className = 'dt-center', targets = "_all"))
-        ),
-        class = "display compact" # Use compact styling
+    # 1) Generate recipe
+    # object based on user-input
+    get_recipe <- shiny::reactive(
+      {
+       # construct
+       # recipe
+        recipe_list <- recipe(
+          treatment = list(
+            k_disease       = input$treatment_disease,
+            c_gender        = input$treatment_c_gender,
+            c_education     = input$treatment_c_education,
+            c_socioeconomic = input$treatment_c_socioeconomic,
+            c_age           = input$treatment_c_age
+          ),
+
+          control = list(
+            k_disease       = input$control_disease,
+            c_gender        = input$control_c_gender,
+            c_education     = input$control_c_education,
+            c_socioeconomic = input$control_c_socioeconomic,
+            c_age           = input$control_c_age
+          )
+        )
+
+
+      }
+    )
+
+    # 2) Extract data from
+    # SQL database
+    DT <- shiny::reactive(
+      {
+
+
+        extract_data(
+          DB_connection = DB_connection,
+          table         = "model1",
+          k_sector   = input$k_sector,
+          k_disease     = c(input$treatment_disease, input$control_disease)
+        )
+      }
+    )
+
+
+    prepared_data <- reactive({
+
+      shiny::req(input$treatment_disease)
+      shiny::req(input$control_disease)
+
+      prepare_data(
+        DT = DT(),
+        recipe = get_recipe()
+      )
+
+
+
+    })
+
+
+    cooked_data <-shiny::reactive(
+      {
+
+
+
+
+        aggregate_data(
+          DT = prepared_data(),
+          calc = expression(
+            .(
+              v_qty = sum(
+                v_qty * v_weights, na.rm = TRUE
+              )/sum(v_weights, na.rm = TRUE),
+
+              v_cost = sum(
+                v_cost * v_weights, na.rm = TRUE
+              )/sum(v_weights, na.rm = TRUE)
+            )
+          ),
+          by = c(
+            "k_year",
+            "k_sector",
+            "k_disease",
+            "k_assignment",
+            "k_allocator",
+            "c_type"
+          )
+        )
+      }
+    )
+
+
+    cooked_data <-shiny::reactive(
+      {
+
+
+
+        aggregate_data(
+          DT = prepared_data(),
+          calc = expression(
+            .(
+              v_qty = sum(
+                v_qty * v_weights, na.rm = TRUE
+              )/sum(v_weights, na.rm = TRUE),
+
+              v_cost = sum(
+                v_cost * v_weights, na.rm = TRUE
+              )/sum(v_weights, na.rm = TRUE)
+            )
+          ),
+          by = c(
+            "k_year",
+            "k_sector",
+            "k_disease",
+            "k_assignment",
+            "k_allocator",
+            "c_type"
+          )
+        )
+      }
+    )
+
+    flavored_data <- shiny::reactive(
+      {
+
+        effect_data(
+          DT = cooked_data(),
+          effect = data.table::data.table(
+            effect = c(
+              runif(
+                n = 5
+              )
+            ),
+            k_year = -2:5
+          )
+        )
+      }
+    )
+
+
+    final_data <- shiny::reactive(
+      {
+
+        flavored_data()[
+          k_assignment %chin% c('control', 'treatment', 'counter_factual')
+        ][
+          ,
+          k_assignment := data.table::fcase(
+            default = 'Sygdomsgruppe',
+            k_assignment %chin% 'control', 'Sammenligningsgruppe',
+            k_assignment %chin% 'counter_factual', 'Kontrafaktisk sygdomsgruppe'
+          )
+          ,
+        ]
+
+
+
+      }
+    )
+
+
+    num_tables <- reactive({
+      shiny::req(input$k_sector)
+
+      seq_along(
+        unique(cooked_data()$k_allocator)
       )
     })
 
-    output$table2 <- DT::renderDataTable(
-      DT
+
+    reactivePlotTheme <- reactive({
+      if(theme() == "light") {
+        lightModeTheme()
+      } else {
+        darkModeTheme()
+      }
+    })
+
+
+    observe(
+      lapply(
+        num_tables(),
+         function(i) {
+
+
+           message(paste("rendering", i))
+
+
+           output[[paste0("cost_output",i)]] <- plotly::renderPlotly(
+             {
+
+               DT <- final_data()[c_type %chin% data.table::fifelse(
+                 test = input$c_type,
+                 yes  = "incident",
+                 no   = "prævalent"
+               )][
+                 k_allocator %chin% unique(flavored_data()$k_allocator)[i]
+               ]
+
+               theme <- reactivePlotTheme()
+
+               plotly::layout(
+
+                 # cost-plot:
+                 p = plotly::plot_ly(
+                   DT,
+                   x = ~k_year,
+                   y = ~v_cost,
+                   color = ~k_assignment,
+                   type = 'scatter',
+                   # fill = 'tozeroy',
+                   mode = 'lines+markers',
+                   line = list(shape = 'spline', smoothing = 1.3)
+                 ),
+
+                 # Layout Elements
+                 title = 'Omkostninger',
+                 legend = theme$legend,
+                 xaxis = theme$xaxis,
+                 yaxis = theme$yaxis,
+                 plot_bgcolor = 'rgb(0,0,0,0)',
+                 paper_bgcolor ='rgb(0,0,0,0)',
+                 font         = theme$font
+
+
+               )
+
+             }
+           )
+
+           output[[paste0("qty_output",i)]] <- plotly::renderPlotly(
+             {
+
+               DT <- final_data()[c_type %chin% data.table::fifelse(
+                 test = input$c_type,
+                 yes  = "incident",
+                 no   = "prævalent"
+               )][
+                 k_allocator %chin% unique(flavored_data()$k_allocator)[i]
+               ]
+
+               theme <- reactivePlotTheme()
+
+               plotly::layout(
+
+                 # cost-plot:
+                 p = plotly::plot_ly(
+                   DT,
+                   x = ~k_year,
+                   y = ~v_qty,
+                   color = ~k_assignment,
+                   type = 'scatter',
+                   # fill = 'tozeroy',
+                   mode = 'lines+markers',
+                   line = list(shape = 'spline', smoothing = 1.3)
+                 ),
+
+                 # Layout Elements
+                 title = 'Omkostninger',
+                 legend = theme$legend,
+                 xaxis = theme$xaxis,
+                 yaxis = theme$yaxis,
+                 plot_bgcolor = 'rgb(0,0,0,0)',
+                 paper_bgcolor ='rgb(0,0,0,0)',
+                 font         = theme$font
+
+
+               )
+
+             }
+           )
+
+        })
     )
 
-    output$table3 <- DT::renderDataTable(
-      DT
-    )
+
+
+
+
+
+
+
+
+
 
   })
 }

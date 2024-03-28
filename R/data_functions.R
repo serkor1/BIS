@@ -11,7 +11,7 @@ recipe <- function(
     control   = list()
 ) {
 
-  # NOTE: Has to be named
+
   list(
     treatment = treatment,
     control = control
@@ -26,34 +26,67 @@ recipe <- function(
 # This function filters the
 # data and is primarily used
 # inside other functions
-subset_data <- function(
-    DT,
-    ...){
+# subset_data <- function(
+#     DT,
+#     ...){
+#
+#   # Capture the arguments passed through ...
+#
+#   args <- list(...)
+#   column_names <- ...names()
+#
+#
+#   expressions <- mapply(function(column, value) {
+#
+#     if (is.character(value)) {
+#       # Assuming you want to check if a column's value is in a vector of character values
+#       sprintf("%s %%chin%% c('%s')", column, paste(value, collapse = "','"))
+#     } else {
+#       # For numerical or other types, checking for equality
+#       sprintf("%s %%in%% c(%s)", column, paste(value, collapse = ","))
+#     }
+#   }, column_names, args, SIMPLIFY = FALSE)
+#
+#   # Combine all expressions into a single character string (if needed)
+#   combined_expression <- paste(expressions, collapse = " & ")
+#
+#   #eval(,envir = parent.env())
+#
+#   DT[eval(parse(text = combined_expression))]
+# }
 
+subset_data <- function(DT, ...) {
   # Capture the arguments passed through ...
   args <- list(...)
-  column_names <- ...names()
+
+  # Remove NULL elements from args
+  #
+  # NOTE: this is necessay for shiny
+  # otherwise its passed as NULL
+  #
+  # needs efficient solution
+  args <- Filter(Negate(is.null), args)
+
+  # Extract the names of the arguments
+  column_names <- names(args)
 
   expressions <- mapply(function(column, value) {
-
     if (is.character(value)) {
       # Assuming you want to check if a column's value is in a vector of character values
-      sprintf("%s %%chin%% c('%s')", column, paste(value, collapse = "','"))
+      sprintf("`%s` %%chin%% c('%s')", column, paste(value, collapse = "','"))
     } else {
       # For numerical or other types, checking for equality
-      sprintf("%s %%in%% c(%s)", column, paste(value, collapse = ","))
+      sprintf("`%s` %%in%% c(%s)", column, paste(value, collapse = ","))
     }
   }, column_names, args, SIMPLIFY = FALSE)
 
-  # Combine all expressions into a single character string (if needed)
+  # Combine all expressions into a single character string
   combined_expression <- paste(expressions, collapse = " & ")
 
-  #eval(,envir = parent.env())
-
-  DT[eval(parse(text = combined_expression))]
+  # Evaluate the expression in the context of DT
+  # Note: Make sure DT is a data.table object and data.table is loaded for %chin% to work
+  DT[eval(parse(text = combined_expression)), ]
 }
-
-
 # 3) Split and prepare data;
 #
 # This function uses the recipe
@@ -202,7 +235,7 @@ effect_data <- function(
 
   # Take a copy
   # of the DT
-  DT_ <- copy(
+  DT_ <- data.table::copy(
     DT
   )
 
@@ -250,43 +283,6 @@ effect_data <- function(
     DT_[k_assignment %chin% "counter_factual"],
     fill = TRUE
   )
-
-
-
-
-  # DT <- rbind(
-  #     fill = TRUE,
-  #     DT,
-  #     DT_[
-  #         ,
-  #         lapply(
-  #             .SD,
-  #             function(x) {
-  #
-  #                 abs(x[k_assignment %chin% 'treatment'] - x[k_assignment %chin% 'difference'] * effect)
-  #
-  #             }
-  #         )
-  #         ,
-  #         by = c(
-  #             index, "effect"
-  #         ),
-  #         .SDcols = names(DT)[grep(pattern = "v_", x = names(DT),ignore.case = TRUE)]
-  #     ][
-  #         ,
-  #         k_assignment := "counter_factual"
-  #         ,
-  #
-  #     ]
-  # )
-  #
-  #
-  # data.table::setkey(
-  #     DT,
-  #     k_year
-  # )
-  #
-  # DT[]
 
 }
 

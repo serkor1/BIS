@@ -1,0 +1,12 @@
+name: BISundhed2
+title: BISundhed2
+username: vive
+account: vive
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11609553
+bundleId: 8428761
+url: https://vive.shinyapps.io/BISundhed2/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE

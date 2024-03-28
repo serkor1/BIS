@@ -44,6 +44,28 @@ lightModeTheme <- function() {
 }
 
 
+
+subset_list <- function(
+    list,
+    pattern = NULL
+    ) {
+
+  if (!is.null(pattern)) {
+    list[
+      grep(
+        pattern     = pattern,
+        x           = names(list),
+        ignore.case = TRUE
+      )
+    ]
+  }
+
+
+}
+
+
+
+
 # Just for a clicable
 # card
 # choice_card <- function(
@@ -215,13 +237,14 @@ picker_input <- function(
       choices = choices,
       selected = selected,
       multiple = multiple,
+      width = "100%",
       options  = shinyWidgets::pickerOptions(
         size   = size,
         liveSearch = search,
         actionsBox = TRUE,
         noneSelectedText = "Intet valgt",
         deselectAllText = "Fravælg alle",
-        selectAllText   = "Vælg all",
+        selectAllText   = "Vælg alle",
         noneResultsText = "Ingen match"
       )
     )
