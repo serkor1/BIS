@@ -66,7 +66,8 @@ DT <- aggregate_data(
     "k_disease",
     "k_assignment",
     "k_allocator",
-    "c_type"
+    "c_type",
+    "c_unit"
   )
 )
 

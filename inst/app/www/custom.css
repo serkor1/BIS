@@ -9,9 +9,11 @@ html, body {
         user-select: none;         /* Non-prefixed version, currently supported by Chrome, Opera, and Edge */
       }
 
+
 .btn-transparent {
       background-color: transparent !important;
       border-color: transparent !important;
+      color: currentColor !important;
     }
 
 
