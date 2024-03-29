@@ -80,6 +80,7 @@ clickable_card <- function(
 options_card <- function(
     header = "header",
     footer = NULL,
+    width  = "100%",
     ...) {
 
 
@@ -88,6 +89,7 @@ options_card <- function(
   tagList(
     bslib::card(
       class = "options-card",
+      style = paste0("width: ", width, " !important;"),
       bslib::card_header(header),
       bslib::card_body(
         class = "options-card-body",
@@ -99,6 +101,49 @@ options_card <- function(
         )
       }
 
+    )
+  )
+
+}
+
+
+card <- function(
+    title  = "title",
+    header = NULL,
+    footer = NULL,
+    body   = NULL) {
+
+  bslib::card(
+    fill = TRUE,
+    full_screen = TRUE,
+    height = "100%",
+    #style = "overflow-y: auto;",
+    style = "margin-top: var(--bslib-mb-spacer);",
+    # Card header
+    bslib::card_header(
+      shiny::tags$div(
+        style = "display: flex; justify-content: space-between; align-items: center; width: 100%;",
+        shiny::tags$div(class = "custom-title", bslib::card_title(title)),
+        shiny::tags$div(
+          style = "margin-left: auto; ", # This will push all inside elements to the far right
+
+          header
+
+
+        )
+      )
+    ),
+
+    # Card Body
+    bslib::card_body(
+      shiny::tagList(
+        body
+      )
+    ),
+
+    bslib::card_footer(shiny::tagList(
+      footer
+    )
     )
   )
 

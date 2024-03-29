@@ -10,11 +10,25 @@ html, body {
       }
 
 
+/*
 .btn-transparent {
       background-color: transparent !important;
       border-color: transparent !important;
       color: currentColor !important;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+
     }
+*/
+.btn-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: currentColor !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+
 
 
 /* Elevated cards */
@@ -31,11 +45,12 @@ html, body {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         transform: scale(1.05);
         overflow: visible !important; transition: box-shadow 0.3s ease-in-out;
+        z-index: 99999999999 !important;
       }
 
 .options-card-body {
   position: relative;
-  z-index: 1000;
+  z-index: 9999999 !important;
   overflow: visible !important;
 }
 

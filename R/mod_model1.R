@@ -39,61 +39,83 @@ mod_model1_server <- function(id, theme){
 
     # Setup initial UI
     landing <-bslib::layout_columns(
-      col_widths = c(4,4,4),row_heights = c(1,1),
+      col_widths = c(12),
+      row_heights = c(1,1),
       div(class="dim-overlay",
           div(class="card-container",
               div(
                 class = "d-flex justify-content-center align-items-center",
                 style = "height: 100%;",  # This ensures the div takes the full viewport height
+
                 bslib::layout_columns(
-                  options_card(
-                    header = "Sygdomsgruppe",
-                    footer = NULL,
-                    picker_input(
-                      inputid = ns("treatment_disease"),
-                      label = NULL,
-                      multiple = FALSE,
-                      search = TRUE,
-                      choices = model1_parameters$k_disease,
-                      size = 10
-                    )
-                  ),
-                  options_card(
-                    header = "Sammenligningsgruppe",
-                    footer = NULL,
-                    picker_input(
-                      inputid = ns("control_disease"),
-                      label = NULL,
-                      multiple = FALSE,
-                      search = TRUE,
-                      choices = model1_parameters$k_disease,
-                      size = 10
-                    )
+                  col_widths = c(12),
+                  row_heights = c(1,1),
+                  bslib::layout_columns(
+                    row_heights = c(1,1),
+                    col_widths = c(4,4,4),
+                    options_card(
+                      header = "Sygdomsgruppe",
+                      footer = NULL,
+                      width  = "320px",
+                      picker_input(
+                        inputid = ns("treatment_disease"),
+                        label = NULL,
+                        multiple = FALSE,
+                        search = TRUE,
+                        choices = model1_parameters$k_disease,
+                        size = 10
+                      )
+                    ),
+                    options_card(
+                      header = "Sammenligningsgruppe",
+                      footer = NULL,
+                      width  = "320px",
+                      picker_input(
+                        inputid = ns("control_disease"),
+                        label = NULL,
+                        multiple = FALSE,
+                        search = TRUE,
+                        choices = model1_parameters$k_disease,
+                        size = 10
+                      )
+
+                    ),
+                    options_card(
+                      header = "Sektor",
+                      footer = NULL,
+                      width  = "320px",
+                      picker_input(
+                        inputid = ns("k_sector"),
+                        label = NULL,
+                        multiple = FALSE,
+                        search = TRUE,
+                        choices = model1_parameters$k_sector,
+                        size = 10
+                      )
+
+                    ),
+
+
+
+
+
 
                   ),
-                  options_card(
-                    header = "Sektor",
-                    footer = NULL,
-                    picker_input(
-                      inputid = ns("k_sector"),
-                      label = NULL,
-                      multiple = FALSE,
-                      search = TRUE,
-                      choices = model1_parameters$k_sector,
-                      size = 10
-                    )
-
-                  ),
-
-                  clickable_card(
-                    inputid = ns("start"),
-                    outputval = "temp",
-                    bslib::card_header("Start"),
-                    bslib::card_body("Something")
+                  shinyWidgets::actionBttn(
+                    block = TRUE,
+                    inputId =  ns("start"),
+                    label = "Start",
+                    style = "float",no_outline = TRUE,
+                    color = "default",
+                    icon = icon("bars")
                   )
-
-
                 )
+
+
+
+
+
+
               )
           )
 
@@ -135,42 +157,11 @@ mod_model1_server <- function(id, theme){
                       shinyWidgets::switchInput(
                         label    = "Incidens",
                         inputId  = ns("c_type"),
-                        width = "100%",
+                        width = "100%",size = "mini",
                         value = TRUE,
-                        onLabel = bsicons::bs_icon("check",size = "2em")
+                        onLabel = bsicons::bs_icon("check",size = "1.5rem")
                       )
                   ),
-                  # shiny::tags$button(
-                  #   id = ns("restart"),
-                  #   bsicons::bs_icon("arrow-counterclockwise",size = "2em"),
-                  #   style = "
-                  #   background-color: transparent;
-                  #   border: none;
-                  #   padding: 0;
-                  #   display: inline-block;
-                  #   vertical-align: top;
-                  #   height:1em;
-                  #   width:1em;
-                  #   vertical-align:-0.125em;
-                  #   "
-                  # )
-                  # ,
-                  # actionButton(
-                  #   inputId = ns("restart"),
-                  #   label = bsicons::bs_icon("arrow-counterclockwise",size = "2em"), # The icon
-                  #   style = "
-                  #   color: currentColor;
-                  #   background-color: transparent;
-                  #   border: none;
-                  #   padding: 0;
-                  #   display: inline-block;
-                  #   vertical-align: top;
-                  #   height:1em;
-                  #   width:1em;
-                  #   vertical-align:-0.125em;
-                  #   "
-                  # )
-                  # ,
                   shinyWidgets::actionBttn(
                     inputId = ns("restart"),
                     label = NULL,
@@ -178,26 +169,9 @@ mod_model1_server <- function(id, theme){
                     color = "default",
                     class = "btn-transparent",
                     icon = bsicons::bs_icon(
-                      "arrow-counterclockwise"
+                      "arrow-counterclockwise",size = "1.5rem"
                     )
                   )
-
-                  # div(
-                  #   style = "display: inline-block; vertical-align: top;",
-                  #   id = ns("restart"),
-                  #   class = "btn-transparent",
-                  #   bsicons::bs_icon(name = "person")
-                      # shinyWidgets::actionBttn(
-                      #   inputId = ns("restart"),
-                      #   label = NULL,
-                      #   style = "simple",
-                      #   color = "default",
-                      #   class = "btn-transparent",
-                      #   icon = bsicons::bs_icon(
-                      #     "arrow-counterclockwise"
-                      #     )
-                      #   )
-                  # )
 
                 ),
                 body = bslib::layout_columns(
@@ -292,7 +266,7 @@ mod_model1_server <- function(id, theme){
 
 
               },
-              header = bslib::nav_menu(
+              bslib::nav_menu(
 
                 title = "Links",
                 bslib::nav_spacer(),
@@ -377,38 +351,6 @@ mod_model1_server <- function(id, theme){
 
     })
 
-
-    cooked_data <-shiny::reactive(
-      {
-
-
-
-
-        aggregate_data(
-          DT = prepared_data(),
-          calc = expression(
-            .(
-              v_qty = sum(
-                v_qty * v_weights, na.rm = TRUE
-              )/sum(v_weights, na.rm = TRUE),
-
-              v_cost = sum(
-                v_cost * v_weights, na.rm = TRUE
-              )/sum(v_weights, na.rm = TRUE)
-            )
-          ),
-          by = c(
-            "k_year",
-            "k_sector",
-            "k_disease",
-            "k_assignment",
-            "k_allocator",
-            "c_type",
-            "c_unit"
-          )
-        )
-      }
-    )
 
 
     cooked_data <-shiny::reactive(
@@ -502,101 +444,6 @@ mod_model1_server <- function(id, theme){
       }
     })
 
-    # observe(
-    #   lapply(
-    #     num_tables(),
-    #      function(i) {
-    #
-    #
-    #        message(paste("rendering", i))
-    #
-    #
-    #        output[[paste0("cost_output",i)]] <- plotly::renderPlotly(
-    #          {
-    #
-    #            DT <- final_data()[c_type %chin% data.table::fifelse(
-    #              test = input$c_type,
-    #              yes  = "Incident",
-    #              no   = "Prævalent"
-    #            )][
-    #              k_allocator %chin% unique(flavored_data()$k_allocator)[i]
-    #            ]
-    #
-    #            theme <- reactivePlotTheme()
-    #
-    #            plotly::layout(
-    #
-    #              # cost-plot:
-    #              p = plotly::plot_ly(
-    #                DT,
-    #                x = ~k_year,
-    #                y = ~v_cost,
-    #                color = ~k_assignment,
-    #                type = 'scatter',
-    #                # fill = 'tozeroy',
-    #                mode = 'lines+markers',
-    #                line = list(shape = 'spline', smoothing = 1.3)
-    #              ),
-    #
-    #              # Layout Elements
-    #              title = 'Omkostninger',
-    #              legend = theme$legend,
-    #              xaxis = theme$xaxis,
-    #              yaxis = theme$yaxis,
-    #              plot_bgcolor = 'rgb(0,0,0,0)',
-    #              paper_bgcolor ='rgb(0,0,0,0)',
-    #              font         = theme$font
-    #
-    #
-    #            )
-    #
-    #          }
-    #        )
-    #
-    #        output[[paste0("qty_output",i)]] <- plotly::renderPlotly(
-    #          {
-    #
-    #            DT <- final_data()[c_type %chin% data.table::fifelse(
-    #              test = input$c_type,
-    #              yes  = "Incident",
-    #              no   = "Prævalent"
-    #            )][
-    #              k_allocator %chin% unique(flavored_data()$k_allocator)[i]
-    #            ]
-    #
-    #            theme <- reactivePlotTheme()
-    #
-    #            plotly::layout(
-    #
-    #              # cost-plot:
-    #              p = plotly::plot_ly(
-    #                DT,
-    #                x = ~k_year,
-    #                y = ~v_qty,
-    #                color = ~k_assignment,
-    #                type = 'scatter',
-    #                # fill = 'tozeroy',
-    #                mode = 'lines+markers',
-    #                line = list(shape = 'spline', smoothing = 1.3)
-    #              ),
-    #
-    #              # Layout Elements
-    #              title = 'Omkostninger',
-    #              legend = theme$legend,
-    #              xaxis = theme$xaxis,
-    #              yaxis = theme$yaxis,
-    #              plot_bgcolor = 'rgb(0,0,0,0)',
-    #              paper_bgcolor ='rgb(0,0,0,0)',
-    #              font         = theme$font
-    #
-    #
-    #            )
-    #
-    #          }
-    #        )
-    #
-    #     })
-    # )
 
 
 
@@ -634,59 +481,6 @@ mod_model1_server <- function(id, theme){
           range = c(-2,5)
         ),
         margin = list(l = 10, r = 10, b = 15, t = 25)
-      #   legend = list(
-      #     orientation = 'h', x = 0, y = 1,yref="container", title = list(text = "Indicators:"),
-      #   # font    = list(
-      #   #   color= if (dark)'#848e9c' else NULL
-      #   # ),
-      #   annotations = list(
-      #     list(
-      #       text = paste(
-      #         '<b>Ticker:</b>', 'name',
-      #         '<b>Interval:</b>', 'interval'
-      #       ),
-      #       x = 0,
-      #       xref = 'paper',
-      #       y = 1,
-      #       yref = 'paper',
-      #       xanchor = 'left',
-      #       yanchor = 'bottom',
-      #       showarrow = FALSE,
-      #       font = list(
-      #         size =24
-      #       )
-      #     ),
-      #     list(
-      #       text = paste('<b>Market:</b>', 'market'),
-      #       x = 1,
-      #       xref = 'paper',
-      #       y = 1,
-      #       yref = 'paper',
-      #       xanchor = 'right',
-      #       yanchor = 'bottom',
-      #       showarrow = FALSE,
-      #       font = list(
-      #         size = 24
-      #       )
-      #     )
-      #   )
-      #   # title = list(
-      #   #   text=paste(
-      #   #     '<b>Ticker:</b>',
-      #   #     name,
-      #   #     '<b>Interval:</b>',
-      #   #     interval
-      #   #   ),
-      #   #   x = 0,
-      #   #   xref = 'paper',
-      #   #   yref = "container"
-      #   #   # ,
-      #   #   # y = 1,
-      #   #   # x = 0,
-      #   #
-      #   #   # yref =  'paper'
-      #   # )
-      # )
       )
 
     }
@@ -695,7 +489,6 @@ mod_model1_server <- function(id, theme){
     observe({
       req(input$c_type)
       lapply(num_tables(), function(i) {
-        message(paste("rendering", i))
 
         DT <- final_data()[c_type %chin% data.table::fifelse(
           test = input$c_type,

@@ -6,6 +6,16 @@
 # script start;
 
 # 1) recipe object
+#' Title
+#'
+#' @param treatment A [list] of named filtering arguments
+#' @param control A [list] of named filtering arguments
+#'
+#' @returns A named [list]
+#'
+#' @example man/examples/scr_datawrangling.R
+#'
+#' @export
 recipe <- function(
     treatment = list(),
     control   = list()

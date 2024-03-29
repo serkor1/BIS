@@ -50,6 +50,7 @@ app_ui <- function(request) {
       ),
 
       # github link;
+
       bslib::nav_item(
         shinyWidgets::actionBttn(
           inputId = "openLinkBtn",

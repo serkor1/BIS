@@ -11,3 +11,4 @@ document.addEventListener("DOMContentLoaded", function() {
     window.open("https://github.com/serkor1/BIS", "_blank");
   });
 });
+
