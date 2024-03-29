@@ -9,12 +9,12 @@
 # object
 get_recipe <- recipe(
   treatment = list(
-    k_disease = "andre lidelser_alkohol misbrug",
-    c_gender  = "mand"
+    k_disease = "apopleksi",
+    c_gender  = "Mand"
   ),
   control = list(
-    k_disease =  "andre lidelser_leddegigt",
-    c_gender = "mand"
+    k_disease =  "tarmkræft",
+    c_gender = "Mand"
   )
 )
 
@@ -25,8 +25,8 @@ DT <- extract_data(
     drv = RSQLite::SQLite(),
     dbname = "inst/extdata/db"
   ),
-  k_disease = c("andre lidelser_alkohol misbrug", "andre lidelser_leddegigt"),
-  c_gender  = c("mand")
+  k_disease = c("apopleksi", "tarmkræft"),
+  c_gender  = c("Mand")
 )
 
 
@@ -70,6 +70,7 @@ DT <- aggregate_data(
   )
 )
 
+
 # 3.3) Add effects
 # to the data
 DT <- effect_data(
@@ -85,5 +86,6 @@ DT <- effect_data(
 )
 
 
-
 # script end;
+
+

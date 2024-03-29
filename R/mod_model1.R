@@ -450,8 +450,8 @@ mod_model1_server <- function(id, theme){
 
                DT <- final_data()[c_type %chin% data.table::fifelse(
                  test = input$c_type,
-                 yes  = "incident",
-                 no   = "prævalent"
+                 yes  = "Incident",
+                 no   = "Prævalent"
                )][
                  k_allocator %chin% unique(flavored_data()$k_allocator)[i]
                ]
@@ -492,8 +492,8 @@ mod_model1_server <- function(id, theme){
 
                DT <- final_data()[c_type %chin% data.table::fifelse(
                  test = input$c_type,
-                 yes  = "incident",
-                 no   = "prævalent"
+                 yes  = "Incident",
+                 no   = "Prævalent"
                )][
                  k_allocator %chin% unique(flavored_data()$k_allocator)[i]
                ]
