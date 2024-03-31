@@ -261,11 +261,13 @@ mod_model1_server <- function(id, theme){
                   shinyWidgets::actionBttn(
                     inputId = ns("restart"),
                     label = NULL,
+                    size = "sm",
                     style = "simple",
-                    color = "default",
-                    class = "btn-transparent",
+                    color = "primary",
+                    #class = "btn-transparent",
                     icon = bsicons::bs_icon(
-                      "arrow-counterclockwise",size = "1.5rem"
+                      "arrow-counterclockwise"
+                      #,size = "1.5rem"
                     )
                   )
 

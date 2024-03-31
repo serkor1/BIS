@@ -54,13 +54,49 @@ html, body {
   overflow: visible !important;
 }
 
+
+[data-bs-theme='light'] .bttn {
+  background-color: var(--bs-success) !important;
+  color: white !important;
+}
+
+[data-bs-theme='dark'] .bttn {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.btn {
+  --bs-btn-bg: transparent;
+}
+
+[data-bs-theme='light'] .btn {
+  color: black !important;
+  --bs-btn-border-color: var(--bs-border-color-translucent) !important;
+}
+
+[data-bs-theme='dark'] .btn {
+  color: white !important;
+  --bs-btn-border-color: var(--bs-border-color-translucent) !important;
+}
+
 /*
-NOTE: This works but a new class is needed
+:root {
+  --bs-primary: var(--bs-teal);
+  --bs-border-color-translucent
+}
+
+
+
+/*
+NOTE: This works but a new class is needed [data-bs-theme="dark"] .navbar.navbar-default {
+    background-color: var(--bslib-navbar-default-bg, var(--bs-dark)) !important;
+}
 to avoid affecting the remaining cards
 see: https://stackoverflow.com/questions/78134389/how-to-allow-selectizeinput-in-bslib-to-overlap-card
 */
 
 /*
 .card-body{overflow: visible !important;}
-.card{overflow: visible !important;}
+.card{overflow: visible !important;} var(--bslib-navbar-inverse-bg, var(--bs-dark)) !important
 */
+
