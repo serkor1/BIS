@@ -132,17 +132,113 @@ mod_model1_server <- function(id, theme){
       input$restart,
       ignoreInit = TRUE,
       ignoreNULL = TRUE,
+      {
 
-      output$body <- shiny::renderUI(
-        landing
-      )
+        # 0) Upon restart
+        # the choices should be
+        # updated with earlier
+        # picked values
+        shinyWidgets::updatePickerInput(
+          inputId = "treatment_disease",
+          selected = input$treatment_disease
+        )
+
+        shinyWidgets::updatePickerInput(
+          inputId = "control_disease",
+          selected = input$control_disease
+        )
+
+        shinyWidgets::updatePickerInput(
+          inputId = "k_sector",
+          selected = input$k_sector
+        )
+
+
+
+
+        output$body <- shiny::renderUI(
+          landing
+        )
+
+
+
+
+      }
+
+
+
+
     )
+
+
 
     observeEvent(
       input$start,
       ignoreInit = TRUE,
       ignoreNULL = TRUE,
       {
+        # 0) define parameters
+        #
+        # prefix is the prefix of the
+        # input id
+        #
+        # the pattern is name of the input
+        # ids
+        prefixes <- c("treatment_", "control_")
+
+        patterns <- names(
+          subset_list(
+            list = model1_parameters,
+            pattern = "age|educ|gender|socio"
+          )
+        )
+
+        # 1) Update all choices
+        # by iterating over all inputids
+        # for both treatment and control
+        #
+        #
+        # NOTE: This updates ALL values
+        # regardless of wether it has changed.
+        # This might be suboptimal
+        lapply(
+          X   = patterns,
+          FUN = function(name) {
+
+            lapply(
+              X = prefixes,
+              FUN = function(prefix) {
+                shinyWidgets::updatePickerInput(
+                  inputId = paste0(prefix, name),
+                  selected = input[[paste0(prefix, name)]]
+                )
+              }
+            )
+
+          }
+        )
+
+        # 2) Update the c_type
+        # switcher input
+        shinyWidgets::updateSwitchInput(
+          inputId = "c_type",
+          value   = input$c_type
+        )
+
+      }
+    )
+
+
+    observeEvent(
+      input$start,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
+      {
+
+
+
+
+
         output$body <- shiny::renderUI(
           bslib::layout_columns(
             height = "100%",
