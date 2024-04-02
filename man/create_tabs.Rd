@@ -2,7 +2,7 @@
 % Please edit documentation in R/fct_helpers.R
 \name{create_tabs}
 \alias{create_tabs}
-\title{Title}
+\title{Dynamically create multiple tabs}
 \usage{
 create_tabs(X, fn, ...)
 }
@@ -21,7 +21,7 @@ A [shiny.tag]. More specifically a dynamically rendered
 navigation panel.
 }
 \description{
-Title
+Dynamically create multiple tabs
 }
 \examples{
 # script: scr_renderTabs

@@ -4,7 +4,7 @@
 \alias{clickable_card}
 \title{Create an elevated and clickable card}
 \usage{
-clickable_card(inputid, outputval, ...)
+clickable_card(inputid, outputval, width = "100\%", ...)
 }
 \arguments{
 \item{inputid}{[character] of [length] 1. The id of the element. Can be wrapped in [NS].}

@@ -4,7 +4,7 @@
 \alias{options_card}
 \title{Title}
 \usage{
-options_card(header = "header", footer = NULL, ...)
+options_card(header = "header", footer = NULL, width = "100\%", ...)
 }
 \arguments{
 \item{...}{}

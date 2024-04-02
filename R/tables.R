@@ -120,11 +120,15 @@ add_header <- function(
             })
           }),
           tr({
-            lapply(extendedSubheaders, function(group) {
-              lapply(group, function(subheader) {
-                th(subheader)
+            unlist(
+              recursive = FALSE,
+              lapply(extendedSubheaders, function(group) {
+                lapply(group, function(subheader) {
+                  th(subheader)
+                })
               })
-            }) %>% unlist(recursive = FALSE)
+            )
+
           })
         )
       )
