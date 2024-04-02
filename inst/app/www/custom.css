@@ -1,6 +1,36 @@
  /* Custom CSS */
 
 
+/* Global transition rule for background-color */
+* {
+
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+/*
+Add hover-effect on all cards. This
+has no specific use-case other
+than looking cool
+*/
+
+.card {
+  /* Initial card styles */
+  will-change: transform, opacity;
+  transition: transform 0.3s ease,
+  background-color 0.3s ease;
+  transform: scale(1); /* Initial scale */
+}
+
+.card:hover {
+  /* Hover effect */
+  transform: scale(1.01); /* Slightly grow in size */
+}
+
+
+
  /* disable highligthing on the app */
 html, body {
         -webkit-user-select: none; /* Safari */
@@ -79,24 +109,25 @@ html, body {
   --bs-btn-border-color: var(--bs-border-color-translucent) !important;
 }
 
-/*
-:root {
-  --bs-primary: var(--bs-teal);
-  --bs-border-color-translucent
+
+.navbar {
+  transition: background-color 0.3s ease;
 }
 
 
-
-/*
-NOTE: This works but a new class is needed [data-bs-theme="dark"] .navbar.navbar-default {
-    background-color: var(--bslib-navbar-default-bg, var(--bs-dark)) !important;
+[data-bs-theme='light'] .pagination {
+  --bs-pagination-bg: var(--bs-success) !important;
 }
-to avoid affecting the remaining cards
-see: https://stackoverflow.com/questions/78134389/how-to-allow-selectizeinput-in-bslib-to-overlap-card
-*/
 
-/*
-.card-body{overflow: visible !important;}
-.card{overflow: visible !important;} var(--bslib-navbar-inverse-bg, var(--bs-dark)) !important
-*/
+[data-bs-theme='dark'] .pagination {
+  --bs-pagination-bg: var(--bs-primary) !important;
+}
 
+[data-bs-theme='dark'] table.dataTable thead tr {
+  --bs-table-bg: var(--bs-primary);
+}
+
+
+[data-bs-theme='light'] table.dataTable thead tr {
+  --bs-table-bg: var(--bs-success);
+}

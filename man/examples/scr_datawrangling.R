@@ -45,6 +45,7 @@ DT <- prepare_data(
 
 
 
+
 # 3.2) Aggregate the
 # data
 DT <- aggregate_data(
@@ -88,5 +89,3 @@ DT <- effect_data(
 
 
 # script end;
-
-

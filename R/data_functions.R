@@ -256,7 +256,7 @@ effect_data <- function(
       .SD,
       function(x) {
 
-        -x
+        -abs(x) *effect
 
       }
     )
@@ -265,7 +265,7 @@ effect_data <- function(
   ]
 
   DT_ <- DT_[
-    k_assignment %chin% c("treatment", "difference")
+    k_assignment %chin% c("treatment", "difference") & k_year >= 0
     ,
     lapply(
       .SD,

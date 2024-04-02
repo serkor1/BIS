@@ -64,7 +64,7 @@ mod_landing_ui <- function(id){
                 # )
                 # ,
                 clickable_card(
-                  inputid = ns("model1"),
+                  inputid = ns("model1"),width = "20vw",
                   bslib::card_header(
                     shiny::span(
                       bsicons::bs_icon("box"),
@@ -82,6 +82,7 @@ mod_landing_ui <- function(id){
                 ),
                 clickable_card(
                   inputid = ns("model2"),
+                  width = "20vw",
                   bslib::card_header(
                     shiny::span(
                       bsicons::bs_icon("box"),

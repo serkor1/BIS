@@ -54,9 +54,9 @@ mod_model1_server <- function(id, theme){
                     row_heights = c(1,1),
                     col_widths = c(4,4,4),
                     options_card(
-                      header = "Sygdomsgruppe",
+                      header = span(bsicons::bs_icon("virus"),"Sygdomsgruppe"),
                       footer = NULL,
-                      width  = "320px",
+                      width  = "20vw",
                       picker_input(
                         inputid = ns("treatment_disease"),
                         label = NULL,
@@ -67,9 +67,9 @@ mod_model1_server <- function(id, theme){
                       )
                     ),
                     options_card(
-                      header = "Sammenligningsgruppe",
+                      header = span(bsicons::bs_icon("virus2"),"Sammenligningsgruppe"),
                       footer = NULL,
-                      width  = "320px",
+                      width  = "20vw",
                       picker_input(
                         inputid = ns("control_disease"),
                         label = NULL,
@@ -81,9 +81,9 @@ mod_model1_server <- function(id, theme){
 
                     ),
                     options_card(
-                      header = "Sektor",
+                      header = span(bsicons::bs_icon("building-add"), "Sektor"),
                       footer = NULL,
-                      width  = "320px",
+                      width  = "20vw",
                       picker_input(
                         inputid = ns("k_sector"),
                         label = NULL,
@@ -105,7 +105,8 @@ mod_model1_server <- function(id, theme){
                     block = TRUE,
                     inputId =  ns("start"),
                     label = "Start",
-                    style = "float",no_outline = TRUE,
+                    style = "float",
+                    no_outline = TRUE,
                     color = "default",
                     icon = icon("bars")
                   )
@@ -252,6 +253,7 @@ mod_model1_server <- function(id, theme){
                   div(style = "display: inline-block; vertical-align: top; margin-right: 1px;", # Add margin for some space between elements
                       shinyWidgets::switchInput(
                         label    = "Incidens",
+                        onStatus = "primary",
                         inputId  = ns("c_type"),
                         width = "100%",size = "mini",
                         value = TRUE,
@@ -275,7 +277,15 @@ mod_model1_server <- function(id, theme){
                 body = bslib::layout_columns(
                   col_widths = c(6,6),
                   bslib::card(
-                    bslib::card_header("Valgt Sygdomsgruppe"),
+                    bslib::card_header(
+
+                      shiny::p(
+                        bsicons::bs_icon("virus"),
+                        shiny::strong("Diagnose:"),
+                        input$treatment_disease
+
+                      )
+                    ),
 
 
                     lapply(
@@ -286,7 +296,24 @@ mod_model1_server <- function(id, theme){
                             "treatment_",name
                           )),
                           choices = model1_parameters[[name]],
-                          label = name,
+                          label = HTML(data.table::fcase(
+                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                            grepl(
+                              pattern = "educ",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                            grepl(
+                              pattern = "gender",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                            grepl(
+                              pattern = "socio",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                          )),
                           multiple = TRUE,
                           selected = NULL,
                           search = TRUE,
@@ -301,7 +328,14 @@ mod_model1_server <- function(id, theme){
 
                   ),
                   bslib::card(
-                    bslib::card_header("Valgt Sammenligningsgruppe"),
+                    bslib::card_header(
+                      shiny::p(
+                        bsicons::bs_icon("virus2"),
+                        shiny::strong("Diagnose:"),
+                        input$control_disease
+
+                      )
+                    ),
                     lapply(
                       names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
                       function(name){
@@ -310,7 +344,24 @@ mod_model1_server <- function(id, theme){
                             "control_",name
                           )),
                           choices = model1_parameters[[name]],
-                          label = name,
+                          label = HTML(data.table::fcase(
+                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                            grepl(
+                              pattern = "educ",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                            grepl(
+                              pattern = "gender",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                            grepl(
+                              pattern = "socio",
+                              ignore.case = TRUE,
+                              x = name
+                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                          )),
                           multiple = TRUE,
                           selected = NULL,
                           search = TRUE,
@@ -331,7 +382,7 @@ mod_model1_server <- function(id, theme){
               card(
                 title = span(bsicons::bs_icon("table"), "Baselinetabel"),
                 body =  DT::dataTableOutput(
-                  ns("table2")
+                  ns("baseline")
                 )
               )
             ),
@@ -364,13 +415,61 @@ mod_model1_server <- function(id, theme){
 
 
               },
-              bslib::nav_menu(
+              bslib::nav_item(
+                bslib::popover(
+                  options = list(
+                    popoverMaxWidth = "400px"
+                  ),
+                  span(bsicons::bs_icon("gear"), "Effekter")
+                  ,
+                  lapply(
+                    1:5,
+                    function(x) {
+                      shiny::sliderInput(
+                        inputId = ns(paste0('effect_', x)),
+                        label = paste("Tid", x),
+                        width = "300px",
+                        value = 0,
+                        min = 0,
+                        max = 100
+                      )
+                    }
 
-                title = "Links",
-                bslib::nav_spacer(),
-                bslib::nav_item("link_shiny"),
-                bslib::nav_item("link_posit")
+                  ),
+                  title = "Effekter"
+                )
+                # shinyWidgets::dropdownButton(
+                #
+                #   tags$h4("Vælg Effekter"),
+                #   shiny::hr(),
+                #
+                # lapply(
+                #   1:5,
+                #   function(x) {
+                #     shiny::sliderInput(
+                #       inputId = ns(paste0('effect_', x)),
+                #       label = NULL,
+                #       width = '100%',
+                #       value = 0,
+                #       min = 0,
+                #       max = 100
+                #     )
+                #   }
+                #
+                # ),
+                #
+                #   circle = FALSE,
+                #   size = "default",
+                #   #status = "info",
+                #   icon = icon("gear"),
+                #   width = "300px",
+                #   label = "Vælg effekter",status = "primary",
+                #   tooltip = shinyWidgets::tooltipOptions(title = "Klik for at vælge effektstørrelse!")
+                # )
               )
+
+
+
 
             )
             # ,
@@ -489,9 +588,15 @@ mod_model1_server <- function(id, theme){
           DT = cooked_data(),
           effect = data.table::data.table(
             effect = c(
-              runif(
-                n = 5
-              )
+              0,
+              0,
+              0,
+              input$effect_1/100,
+              input$effect_2/100,
+              input$effect_3/100,
+              input$effect_4/100,
+              input$effect_5/100
+
             ),
             k_year = -2:5
           )
@@ -597,6 +702,120 @@ mod_model1_server <- function(id, theme){
         output[[paste0("cost_output", i)]] <- plotly::renderPlotly(generate_plotly_output(DT, "v_cost", "Omkostninger"))
         output[[paste0("qty_output", i)]] <- plotly::renderPlotly(generate_plotly_output(DT, "v_qty", "Antal"))
       })
+    })
+
+
+
+    output$baseline <- DT::renderDT({
+
+
+      message("rendering")
+
+
+      # treatment = list(
+      #   k_disease       = input$treatment_disease,
+      #   c_gender        = input$treatment_c_gender,
+      #   c_education     = input$treatment_c_education,
+      #   c_socioeconomic = input$treatment_c_socioeconomic,
+      #   c_age           = input$treatment_c_age
+      # ),
+      #
+      # control = list(
+      #   k_disease       = input$control_disease,
+      #   c_gender        = input$control_c_gender,
+      #   c_education     = input$control_c_education,
+      #   c_socioeconomic = input$control_c_socioeconomic,
+      #   c_age           = input$control_c_age
+      # )
+
+      recipe_list <- recipe(
+        treatment = list(
+          k_disease  = input$treatment_disease
+        ),
+        control = list(
+          k_disease = input$control_disease
+        )
+      )
+
+
+      DT <- extract_data(
+        DB_connection = DBI::dbConnect(
+          drv = RSQLite::SQLite(),
+          dbname = "inst/extdata/db"
+        ),
+        table = "baseline",
+        k_disease = c(
+          input$treatment_disease,
+          input$control_disease
+        )
+      )
+
+
+
+      # This filters all the
+      # data. We need a new function
+      # that sets to 0 if not chosen.
+      #
+      #
+      # NOTE: If empty, everything should
+      # be displayed.
+
+      DT <- prepare_data(
+        DT = DT,
+        recipe = recipe_list
+      )
+
+
+
+
+      DT[
+        ,
+        group := data.table::fcase(
+          default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+          grepl(
+            pattern = "educ",
+            ignore.case = TRUE,
+            x = k_variable
+          ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+          grepl(
+            pattern = "gender",
+            ignore.case = TRUE,
+            x = k_variable
+          ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+          grepl(
+            pattern = "socio",
+            ignore.case = TRUE,
+            x = k_variable
+          ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+        )
+        ,
+      ]
+
+      DT <-  data.table::dcast(
+        data = DT[c_type == "Incident"],
+        formula = c_variable + group ~ k_assignment,
+        value.var = "v_obs"
+      )
+
+      data.table::setorder(
+        DT,
+        -group
+      )
+
+      data.table::setcolorder(
+        DT,
+        c('c_variable', colnames(DT)[grepl(pattern = "valgt", ignore.case = TRUE, x = colnames(DT))])
+      )
+
+      data.table::setnames(
+        x = DT,
+        old = "c_variable",
+        new = "Karakteristika"
+      )
+      generate_table(
+        DT = DT,
+        header = NULL
+      )
     })
 
 

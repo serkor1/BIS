@@ -18,6 +18,7 @@
 clickable_card <- function(
     inputid,
     outputval,
+    width = "100%",
     ...) {
 
 
@@ -28,7 +29,9 @@ clickable_card <- function(
     # card
     div(
       id = inputid,
+      style = paste0("width: ", width, " !important;"),
       bslib::card(
+
         ... = ...,
         # NOTE: do NOT change
         # this class. It will break otherwise.
@@ -83,14 +86,13 @@ options_card <- function(
     width  = "100%",
     ...) {
 
-
-
-
   tagList(
     bslib::card(
       class = "options-card",
       style = paste0("width: ", width, " !important;"),
-      bslib::card_header(header),
+      if (!is.null(header)){
+        bslib::card_header(header)
+      },
       bslib::card_body(
         class = "options-card-body",
         ...
@@ -118,7 +120,7 @@ card <- function(
     full_screen = TRUE,
     height = "100%",
     #style = "overflow-y: auto;",
-    style = "margin-top: var(--bslib-mb-spacer);",
+   # style = "margin-top: var(--bslib-mb-spacer);",
     # Card header
     bslib::card_header(
       shiny::tags$div(

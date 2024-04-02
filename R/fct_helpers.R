@@ -107,5 +107,20 @@ create_tabs <- function(
 
 
 
+tooltip <- function(
+    msg) {
+
+
+    bslib::tooltip(
+      bsicons::bs_icon("info-circle"),
+      msg,
+      placement = "auto"
+    )
+
+}
+
+
+
+
 
 # script end;
