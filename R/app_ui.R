@@ -23,7 +23,7 @@ app_ui <- function(request) {
       theme = bslib::bs_theme(
         version =  5,
         preset = c("flatly"),
-        font_scale = .9
+        font_scale = 1 # Was 0.9
       ),
 
       # navbar content;
@@ -39,6 +39,8 @@ app_ui <- function(request) {
       # the spacer moves
       # everything to the
       # right
+
+
       bslib::nav_spacer(),
 
       # dark-mode toggle;
@@ -49,7 +51,11 @@ app_ui <- function(request) {
         )
       ),
 
+
+
+
       # github link;
+
       bslib::nav_item(
         shinyWidgets::actionBttn(
           inputId = "openLinkBtn",
@@ -61,14 +67,18 @@ app_ui <- function(request) {
         )
       ),
 
-      # page body;
-      bslib::layout_columns(
-        col_widths = 12,
-        row_heights = c(1,1),
-        uiOutput(
-          "body"
+      bslib::nav_panel_hidden(
+        value = "s",
+        # page body;
+        bslib::layout_columns(
+          col_widths = 12,
+          row_heights = c(1,1),
+          uiOutput(
+            "body"
+          )
         )
       )
+
 
       # main page end;
     )

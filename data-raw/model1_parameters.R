@@ -4,7 +4,7 @@
 # to data.base
 DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = "inst/extdata/db"
+  dbname = "inst/extdata/db_dev"
 )
 
 # 2) Extract all parameters
@@ -23,15 +23,15 @@ DT_list <- split(
 
 # 3.1) The diseases
 # should be split by type
-DT_list$k_disease[
-  ,
-    c('group', 'label') := data.table::tstrsplit(
-      label,
-      "_"
-    )
-
-  ,
-][]
+# DT_list$k_disease[
+#   ,
+#     c('group', 'label') := data.table::tstrsplit(
+#       label,
+#       "_"
+#     )
+#
+#   ,
+# ][]
 
 
 
@@ -44,14 +44,15 @@ model1_parameters <- lapply(
   FUN = function(DT) {
 
     input_parameters(
-      DT = DT,
-      as_list = if (any(
-        grepl(
-          pattern = "disease",
-          x = DT$variable
-        )
-      )
-    ) "group" else NULL
+      DT = DT
+    #
+    #   as_list = if (any(
+    #     grepl(
+    #       pattern = "disease",
+    #       x = DT$variable
+    #     )
+    #   )
+    # ) "group" else NULL
     )
 
 

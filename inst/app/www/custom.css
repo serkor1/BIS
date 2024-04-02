@@ -1,6 +1,36 @@
  /* Custom CSS */
 
 
+/* Global transition rule for background-color */
+* {
+
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+/*
+Add hover-effect on all cards. This
+has no specific use-case other
+than looking cool
+*/
+
+.card {
+  /* Initial card styles */
+  will-change: transform, opacity;
+  transition: transform 0.3s ease,
+  background-color 0.3s ease;
+  transform: scale(1); /* Initial scale */
+}
+
+.card:hover {
+  /* Hover effect */
+  transform: scale(1.01); /* Slightly grow in size */
+}
+
+
+
  /* disable highligthing on the app */
 html, body {
         -webkit-user-select: none; /* Safari */
@@ -9,10 +39,26 @@ html, body {
         user-select: none;         /* Non-prefixed version, currently supported by Chrome, Opera, and Edge */
       }
 
+
+/*
 .btn-transparent {
       background-color: transparent !important;
       border-color: transparent !important;
+      color: currentColor !important;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+
     }
+*/
+.btn-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: currentColor !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+
 
 
 /* Elevated cards */
@@ -29,21 +75,59 @@ html, body {
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         transform: scale(1.05);
         overflow: visible !important; transition: box-shadow 0.3s ease-in-out;
+        z-index: 99999999999 !important;
       }
 
 .options-card-body {
   position: relative;
-  z-index: 1000;
+  z-index: 9999999 !important;
   overflow: visible !important;
 }
 
-/*
-NOTE: This works but a new class is needed
-to avoid affecting the remaining cards
-see: https://stackoverflow.com/questions/78134389/how-to-allow-selectizeinput-in-bslib-to-overlap-card
-*/
 
-/*
-.card-body{overflow: visible !important;}
-.card{overflow: visible !important;}
-*/
+[data-bs-theme='light'] .bttn {
+  background-color: var(--bs-success) !important;
+  color: white !important;
+}
+
+[data-bs-theme='dark'] .bttn {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.btn {
+  --bs-btn-bg: transparent;
+}
+
+[data-bs-theme='light'] .btn {
+  color: black !important;
+  --bs-btn-border-color: var(--bs-border-color-translucent) !important;
+}
+
+[data-bs-theme='dark'] .btn {
+  color: white !important;
+  --bs-btn-border-color: var(--bs-border-color-translucent) !important;
+}
+
+
+.navbar {
+  transition: background-color 0.3s ease;
+}
+
+
+[data-bs-theme='light'] .pagination {
+  --bs-pagination-bg: var(--bs-success) !important;
+}
+
+[data-bs-theme='dark'] .pagination {
+  --bs-pagination-bg: var(--bs-primary) !important;
+}
+
+[data-bs-theme='dark'] table.dataTable thead tr {
+  --bs-table-bg: var(--bs-primary);
+}
+
+
+[data-bs-theme='light'] table.dataTable thead tr {
+  --bs-table-bg: var(--bs-success);
+}

@@ -40,6 +40,11 @@ app_server <- function(input, output, session) {
     theme = reactive({input$app_theme})
   )
 
+  mod_model2_server(
+    "model2",
+    theme = reactive({input$app_theme})
+  )
+
 
 
 
@@ -64,11 +69,22 @@ app_server <- function(input, output, session) {
         output$sidebar <- renderUI(
           ui$sidebar
         )
-      } else {
-        output$ui <- renderUI(
-          h1("model2")
-        )
       }
+
+      if (card_clicked() == "model2") {
+
+        # Generate UI
+        ui <- mod_model2_ui(
+          id = "model2"
+        )
+
+        output$body <- renderUI(
+          ui
+        )
+
+      }
+
+
 
 
 

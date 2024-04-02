@@ -19,7 +19,7 @@
 #' @return
 #' @export
 #'
-#' @examples
+#' @example
 input_parameters <- function(
     DT,
     value   = "value",
@@ -45,74 +45,80 @@ input_parameters <- function(
 }
 
 
-
-#
-#
-# create_tabs <- function(
-#     X,
-#     body = ...,
-#     header = ...
-# ) {
-#
-#
-#   dynamic_tabs <- lapply(X, function(x) {
-#     bslib::nav_panel(title = x, body)
-#   })
-#
-#   # Now add the non-dynamic parts like nav_spacer and nav_menu to the list
-#   dynamic_tabs <- c(dynamic_tabs, list(
-#     header
-#   ))
-#
-#   # Use do.call to pass the list of tabs as separate arguments
-#   do.call(bslib::navset_card_tab, c(
-#     dynamic_tabs,
-#     list(full_screen = TRUE, sidebar = NULL)
-#   ))
-#
-# }
-#
-#
-#
-# create_tabs(
-#   X = 1:10,
-#   body = p("s"),
-#   header = "s"
-# )
-
-
+#' Dynamically create multiple tabs
+#'
+#' @inheritParams base::lapply
+#' @inheritParams bslib::navset_card_tab
+#' @param fn A [function] to be passed into the body
+#' of the panel
+#' @param ...
+#'
+#' @returns A [shiny.tag]. More specifically a dynamically rendered
+#' navigation panel.
+#' @export
+#'
+#' @example man/examples/scr_renderTabs.R
 create_tabs <- function(
     X,
     fn,
-    header) {
+    ...) {
 
+  # 1) create tabs and
+  # tab content
+  dynamic_tabs <- lapply(
+    X = seq_along(X),
+    FUN = function(x) {
 
-  dynamic_tabs <- lapply(seq_along(X), function(x) {
-
-
-    body <- fn(x)
-
-    bslib::nav_panel(
-      title = as.character(X[x]),
-      body
+      bslib::nav_panel(
+        title = as.character(X[x]),
+        fn(x)
       )
-  }
+    }
   )
 
+  # 2) the created tabs
+  # cant have names other
+  # wise the function breaks
+  names(dynamic_tabs) <- NULL
 
- names(dynamic_tabs) <- NULL
-
-  # Add the header (or non-dynamic part) to the list
-  dynamic_tabs <- c(dynamic_tabs, list(bslib::nav_spacer(),header))
-
-  # Use do.call to pass the list of tabs as separate arguments
-  do.call(bslib::navset_card_tab, c(
+  # 3) this part is the fixed
+  # part of the tabs and applies globally
+  dynamic_tabs <- c(
     dynamic_tabs,
     list(
-      full_screen = TRUE,
-      sidebar = NULL)
-  ))
+      bslib::nav_spacer(),
+      ...
+    )
+  )
+
+  # 4) collaect all cards and store
+  # in navset_card_tab
+  do.call(
+    what = bslib::navset_card_tab,
+    args =  c(
+      dynamic_tabs,
+      list(
+        full_screen = TRUE,
+        sidebar = NULL
+      )
+    )
+  )
 }
+
+
+
+tooltip <- function(
+    msg) {
+
+
+    bslib::tooltip(
+      bsicons::bs_icon("info-circle"),
+      msg,
+      placement = "auto"
+    )
+
+}
+
 
 
 

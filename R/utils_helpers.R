@@ -1,47 +1,3 @@
-darkModeTheme <- function() {
-  list(
-    font = list(color = '#e0e0e0'), # Light grey for text
-    xaxis = list(
-      range=c(-2,5),
-      title = 'Tid',
-      gridcolor = '#444444', # Slightly lighter grey for grid lines
-      tickfont = list(color = '#e0e0e0') # Light grey for tick labels
-    ),
-    yaxis = list(
-      gridcolor = '#444444',
-      tickfont = list(color = '#e0e0e0')
-    ),
-    legend = list(
-      orientation = "h",
-      bgcolor = '#303030', # Match the plot background
-      font = list(color = '#e0e0e0') # Light grey for legend text
-    )
-  )
-}
-
-
-lightModeTheme <- function() {
-  list(
-    # plot_bgcolor = '#ffffff', # White background for the plotting area
-    # paper_bgcolor = '#f0f0f0', # Light grey for the surrounding paper
-    font = list(color = '#333333'), # Dark grey for text, ensuring readability
-    xaxis = list(
-      range=c(-2,5),
-      title = 'Tid',
-      gridcolor = '#cccccc', # Light grey for grid lines, subtle but visible
-      tickfont = list(color = '#333333') # Dark grey for tick labels
-    ),
-    yaxis = list(
-      gridcolor = '#cccccc',
-      tickfont = list(color = '#333333')
-    ),
-    legend = list(
-      orientation = "h",
-      bgcolor = '#f0f0f0', # Match the paper background
-      font = list(color = '#333333') # Dark grey for legend text
-    )
-  )
-}
 
 
 
@@ -155,49 +111,6 @@ subset_list <- function(
 #   )
 # }
 
-card <- function(
-    title  = "title",
-    header = NULL,
-    footer = NULL,
-    body   = NULL) {
-
-  bslib::card(
-    fill = TRUE,
-    full_screen = TRUE,
-    height = "100%",
-    #style = "overflow-y: auto;",
-    style = "margin-top: var(--bslib-mb-spacer);",
-    # Card header
-    bslib::card_header(
-      shiny::tags$div(
-        style = "display: flex; justify-content: space-between; align-items: center; width: 100%;",
-        shiny::tags$div(class = "custom-title", bslib::card_title(title)),
-        shiny::tags$div(
-          style = "margin-left: auto; ", # This will push all inside elements to the far right
-
-          header
-
-
-        )
-      )
-    ),
-
-    # Card Body
-    bslib::card_body(
-      shiny::tagList(
-        body
-      )
-    ),
-
-    bslib::card_footer(shiny::tagList(
-      footer
-    )
-    )
-  )
-
-}
-
-
 
 #' Add a pickerinput
 #'
@@ -227,7 +140,8 @@ picker_input <- function(
     selected = NULL,
     multiple = FALSE,
     search    = TRUE,
-    size     = "auto"
+    size     = "auto",
+    placeholder_text = "Intet valgt"
 ) {
 
   shiny::tagList(
@@ -242,7 +156,7 @@ picker_input <- function(
         size   = size,
         liveSearch = search,
         actionsBox = TRUE,
-        noneSelectedText = "Intet valgt",
+        noneSelectedText = placeholder_text,
         deselectAllText = "Fravælg alle",
         selectAllText   = "Vælg alle",
         noneResultsText = "Ingen match"

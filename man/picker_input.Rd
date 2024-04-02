@@ -11,7 +11,8 @@ picker_input(
   selected = NULL,
   multiple = FALSE,
   search = TRUE,
-  size = "auto"
+  size = "auto",
+  placeholder_text = "Intet valgt"
 )
 }
 \arguments{
