@@ -12,7 +12,234 @@ mod_model1_ui <- function(id){
 
   # main
   body <- tagList(
-    uiOutput(ns("body"))
+    bslib::layout_columns(
+      height = "100%",
+      col_widths = c(12),
+      row_heights = c(1,1),
+      # Upper part of Application;
+      bslib::layout_columns(
+        col_widths = c(6,6),
+        # Left Card;
+        card(
+          title = span(
+            bsicons::bs_icon(
+              name = "person"
+            ),
+            "Demografi"
+          ),
+          header = shiny::div(
+            style = "display: flex;",
+            shinyWidgets::switchInput(
+              label    = "Incidens",
+              onStatus = "primary",
+              inputId  = ns("c_type"),
+              width = "100%",size = "mini",
+              value = TRUE,
+              onLabel = bsicons::bs_icon("check",size = "1.5rem")
+            ),
+            picker_input(
+              inputid = ns("k_sector"),
+              label = NULL,
+              multiple = FALSE,
+              search = TRUE,
+              choices = model1_parameters$k_sector,
+              size = 10
+            ),
+            shinyWidgets::actionBttn(
+              inputId = ns("restart"),
+              label = NULL,
+              size = "sm",
+              style = "simple",
+              color = "primary",
+              #class = "btn-transparent",
+              icon = bsicons::bs_icon(
+                "arrow-counterclockwise"
+                #,size = "1.5rem"
+              )
+            )
+
+          ),
+
+          # header = shiny::div(
+          #   shiny::div(
+          #     style = "display: inline-block; vertical-align: top; margin-right: 1px;", # Add margin for some space between elements
+          #     shinyWidgets::switchInput(
+          #       label    = "Incidens",
+          #       onStatus = "primary",
+          #       inputId  = ns("c_type"),
+          #       width = "100%",size = "mini",
+          #       value = TRUE,
+          #       onLabel = bsicons::bs_icon("check",size = "1.5rem")
+          #     ),
+          #     picker_input(
+          #       inputid = ns("k_sector"),
+          #       label = NULL,
+          #       multiple = FALSE,
+          #       search = TRUE,
+          #       choices = model1_parameters$k_sector,
+          #       size = 10
+          #     ),
+          #     shinyWidgets::actionBttn(
+          #       inputId = ns("restart"),
+          #       label = NULL,
+          #       size = "sm",
+          #       style = "simple",
+          #       color = "primary",
+          #       #class = "btn-transparent",
+          #       icon = bsicons::bs_icon(
+          #         "arrow-counterclockwise"
+          #         #,size = "1.5rem"
+          #       )
+          #     )
+          #
+          #   ),
+          #
+          #   # picker_input(
+          #   #   inputid = ns("k_sector"),
+          #   #   label = NULL,
+          #   #   multiple = FALSE,
+          #   #   search = TRUE,
+          #   #   choices = model1_parameters$k_sector,
+          #   #   size = 10
+          #   # ),
+          #   # shinyWidgets::actionBttn(
+          #   #   inputId = ns("restart"),
+          #   #   label = NULL,
+          #   #   size = "sm",
+          #   #   style = "simple",
+          #   #   color = "primary",
+          #   #   #class = "btn-transparent",
+          #   #   icon = bsicons::bs_icon(
+          #   #     "arrow-counterclockwise"
+          #   #     #,size = "1.5rem"
+          #   #   )
+          #   # )
+          #
+          # ),
+          body = bslib::layout_columns(
+            col_widths = c(6,6),
+            bslib::card(
+              bslib::card_header(
+
+                shiny::p(
+                  bsicons::bs_icon("virus"),
+                  shiny::strong("Diagnose:"),
+                  "input$treatment_disease"
+
+                )
+              ),
+
+              lapply(
+                names(
+                  subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")
+                ),
+                function(name){
+                  picker_input(
+                    inputid = ns(paste0(
+                      "treatment_",name
+                    )),
+                    choices = model1_parameters[[name]],
+                    label = HTML(data.table::fcase(
+                      default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                      grepl(
+                        pattern = "educ",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                      grepl(
+                        pattern = "gender",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                      grepl(
+                        pattern = "socio",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                    )),
+                    multiple = TRUE,
+                    selected = NULL,
+                    search = TRUE,
+                    placeholder_text = "Alle valgt"
+                  )
+
+                }
+
+              )
+
+
+
+            ),
+            bslib::card(
+              bslib::card_header(
+                shiny::p(
+                  bsicons::bs_icon("virus2"),
+                  shiny::strong("Diagnose:"),
+                  "input$control_disease"
+
+                )
+              ),
+              lapply(
+                names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+                function(name){
+                  picker_input(
+                    inputid = ns(paste0(
+                      "control_",name
+                    )),
+                    choices = model1_parameters[[name]],
+                    label = HTML(data.table::fcase(
+                      default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                      grepl(
+                        pattern = "educ",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                      grepl(
+                        pattern = "gender",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                      grepl(
+                        pattern = "socio",
+                        ignore.case = TRUE,
+                        x = name
+                      ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                    )),
+                    multiple = TRUE,
+                    selected = NULL,
+                    search = TRUE,
+                    placeholder_text = "Alle valgt"
+                  )
+
+                }
+
+              )
+
+
+
+
+
+            )
+          )
+        ),
+        card(
+          title = span(bsicons::bs_icon("table"), "Baselinetabel"),
+          body =  DT::dataTableOutput(
+            ns("baseline")
+          )
+        )
+      ),
+
+      uiOutput(
+        ns("test")
+      )
+
+
+
+    )
+
+
+
   )
 
   sidebar <- tagList(
@@ -37,355 +264,17 @@ mod_model1_server <- function(id, theme){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
 
-    # Setup initial UI
-    landing <-bslib::layout_columns(
-      col_widths = c(12),
-      row_heights = c(1,1),
-      div(class="dim-overlay",
-          div(class="card-container",
-              div(
-                class = "d-flex justify-content-center align-items-center",
-                style = "height: 100%;",  # This ensures the div takes the full viewport height
-
-                bslib::layout_columns(
-                  col_widths = c(12),
-                  row_heights = c(1,1),
-                  bslib::layout_columns(
-                    row_heights = c(1,1),
-                    col_widths = c(4,4,4),
-                    options_card(
-                      header = span(bsicons::bs_icon("virus"),"Sygdomsgruppe"),
-                      footer = NULL,
-                      width  = "20vw",
-                      picker_input(
-                        inputid = ns("treatment_disease"),
-                        label = NULL,
-                        multiple = FALSE,
-                        search = TRUE,
-                        choices = model1_parameters$k_disease,
-                        size = 10
-                      )
-                    ),
-                    options_card(
-                      header = span(bsicons::bs_icon("virus2"),"Sammenligningsgruppe"),
-                      footer = NULL,
-                      width  = "20vw",
-                      picker_input(
-                        inputid = ns("control_disease"),
-                        label = NULL,
-                        multiple = FALSE,
-                        search = TRUE,
-                        choices = model1_parameters$k_disease,
-                        size = 10
-                      )
-
-                    ),
-                    options_card(
-                      header = span(bsicons::bs_icon("building-add"), "Sektor"),
-                      footer = NULL,
-                      width  = "20vw",
-                      picker_input(
-                        inputid = ns("k_sector"),
-                        label = NULL,
-                        multiple = FALSE,
-                        search = TRUE,
-                        choices = model1_parameters$k_sector,
-                        size = 10
-                      )
-
-                    ),
-
-
-
-
-
-
-                  ),
-                  shinyWidgets::actionBttn(
-                    block = TRUE,
-                    inputId =  ns("start"),
-                    label = "Start",
-                    style = "float",
-                    no_outline = TRUE,
-                    color = "default",
-                    icon = icon("bars")
-                  )
-                )
-
-
-
-
-
-
-              )
-          )
-
-      )
-    )
-
-
-
-    output$body <- shiny::renderUI(
-      landing
-    )
-
-    observeEvent(
-      input$restart,
-      ignoreInit = TRUE,
-      ignoreNULL = TRUE,
-      {
-
-        # 0) Upon restart
-        # the choices should be
-        # updated with earlier
-        # picked values
-        shinyWidgets::updatePickerInput(
-          inputId = "treatment_disease",
-          selected = input$treatment_disease
-        )
-
-        shinyWidgets::updatePickerInput(
-          inputId = "control_disease",
-          selected = input$control_disease
-        )
-
-        shinyWidgets::updatePickerInput(
-          inputId = "k_sector",
-          selected = input$k_sector
-        )
-
-
-
-
-        output$body <- shiny::renderUI(
-          landing
-        )
-
-
-
-
-      }
-
-
-
-
-    )
-
 
 
     observeEvent(
-      input$start,
-      ignoreInit = TRUE,
-      ignoreNULL = TRUE,
+      input$actions,
+      ignoreNULL = FALSE,
+      ignoreInit = FALSE,
       {
-        # 0) define parameters
-        #
-        # prefix is the prefix of the
-        # input id
-        #
-        # the pattern is name of the input
-        # ids
-        prefixes <- c("treatment_", "control_")
-
-        patterns <- names(
-          subset_list(
-            list = model1_parameters,
-            pattern = "age|educ|gender|socio"
-          )
-        )
-
-        # 1) Update all choices
-        # by iterating over all inputids
-        # for both treatment and control
-        #
-        #
-        # NOTE: This updates ALL values
-        # regardless of wether it has changed.
-        # This might be suboptimal
-        lapply(
-          X   = patterns,
-          FUN = function(name) {
-
-            lapply(
-              X = prefixes,
-              FUN = function(prefix) {
-                shinyWidgets::updatePickerInput(
-                  inputId = paste0(prefix, name),
-                  selected = input[[paste0(prefix, name)]]
-                )
-              }
-            )
-
-          }
-        )
-
-        # 2) Update the c_type
-        # switcher input
-        shinyWidgets::updateSwitchInput(
-          inputId = "c_type",
-          value   = input$c_type
-        )
-
-      }
-    )
+        output$test <- shiny::renderUI(
+          {
 
 
-    observeEvent(
-      input$start,
-      ignoreInit = TRUE,
-      ignoreNULL = TRUE,
-      {
-
-
-
-
-
-        output$body <- shiny::renderUI(
-          bslib::layout_columns(
-            height = "100%",
-            col_widths = c(12),
-            row_heights = c(1,1),
-            bslib::layout_columns(
-              col_widths = c(6,6),
-              card(
-                title = span(bsicons::bs_icon(name = "person"),"Demografi"),
-                header = shiny::div(
-                  div(style = "display: inline-block; vertical-align: top; margin-right: 1px;", # Add margin for some space between elements
-                      shinyWidgets::switchInput(
-                        label    = "Incidens",
-                        onStatus = "primary",
-                        inputId  = ns("c_type"),
-                        width = "100%",size = "mini",
-                        value = TRUE,
-                        onLabel = bsicons::bs_icon("check",size = "1.5rem")
-                      )
-                  ),
-                  shinyWidgets::actionBttn(
-                    inputId = ns("restart"),
-                    label = NULL,
-                    size = "sm",
-                    style = "simple",
-                    color = "primary",
-                    #class = "btn-transparent",
-                    icon = bsicons::bs_icon(
-                      "arrow-counterclockwise"
-                      #,size = "1.5rem"
-                    )
-                  )
-
-                ),
-                body = bslib::layout_columns(
-                  col_widths = c(6,6),
-                  bslib::card(
-                    bslib::card_header(
-
-                      shiny::p(
-                        bsicons::bs_icon("virus"),
-                        shiny::strong("Diagnose:"),
-                        input$treatment_disease
-
-                      )
-                    ),
-
-
-                    lapply(
-                      names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
-                      function(name){
-                        picker_input(
-                          inputid = ns(paste0(
-                            "treatment_",name
-                          )),
-                          choices = model1_parameters[[name]],
-                          label = HTML(data.table::fcase(
-                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-                            grepl(
-                              pattern = "educ",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-                            grepl(
-                              pattern = "gender",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-                            grepl(
-                              pattern = "socio",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-                          )),
-                          multiple = TRUE,
-                          selected = NULL,
-                          search = TRUE,
-                          placeholder_text = "Alle valgt"
-                        )
-
-                      }
-
-                    )
-
-
-
-                  ),
-                  bslib::card(
-                    bslib::card_header(
-                      shiny::p(
-                        bsicons::bs_icon("virus2"),
-                        shiny::strong("Diagnose:"),
-                        input$control_disease
-
-                      )
-                    ),
-                    lapply(
-                      names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
-                      function(name){
-                        picker_input(
-                          inputid = ns(paste0(
-                            "control_",name
-                          )),
-                          choices = model1_parameters[[name]],
-                          label = HTML(data.table::fcase(
-                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-                            grepl(
-                              pattern = "educ",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-                            grepl(
-                              pattern = "gender",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-                            grepl(
-                              pattern = "socio",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-                          )),
-                          multiple = TRUE,
-                          selected = NULL,
-                          search = TRUE,
-                          placeholder_text = "Alle valgt"
-                        )
-
-                      }
-
-                    )
-
-
-
-
-
-                  )
-                )
-              ),
-              card(
-                title = span(bsicons::bs_icon("table"), "Baselinetabel"),
-                body =  DT::dataTableOutput(
-                  ns("baseline")
-                )
-              )
-            ),
 
             create_tabs(
               X = model1_parameters$sector[k_sector %chin% c(input$k_sector)]$k_allocator,
@@ -437,54 +326,456 @@ mod_model1_server <- function(id, theme){
 
                   ),
                   title = "Effekter"
+
+                ),
+
+                shinyWidgets::actionBttn(
+                  inputId = ns("actions"),
+                  label = NULL,
+                  size = "sm",
+                  style = "simple",
+                  color = "warning",
+                  #class = "btn-transparent",
+                  icon = bsicons::bs_icon(
+                    "arrow-counterclockwise"
+                    #,size = "1.5rem"
+                  )
                 )
-                # shinyWidgets::dropdownButton(
-                #
-                #   tags$h4("Vælg Effekter"),
-                #   shiny::hr(),
-                #
-                # lapply(
-                #   1:5,
-                #   function(x) {
-                #     shiny::sliderInput(
-                #       inputId = ns(paste0('effect_', x)),
-                #       label = NULL,
-                #       width = '100%',
-                #       value = 0,
-                #       min = 0,
-                #       max = 100
-                #     )
-                #   }
-                #
-                # ),
-                #
-                #   circle = FALSE,
-                #   size = "default",
-                #   #status = "info",
-                #   icon = icon("gear"),
-                #   width = "300px",
-                #   label = "Vælg effekter",status = "primary",
-                #   tooltip = shinyWidgets::tooltipOptions(title = "Klik for at vælge effektstørrelse!")
-                # )
-              )
+              ),
+              height = "100%"
 
 
 
 
             )
-            # ,
+
+
+            # dynamic_tabs <- lapply(
+            #   X = 1:sample(5:10,size = 1),
+            #   FUN = function(x) {
             #
-            # card(
-            #   title = span(bsicons::bs_icon("bar-chart-steps"), "Resultater"),
-            #   body =  DT::dataTableOutput(
-            #     ns("table3")
+            #     Sys.sleep(0.5)
+            #
+            #     bslib::nav_panel(
+            #       title = as.character(paste("title", x)),
+            #       x
+            #     )
+            #   }
+            # )
+            #
+            # dynamic_tabs <- c(
+            #   dynamic_tabs,
+            #   list(
+            #     bslib::nav_spacer(),
+            #     bslib::nav_item(
+            #
+                  # shinyWidgets::actionBttn(
+                  #   inputId = ns("actions"),
+                  #   label = NULL,
+                  #   size = "sm",
+                  #   style = "simple",
+                  #   color = "warning",
+                  #   #class = "btn-transparent",
+                  #   icon = bsicons::bs_icon(
+                  #     "arrow-counterclockwise"
+                  #     #,size = "1.5rem"
+                  #   )
+                  # )
+            #     )
             #   )
             # )
-          )
+            #
+            # do.call(
+            #   what = bslib::navset_card_tab,
+            #   args =  c(
+            #     dynamic_tabs,
+            #     list(
+            #       full_screen = TRUE,
+            #       sidebar = NULL,
+            #       height = "100%"
+            #     )
+            #   )
+            # )
 
+
+            # lapply(
+            #   1:10,
+            #   bslib::nav_panel,
+            #   "he"
+            # )
+
+          }
         )
       }
     )
+
+
+    # Setup initial UI
+    landing <-bslib::layout_columns(
+      col_widths = c(12),
+      row_heights = c(1,1),
+      div(class="dim-overlay",
+          div(class="card-container",
+              div(
+                class = "d-flex justify-content-center align-items-center",
+                style = "height: 100%;",  # This ensures the div takes the full viewport height
+
+                bslib::layout_columns(
+                  col_widths = c(12),
+                  row_heights = c(1,1),
+                  bslib::layout_columns(
+                    row_heights = c(1,1),
+                    col_widths = c(6,6),
+                    options_card(
+                      header = span(bsicons::bs_icon("virus"),"Sygdomsgruppe"),
+                      footer = NULL,
+                      width  = "20vw",
+                      picker_input(
+                        inputid = ns("treatment_disease"),
+                        label = NULL,
+                        multiple = FALSE,
+                        search = TRUE,
+                        choices = model1_parameters$k_disease,
+                        size = 10
+                      )
+                    ),
+                    options_card(
+                      header = span(bsicons::bs_icon("virus2"),"Sammenligningsgruppe"),
+                      footer = NULL,
+                      width  = "20vw",
+                      picker_input(
+                        inputid = ns("control_disease"),
+                        label = NULL,
+                        multiple = FALSE,
+                        search = TRUE,
+                        choices = model1_parameters$k_disease,
+                        size = 10
+                      )
+
+                    )
+                  ),
+                  shinyWidgets::actionBttn(
+                    block = TRUE,
+                    inputId =  ns("start"),
+                    label = "Start",
+                    style = "float",
+                    no_outline = TRUE,
+                    color = "default",
+                    icon = icon("bars")
+                  )
+                )
+
+              )
+          )
+
+      )
+    )
+
+
+
+
+    observeEvent(
+      input$restart,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
+      {
+
+        # 0) Upon restart
+        # the choices should be
+        # updated with earlier
+        # picked values
+        shinyWidgets::updatePickerInput(
+          inputId = "treatment_disease",
+          selected = input$treatment_disease
+        )
+
+        shinyWidgets::updatePickerInput(
+          inputId = "control_disease",
+          selected = input$control_disease
+        )
+
+        shinyWidgets::updatePickerInput(
+          inputId = "k_sector",
+          selected = input$k_sector
+        )
+
+
+
+
+        output$body <- shiny::renderUI(
+          landing
+        )
+
+
+
+
+      }
+
+
+
+
+    )
+
+
+
+
+
+    # this is start button
+    # within the second part
+    observeEvent(
+      input$start,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
+      {
+        removeModal()
+
+        # 0) define parameters
+        #
+        # prefix is the prefix of the
+        # input id
+        #
+        # the pattern is name of the input
+        # ids
+        prefixes <- c("treatment_", "control_")
+
+        patterns <- names(
+          subset_list(
+            list = model1_parameters,
+            pattern = "age|educ|gender|socio"
+          )
+        )
+
+        # 1) Update all choices
+        # by iterating over all inputids
+        # for both treatment and control
+        #
+        #
+        # NOTE: This updates ALL values
+        # regardless of wether it has changed.
+        # This might be suboptimal
+        lapply(
+          X   = patterns,
+          FUN = function(name) {
+
+            lapply(
+              X = prefixes,
+              FUN = function(prefix) {
+                shinyWidgets::updatePickerInput(
+                  inputId = paste0(prefix, name),
+                  selected = input[[paste0(prefix, name)]]
+                )
+              }
+            )
+
+          }
+        )
+
+        # 2) Update the c_type
+        # switcher input
+        shinyWidgets::updateSwitchInput(
+          inputId = "c_type",
+          value   = input$c_type
+        )
+
+
+
+
+
+      }
+    )
+
+
+
+
+    observeEvent(
+      input$restart,
+      ignoreInit = TRUE,
+      ignoreNULL = TRUE,
+      {
+
+
+        showModal(
+          landing
+        )
+
+
+
+      }
+    )
+
+
+
+
+    # observeEvent(
+    #   input$start,
+    #   ignoreInit = TRUE,
+    #   ignoreNULL = TRUE,
+    #   {
+    #
+    #
+    #
+    #
+    #
+    #     output$body <- shiny::renderUI(
+    #       bslib::layout_columns(
+    #         height = "100%",
+    #         col_widths = c(12),
+    #         row_heights = c(1,1),
+    #         bslib::layout_columns(
+    #           col_widths = c(6,6),
+    #           card(
+    #             title = span(bsicons::bs_icon(name = "person"),"Demografi"),
+    #             header = shiny::div(
+    #               div(style = "display: inline-block; vertical-align: top; margin-right: 1px;", # Add margin for some space between elements
+    #                   shinyWidgets::switchInput(
+    #                     label    = "Incidens",
+    #                     onStatus = "primary",
+    #                     inputId  = ns("c_type"),
+    #                     width = "100%",size = "mini",
+    #                     value = TRUE,
+    #                     onLabel = bsicons::bs_icon("check",size = "1.5rem")
+    #                   )
+    #               ),
+    #               shinyWidgets::actionBttn(
+    #                 inputId = ns("restart"),
+    #                 label = NULL,
+    #                 size = "sm",
+    #                 style = "simple",
+    #                 color = "primary",
+    #                 #class = "btn-transparent",
+    #                 icon = bsicons::bs_icon(
+    #                   "arrow-counterclockwise"
+    #                   #,size = "1.5rem"
+    #                 )
+    #               )
+    #
+    #             ),
+    #             body = bslib::layout_columns(
+    #               col_widths = c(6,6),
+    #               bslib::card(
+    #                 bslib::card_header(
+    #
+    #                   shiny::p(
+    #                     bsicons::bs_icon("virus"),
+    #                     shiny::strong("Diagnose:"),
+    #                     input$treatment_disease
+    #
+    #                   )
+    #                 ),
+    #
+    #
+    #                 lapply(
+    #                   names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+    #                   function(name){
+    #                     picker_input(
+    #                       inputid = ns(paste0(
+    #                         "treatment_",name
+    #                       )),
+    #                       choices = model1_parameters[[name]],
+    #                       label = HTML(data.table::fcase(
+    #                         default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+    #                         grepl(
+    #                           pattern = "educ",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+    #                         grepl(
+    #                           pattern = "gender",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+    #                         grepl(
+    #                           pattern = "socio",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+    #                       )),
+    #                       multiple = TRUE,
+    #                       selected = NULL,
+    #                       search = TRUE,
+    #                       placeholder_text = "Alle valgt"
+    #                     )
+    #
+    #                   }
+    #
+    #                 )
+    #
+    #
+    #
+    #               ),
+    #               bslib::card(
+    #                 bslib::card_header(
+    #                   shiny::p(
+    #                     bsicons::bs_icon("virus2"),
+    #                     shiny::strong("Diagnose:"),
+    #                     input$control_disease
+    #
+    #                   )
+    #                 ),
+    #                 lapply(
+    #                   names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+    #                   function(name){
+    #                     picker_input(
+    #                       inputid = ns(paste0(
+    #                         "control_",name
+    #                       )),
+    #                       choices = model1_parameters[[name]],
+    #                       label = HTML(data.table::fcase(
+    #                         default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+    #                         grepl(
+    #                           pattern = "educ",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+    #                         grepl(
+    #                           pattern = "gender",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+    #                         grepl(
+    #                           pattern = "socio",
+    #                           ignore.case = TRUE,
+    #                           x = name
+    #                         ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+    #                       )),
+    #                       multiple = TRUE,
+    #                       selected = NULL,
+    #                       search = TRUE,
+    #                       placeholder_text = "Alle valgt"
+    #                     )
+    #
+    #                   }
+    #
+    #                 )
+    #
+    #
+    #
+    #
+    #
+    #               )
+    #             )
+    #           ),
+    #           card(
+    #             title = span(bsicons::bs_icon("table"), "Baselinetabel"),
+    #             body =  DT::dataTableOutput(
+    #               ns("baseline")
+    #             )
+    #           )
+    #         )
+    #         # ,
+    #         #
+    #         # card(
+    #         #   title = span(bsicons::bs_icon("bar-chart-steps"), "Resultater"),
+    #         #   body =  DT::dataTableOutput(
+    #         #     ns("table3")
+    #         #   )
+    #         # )
+    #       )
+    #
+    #     )
+    #   }
+    # )
+
 
 
 
@@ -535,6 +826,7 @@ mod_model1_server <- function(id, theme){
 
 
     prepared_data <- reactive({
+
 
       shiny::req(input$treatment_disease)
       shiny::req(input$control_disease)
@@ -817,6 +1109,10 @@ mod_model1_server <- function(id, theme){
         header = NULL
       )
     })
+
+
+
+
 
 
 
