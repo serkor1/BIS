@@ -20,7 +20,10 @@ darkModeTheme <- function() {
     ),
     legend = list(
       orientation = 'h',
-      bgcolor = '#303030'
+      x = 0,
+      y = 100,
+      yref="container",
+      bgcolor = 'transparent'
       # , # Match the plot background
       # font = list(color = '#e0e0e0') # Light grey for legend text
     )
@@ -47,7 +50,10 @@ lightModeTheme <- function() {
     ),
     legend = list(
       orientation = 'h',
-      bgcolor = '#f0f0f0'
+      x = 0,
+      y = 100,
+      yref="container",
+      bgcolor = 'transparent'
       # , # Match the paper background
       # font = list(color = '#333333') # Dark grey for legend text
     )

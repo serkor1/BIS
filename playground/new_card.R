@@ -88,6 +88,79 @@
 library(shiny)
 library(bslib)
 
+new_card <- function(
+    header = list(
+      title = "title",
+      content = ...
+    ),
+    ...
+    ) {
+
+  bslib::card(
+    bslib::card_header(
+      div(class = "card-header-divs",
+          div(
+            class = "header-title",
+            bslib::card_title(header$title)
+            ),
+          do.call(
+            div,
+            args = list(
+              class = "header-right",
+              lapply(
+                header$content,
+                function(content){
+                  div(class = "header-div", content)
+                }
+
+              )
+            )
+          )
+
+      )
+    ),
+    ...
+  )
+
+
+}
+
+foo <- function(
+    header = list(
+      title = "title",
+      content = ...
+    )) {
+
+  do.call(
+    div,
+    args = list(
+      class = "header-right",
+      lapply(
+        header$content,
+        function(content){
+          div(class = "header-div", content)
+        }
+
+      )
+    )
+  )
+
+
+}
+
+foo(
+  header = list(
+    title  = "title",
+    content = list(
+      "First",
+      "SEcond"
+    )
+  )
+)
+
+
+
+
 ui <- bslib::page(
   # Apply some custom CSS for layout and vertical centering
   tags$head(
@@ -112,19 +185,30 @@ ui <- bslib::page(
     "))
   ),
 
-  bslib::card(
-    bslib::card_header(
-      div(class = "card-header-divs",
-          div(class = "header-title", bslib::card_title("Title")),
-          div(class = "header-right",
-              div(class = "header-div", "Left Div Content"),
-              div(class = "header-div", "Middle Div Content"),
-              div(class = "header-div", "Right Div Content")
-          )
+  card(
+    header = list(
+      title = "My card",
+      content = list(
+        actionButton("1", label = "First"),
+        actionButton("2", label = "First")
       )
-    ),
-    "This is the main content of the card."
-  )
+    )
+    )
+
+
+  # bslib::card(
+  #   bslib::card_header(
+  #     div(class = "card-header-divs",
+  #         div(class = "header-title", bslib::card_title("Title")),
+  #         div(class = "header-right",
+  #             div(class = "header-div", "Left Div Content"),
+  #             div(class = "header-div", "Middle Div Content"),
+  #             div(class = "header-div", "Right Div Content")
+  #         )
+  #     )
+  #   ),
+  #   "This is the main content of the card."
+  # )
 )
 
 server <- function(input, output, session) {

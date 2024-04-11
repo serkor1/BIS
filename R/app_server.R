@@ -35,10 +35,7 @@ app_server <- function(input, output, session) {
     model = card_clicked
   )
 
-  mod_model1_server(
-    "model1",
-    theme = reactive({input$app_theme})
-  )
+
 
   mod_model2_server(
     "model2",
@@ -60,6 +57,12 @@ app_server <- function(input, output, session) {
         # Generate UI
         ui <- mod_model1_ui(
           id = "model1"
+
+        )
+
+        mod_model1_server(
+          "model1",
+          theme = reactive({input$app_theme})
         )
 
         output$body <- renderUI(

@@ -8,6 +8,24 @@
 }
 
 
+.card-header-divs {
+        display: flex;
+        justify-content: space-between;  /* Aligns items on both ends */
+        align-items: center;  /* Centers items vertically in the header */
+        width: 100%;  /* Ensures the header takes full width */
+      }
+      .header-title {
+        flex-grow: 1;  /* Allows the title to take necessary space */
+      }
+      .header-right {
+        display: flex;
+        justify-content: flex-end;  /* Aligns the divs to the right */
+        align-items: center;  /* Ensures divs are vertically centered within their container */
+      }
+      .header-div {
+        margin: 0 2px;  /* Adjust or remove margin as needed */
+      }
+
 
 
 /*
@@ -61,6 +79,10 @@ html, body {
 
 
 
+.clickable-card {
+   width: 20vw; /* Set width as viewport-width dependent */
+}
+
 /* Elevated cards */
 .clickable-card:hover {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -68,7 +90,21 @@ html, body {
   transition: box-shadow 0.3s ease-in-out;
   cursor: pointer;
   user-select: none;
+
 }
+
+
+
+@media (max-width: 1920px) {
+          .clickable-card {
+            width: auto; /* Fixed width for smaller screens */
+          }
+        }
+
+
+
+
+
 
 
 .options-card:hover {

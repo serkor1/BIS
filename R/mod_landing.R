@@ -48,23 +48,10 @@ mod_landing_ui <- function(id){
               class = "d-flex justify-content-center align-items-center",
               style = "height: 100%;",  # This ensures the div takes the full viewport height
               bslib::layout_columns(
-                # div(id = ns("clickableCard1"),
-                #     bslib::card(
-                #       title = "Clickable Card 1",
-                #       "Click me to trigger a server action for Model 1.",
-                #       style = "cursor: pointer;"
-                #     )
-                # ),
-                # div(id = ns("clickableCard2"),
-                #     bslib::card(
-                #       title = "Clickable Card 2",
-                #       "Click me to trigger a server action for Model 2.",
-                #       style = "cursor: pointer;"
-                #     )
-                # )
-                # ,
+                col_widths = c(6,6),
                 clickable_card(
-                  inputid = ns("model1"),width = "20vw",
+                  inputid = ns("model1"),
+                  width = "100%",
                   bslib::card_header(
                     shiny::span(
                       bsicons::bs_icon("box"),
@@ -76,13 +63,13 @@ mod_landing_ui <- function(id){
                     Beregn sundhedsøkonomiske omkostninger
                     af forskellige sygdomme.
                     "
-                    ),
+                  ),
                   outputval = "model1"
 
                 ),
                 clickable_card(
                   inputid = ns("model2"),
-                  width = "20vw",
+                  width = "100%",
                   bslib::card_header(
                     shiny::span(
                       bsicons::bs_icon("box"),
@@ -94,10 +81,11 @@ mod_landing_ui <- function(id){
                     Beregn produktivitetstab ved syge
                     børn.
                     "
-                    ),
+                  ),
                   outputval = "model2"
 
                 )
+
               )
 
 
