@@ -31,7 +31,7 @@ mod_model1_ui <- function(id){
                 inputid = ns("k_sector"),
                 label = NULL,
                 multiple = FALSE,
-                search = TRUE,
+                search = FALSE,
                 choices = model1_parameters$k_sector,
                 size = 10
               ),
@@ -65,12 +65,12 @@ mod_model1_ui <- function(id){
               bslib::card(
                 bslib::card_header(
 
-                  shiny::p(
-                    bsicons::bs_icon("virus"),
-                    shiny::strong("Diagnose:"),
-                    "input$treatment_disease"
 
+                  shiny::uiOutput(
+                    outputId = ns("treatment_disease_label")
                   )
+
+
                 ),
 
                 bslib::card_body(
@@ -123,12 +123,10 @@ mod_model1_ui <- function(id){
 
               bslib::card(
                 bslib::card_header(
-                  shiny::p(
-                    bsicons::bs_icon("virus2"),
-                    shiny::strong("Diagnose:"),
-                    "input$control_disease"
-
+                  shiny::uiOutput(
+                    outputId = ns("control_disease_label")
                   )
+
                 ),
                 bslib::card_body(
                   style = "gap: 25px !important;",
@@ -227,6 +225,7 @@ mod_model1_ui <- function(id){
 mod_model1_server <- function(id, theme, init){
   moduleServer( id, function(input, output, session){
     ns <- session$ns
+
 
 
 
@@ -719,6 +718,35 @@ mod_model1_server <- function(id, theme, init){
       }
     )
 
+
+    output$control_disease_label <- shiny::renderUI(
+      {
+
+        shiny::p(
+          bsicons::bs_icon("virus2"),
+          shiny::strong("Diagnose:"),
+          input$control_disease
+
+        )
+      }
+    )
+
+
+    output$treatment_disease_label <- shiny::renderUI(
+      {
+
+        shiny::p(
+          bsicons::bs_icon("virus"),
+          shiny::strong("Diagnose:"),
+          input$treatment_disease
+
+        )
+      }
+    )
+
+
+
+
     # 2) Extract data from
     # SQL database
     DT <- shiny::reactive(
@@ -1019,8 +1047,8 @@ mod_model1_server <- function(id, theme, init){
 
       data.table::setnames(
         x = DT,
-        old = "c_variable",
-        new = "Karakteristika"
+        old = c("c_variable", "control", "treatment"),
+        new = c("Karakteristika", input$control_disease, input$treatment_disease)
       )
       generate_table(
         DT = DT,

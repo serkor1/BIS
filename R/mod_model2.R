@@ -12,111 +12,135 @@ mod_model2_ui <- function(id){
   tagList(
 
     bslib::layout_columns(
-      col_widths = c(4,8),
+      col_widths = 12,
+      row_heights = c("auto", "auto"),
+      min_height = "100%",
+      bslib::layout_columns(
+        col_widths = c(4,8),
 
-      # 1) Parameter-card
-      card(
-        title = span(bsicons::bs_icon(name = "gear"), "Parametre"),
-        header = shiny::div(
-          bslib::popover(
-            options = "400px",
-            span(bsicons::bs_icon("gear"), "Sygedage"),
-            shiny::sliderInput(
-              inputId = ns("effect"),
-              label   = "Sygedage",
-              width   = "300px",
-              value   = 1,
-              min     = 1,
-              max     = 28
+        # 1) Parameter-card
+        card(
+
+          header = list(
+            title = span(bsicons::bs_icon(name = "gear"), "Parametre"),
+            content =list(
+              bslib::popover(
+                options = "400px",
+                span(bsicons::bs_icon("gear"), "Sygedage"),
+                shiny::sliderInput(
+                  inputId = ns("effect"),
+                  label   = "Sygedage",
+                  width   = "300px",
+                  value   = 1,
+                  min     = 1,
+                  max     = 28
+                )
+              )
             )
+          ),
+
+          bslib::layout_columns(
+            col_widths = 12,
+            row_heights = "auto",
+
+            shiny::div(
+              options_card(
+                header = NULL,
+                footer = NULL,
+                width = "100%",
+                picker_input(
+                  inputid = ns("k_sector"),
+                  label   = "Aldersgruppe",
+                  choices = model2_parameters$k_sector,
+                  multiple = TRUE,
+                  selected = model2_parameters$k_sector,
+                  search = TRUE,
+                  placeholder_text = "Intet valgt"
+
+                )
+              ),
+              options_card(
+                header = NULL,
+                footer = NULL,
+                width = "100%",
+                picker_input(
+                  inputid = ns("k_education"),
+                  label   = "Udannelsesniveau",
+                  choices = model2_parameters$k_education,
+                  multiple = TRUE,
+                  selected = model2_parameters$k_education,
+                  search = FALSE,
+                  placeholder_text = "Intet valgt"
+
+                )
+              ),
+              options_card(
+                header = NULL,
+                footer = NULL,
+                width = "100%",
+                picker_input(
+                  inputid = ns("k_allocator"),
+                  label   = "Hvem tager sygedagen?",
+                  choices = model2_parameters$k_allocator,
+                  multiple = TRUE,
+                  selected = model2_parameters$k_allocator,
+                  search = FALSE,
+                  placeholder_text = "Intet valgt"
+
+                )
+              )
+            )
+
+
+
+
+
           )
         ),
-        body = bslib::layout_columns(
-          col_widths = 12,
-          options_card(
-            header = NULL,
-            footer = NULL,
-            width = "100%",
-            picker_input(
-              inputid = ns("k_sector"),
-              label   = "Aldersgruppe",
-              choices = model2_parameters$k_sector,
-              multiple = TRUE,
-              selected = model2_parameters$k_sector,
-              search = TRUE,
-              placeholder_text = "Intet valgt"
 
+        # 2) table-card
+        # for the tabular output
+        card(
+          header = list(
+            title = span(bsicons::bs_icon("table"), "Resultater"),
+            content = list(
+              tooltip(
+                msg = c(
+                  "Viser resultaterne i Tableform. Samme som forneden"
+                )
+              )
             )
           ),
-          options_card(
-            header = NULL,
-            footer = NULL,
-            width = "100%",
-            picker_input(
-              inputid = ns("k_education"),
-              label   = "Udannelsesniveau",
-              choices = model2_parameters$k_education,
-              multiple = TRUE,
-              selected = model2_parameters$k_education,
-              search = FALSE,
-              placeholder_text = "Intet valgt"
-
-            )
-          ),
-          options_card(
-            header = NULL,
-            footer = NULL,
-            width = "100%",
-            picker_input(
-              inputid = ns("k_allocator"),
-              label   = "Hvem tager sygedagen?",
-              choices = model2_parameters$k_allocator,
-              multiple = TRUE,
-              selected = model2_parameters$k_allocator,
-              search = FALSE,
-              placeholder_text = "Intet valgt"
-
-            )
+          DT::dataTableOutput(
+            outputId = ns("table")
           )
 
         )
       ),
 
+
+      # 3) plot-card
+      # for the plotly output
       # 2) table-card
       # for the tabular output
       card(
-        title = span(bsicons::bs_icon("table"), "Resultater"),
-        header = shiny::div(
-          tooltip(
-            msg = c(
-              "Viser resultaterne i Tableform. Samme som forneden"
+        header = list(
+          title = span(bsicons::bs_icon("table"), "Resultater"),
+          content = list(
+            tooltip(
+              msg = c(
+                "Viser resultaterne i Tableform. Samme som forneden"
+              )
             )
           )
         ),
-        body = DT::dataTableOutput(
-          outputId = ns("table")
+        plotly::plotlyOutput(
+          outputId = ns("plot")
         )
       )
-    ),
 
-
-    # 3) plot-card
-    # for the plotly output
-    # 2) table-card
-    # for the tabular output
-    card(
-      title = span(bsicons::bs_icon("table"), "Resultater"),
-      header = shiny::div(
-        tooltip(
-          msg = c(
-            "Viser resultaterne i Tableform. Samme som forneden"
-          )
-        )
-      ),
-      body = plotly::plotlyOutput(
-        outputId = ns("plot")
-      )
     )
+
 
   )
 }

@@ -42,10 +42,10 @@ than looking cool
   transform: scale(1); /* Initial scale */
 }
 
+/*
 .card:hover {
-  /* Hover effect */
-  transform: scale(1.01); /* Slightly grow in size */
-}
+  transform: scale(1.01);
+}*/
 
 
 
