@@ -44,6 +44,12 @@ mod_model1_ui <- function(id){
                 value = TRUE,
                 onLabel = bsicons::bs_icon("check",size = "1.5rem")
               ),
+
+              shiny::downloadButton(
+                outputId = ns("downloader"),
+                label = "Eksporter",
+              ),
+
               shinyWidgets::actionBttn(
                 inputId = ns("restart"),
                 label = NULL,
@@ -754,11 +760,9 @@ mod_model1_server <- function(id, theme, init){
 
         req(input$start)
 
-
         extract_data(
           DB_connection = DB_connection,
           table         = "model1",
-          k_sector      = input$k_sector,
           k_disease     = c(
             input$treatment_disease,
             input$control_disease)
@@ -837,11 +841,59 @@ mod_model1_server <- function(id, theme, init){
     )
 
 
+    output$downloader <- shiny::downloadHandler(
+      filename = function() {
+        paste('workbook.xlsx', sep="")
+      },
+      content = function(file) {
+
+        # 1) start download indicator
+        # after user clicks downlaod
+        showNotification(
+          ui = shiny::span(bsicons::bs_icon("download"), "Downloader..."),
+          action = NULL,
+          duration = NULL,
+          closeButton = FALSE,
+          id = "download_indicator",
+          type = c("default"),
+          session = getDefaultReactiveDomain()
+        )
+
+
+        wb <- create_workbook(
+          DT = flavored_data(),
+          f  = expression(DT$k_sector)
+        )
+
+
+        openxlsx::saveWorkbook(
+          wb = wb,
+          file = file,
+          overwrite = TRUE
+        )
+
+
+
+
+        # 6) Close notification
+        removeNotification("download_indicator", session = getDefaultReactiveDomain())
+
+
+
+
+      }
+    )
+
+
+
+
+
     final_data <- shiny::reactive(
       {
 
         flavored_data()[
-          k_assignment %chin% c('control', 'treatment', 'counter_factual')
+          k_assignment %chin% c('control', 'treatment', 'counter_factual') &
+            k_sector  %chin% input$k_sector,
         ][
           ,
           k_assignment := data.table::fcase(

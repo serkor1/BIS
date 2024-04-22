@@ -24,6 +24,10 @@ mod_model2_ui <- function(id){
           header = list(
             title = span(bsicons::bs_icon(name = "gear"), "Parametre"),
             content =list(
+              shiny::downloadButton(
+                outputId = ns("downloader"),
+                label = "Eksporter",
+              ),
               bslib::popover(
                 options = "400px",
                 span(bsicons::bs_icon("gear"), "Sygedage"),
@@ -208,6 +212,49 @@ mod_model2_server <- function(id, theme){
         return(
           DT
         )
+
+      }
+    )
+
+
+    output$downloader <- shiny::downloadHandler(
+      filename = function() {
+        paste('workbook.xlsx', sep="")
+      },
+      content = function(file) {
+
+        # 1) start download indicator
+        # after user clicks downlaod
+        showNotification(
+          ui = shiny::span(bsicons::bs_icon("download"), "Downloader..."),
+          action = NULL,
+          duration = NULL,
+          closeButton = FALSE,
+          id = "download_indicator",
+          type = c("default"),
+          session = getDefaultReactiveDomain()
+        )
+
+
+        wb <- create_workbook(
+          DT = DT_aggregate()
+        )
+
+
+        openxlsx::saveWorkbook(
+          wb = wb,
+          file = file,
+          overwrite = TRUE
+        )
+
+
+
+
+        # 6) Close notification
+        removeNotification("download_indicator", session = getDefaultReactiveDomain())
+
+
+
 
       }
     )

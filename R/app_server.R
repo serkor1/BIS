@@ -5,6 +5,7 @@
 #' @import shiny
 #' @noRd
 app_server <- function(input, output, session) {
+
   # Your application server logic
   card_clicked <- mod_landing_server(
     "landing",
@@ -30,17 +31,7 @@ app_server <- function(input, output, session) {
   )
 
 
-  mod_data_server(
-    id = "data",
-    model = card_clicked
-  )
 
-
-
-  mod_model2_server(
-    "model2",
-    theme = reactive({input$app_theme})
-  )
 
 
 
@@ -79,6 +70,12 @@ app_server <- function(input, output, session) {
         # Generate UI
         ui <- mod_model2_ui(
           id = "model2"
+        )
+
+
+        mod_model2_server(
+          "model2",
+          theme = reactive({input$app_theme})
         )
 
         output$body <- renderUI(
