@@ -292,17 +292,6 @@ mod_model2_server <- function(id, theme){
     )
 
 
-    # reactivePlotTheme <- reactive({
-    #
-    #   if(theme() == "light") {
-    #
-    #     lightModeTheme()
-    #
-    #   } else {
-    #
-    #     darkModeTheme()
-    #   }
-    # })
 
 
     output$plot <- plotly::renderPlotly(

@@ -65,22 +65,21 @@ mod_model1_ui <- function(id){
 
             )
           ),
+
+          # Demographics conent:
           bslib::card_body(
             bslib::layout_columns(
               col_widths = c(6,6),
-              bslib::card(
-                bslib::card_header(
 
-
-                  shiny::uiOutput(
+              # treatment-group parameters
+              card(
+                header = list(
+                  title = shiny::uiOutput(
                     outputId = ns("treatment_disease_label")
-                  )
+                  )),
 
-
-                ),
-
+                # content
                 bslib::card_body(
-
                   style = "gap: 25px !important;",
                   lapply(
                     names(
@@ -120,20 +119,14 @@ mod_model1_ui <- function(id){
 
                   )
                 )
-
-
-
-
-
               ),
 
-              bslib::card(
-                bslib::card_header(
-                  shiny::uiOutput(
+              # control group parameters
+              card(
+                header = list(
+                  title = shiny::uiOutput(
                     outputId = ns("control_disease_label")
-                  )
-
-                ),
+                  )),
                 bslib::card_body(
                   style = "gap: 25px !important;",
                   lapply(
@@ -172,11 +165,6 @@ mod_model1_ui <- function(id){
 
                   )
                 )
-
-
-
-
-
 
               )
             )

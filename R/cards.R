@@ -203,7 +203,7 @@ card <- function(
       div(class = "card-header-divs",
           div(
             class = "header-title",
-            bslib::card_title(header$title)
+            header$title
           ),
           do.call(
             div,
