@@ -190,7 +190,7 @@ mod_model2_server <- function(id, theme){
               v_cost,
               na.rm = TRUE
             )/sum(v_weight, na.rm = TRUE)
-          ) * input$effect)
+            ) * input$effect)
           ,
           by = .(
             k_sector,
@@ -198,15 +198,15 @@ mod_model2_server <- function(id, theme){
           )
         ]
 
-       DT[
-         ,
-         k_allocator := data.table::fcase(
-           default = "Delt",
-           k_allocator %chin% 'low', "Lavest Uddannede",
-           k_allocator %chin% "high", "Højest Uddannede"
-         )
-         ,
-       ]
+        DT[
+          ,
+          k_allocator := data.table::fcase(
+            default = "Delt",
+            k_allocator %chin% 'low', "Lavest Uddannede",
+            k_allocator %chin% "high", "Højest Uddannede"
+          )
+          ,
+        ]
 
 
         return(
@@ -292,66 +292,48 @@ mod_model2_server <- function(id, theme){
     )
 
 
-    reactivePlotTheme <- reactive({
-
-      if(theme() == "light") {
-
-        lightModeTheme()
-
-      } else {
-
-        darkModeTheme()
-      }
-    })
+    # reactivePlotTheme <- reactive({
+    #
+    #   if(theme() == "light") {
+    #
+    #     lightModeTheme()
+    #
+    #   } else {
+    #
+    #     darkModeTheme()
+    #   }
+    # })
 
 
     output$plot <- plotly::renderPlotly(
       {
 
-        theme <- reactivePlotTheme()
-
-
-        plotly::layout(
-          p = plotly::layout(
-            p = plotly::plot_ly(
-              data  = DT_aggregate(),
-              y     = ~factor(
-                k_sector,
-                levels = c('0-2 år', '3-6 år', '7-11 år', '12-17 år')
-              ),
-              x     = ~v_cost,
-              color = ~k_allocator,
-              type = "bar",
-              orientation = "h",
-              alpha = 0.7,
-              marker = list(
-                line = list(
-                  color = 'black',
-                  width = 1.5))),
-            legend = theme$legend,
-            xaxis = theme$xaxis,
-            yaxis = theme$yaxis,
-            plot_bgcolor = 'rgb(0,0,0,0)',
-            paper_bgcolor ='rgb(0,0,0,0)',
-            font = theme$font
-
-
-
+        layout(
+          plot = plot(
+            data = DT_aggregate(),
+            y     = setNames("factor(
+              k_sector,
+              levels = c('0-2 år', '3-6 år', '7-11 år', '12-17 år')
+            )",
+            nm = "Aldersgruppe"),
+            x     = setNames(
+              object = "v_cost",
+              nm = "Ugentlig produktionstab pr. forældre (kr.)"
+            ),
+            color = ~k_allocator,
+            type = "bar",
+            orientation = "h",
+            alpha = 0.7,
+            marker = list(
+              line = list(
+                color = 'black',
+                width = 1.5))
           ),
-          yaxis = list(
-            title = "Aldersgruppe"
-          ),
-          xaxis = list(
-            title = "Ugentlig produktionstab pr. forældre (kr.)"
+          title = "title",
+          dark = as.logical(
+            theme() == "dark"
           )
         )
-
-
-
-
-
-
-
       }
     )
 
