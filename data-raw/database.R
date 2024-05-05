@@ -35,7 +35,7 @@ DT_list <- list(
 # database
 DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = 'inst/extdata/db',
+  dbname = 'inst/extdata/db.sqlite',
 )
 
 # 3) clear table if any;

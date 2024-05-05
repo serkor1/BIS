@@ -4,7 +4,7 @@
 # to data.base
 DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = "inst/extdata/db"
+  dbname = "inst/extdata/db.sqlite"
 )
 
 # 2) Extract all parameters
