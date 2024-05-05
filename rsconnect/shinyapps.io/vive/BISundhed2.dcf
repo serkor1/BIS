@@ -5,7 +5,7 @@ account: vive
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11609553
-bundleId: 8524547
+bundleId: 8535848
 url: https://vive.shinyapps.io/BISundhed2/
 version: 1
 asMultiple: FALSE
