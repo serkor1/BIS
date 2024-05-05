@@ -9,7 +9,7 @@
 DT <- extract_data(
   DB_connection = DBI::dbConnect(
     drv = RSQLite::SQLite(),
-    dbname = "inst/extdata/db"
+    dbname = "inst/extdata/db.sqlite"
   )
 )
 
@@ -94,7 +94,8 @@ DT <- data.table::rbindlist(
               ]
 
             }
-          )
+          ),
+          fill = TRUE
         )
 
       }
@@ -106,7 +107,8 @@ DT <- data.table::rbindlist(
   }
 
 
-)
+),
+fill = TRUE
 )
 
 DT[
@@ -118,7 +120,7 @@ DT[
 
 DB_connection = DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = "inst/extdata/db"
+  dbname = "inst/extdata/db.sqlite"
 )
 
 
@@ -128,3 +130,4 @@ DBI::dbWriteTable(
   name = 'baseline',
   overwrite = TRUE
 )
+

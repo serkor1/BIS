@@ -729,14 +729,14 @@ mod_model1_server <- function(id, theme, init){
       shiny::req(input$k_sector)
 
       seq_along(
-        unique(cooked_data()$k_allocator)
+        unique(final_data()$k_allocator)
       )
     })
 
 
     plotting_data <- reactive(
       {
-        req(input$c_type)
+        #req(input$c_type)
         lapply(
           num_tables(),
           function(i) {
@@ -744,7 +744,7 @@ mod_model1_server <- function(id, theme, init){
               test = input$c_type,
               yes = "Incident",
               no = "Prævalent"
-            )][k_allocator %chin% unique(flavored_data()$k_allocator)[i]]
+            )][k_allocator %chin% unique(final_data()$k_allocator)[i]]
           }
         )
       }
@@ -760,6 +760,8 @@ mod_model1_server <- function(id, theme, init){
         function(i) {
 
           DT <- data_list[[i]]
+
+          message(paste0("cost_output", i))
 
           output[[paste0("cost_output", i)]] <- plotly::renderPlotly(
             {
@@ -849,7 +851,7 @@ mod_model1_server <- function(id, theme, init){
       DT <- extract_data(
         DB_connection = DBI::dbConnect(
           drv = RSQLite::SQLite(),
-          dbname = "inst/extdata/db"
+          dbname = "inst/extdata/db.sqlite"
         ),
         table = "baseline",
         k_disease = c(

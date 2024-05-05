@@ -7,7 +7,7 @@
 
 DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = "inst/extdata/db"
+  dbname = "inst/extdata/db.sqlite"
 )
 
 # script end;
