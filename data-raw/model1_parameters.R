@@ -16,6 +16,7 @@ DT <- extract_data(
 )
 
 # 3) split by variable
+#
 DT_list <- split(
   x = DT,
   f = DT$variable
