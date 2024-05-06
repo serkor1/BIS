@@ -27,41 +27,82 @@ mod_model1_ui <- function(id){
             title = shiny::span(bsicons::bs_icon(name = "person"), "Demografi"),
             content = list(
 
-              picker_input(
-                inputid = ns("k_sector"),
-                label = NULL,
-                multiple = FALSE,
-                search = FALSE,
-                choices = model1_parameters$k_sector,
-                size = 10
-              ),
-              shinyWidgets::switchInput(
-                label    = "Incidens",
-                onStatus = "primary",
-                inputId  = ns("c_type"),
-                width = "100%",
-                size = "small",
-                value = TRUE,
-                onLabel = bsicons::bs_icon("check",size = "1.5rem")
-              ),
 
-              shiny::downloadButton(
-                outputId = ns("downloader"),
-                label = "Eksporter",
-              ),
+              bslib::popover(
+                id = ns("choice_popover"),
+                trigger = span(bsicons::bs_icon("gear"), "Menu"),
+                options = list(
+                  popoverMaxWidth = "400px"
+                ),
+                title = span(bsicons::bs_icon("gear"), "Menu"),
 
-              shinyWidgets::actionBttn(
-                inputId = ns("restart"),
-                label = NULL,
-                size = "m",
-                style = "simple",
-                color = "primary",
-                #class = "btn-transparent",
-                icon = bsicons::bs_icon(
-                  "arrow-counterclockwise"
-                  #,size = "1.5rem"
+                bslib::layout_columns(
+                  col_widths = 12,
+
+                  # chosing sector
+                  # for each outcome
+                  picker_input(
+                    inputid  = ns("k_sector"),
+                    label    = "Udfaldsmål",
+                    multiple = FALSE,
+                    search   = FALSE,
+                    choices  = model1_parameters$k_sector,
+                    size     = 10
+                  ),
+
+
+
+
+                  shinyWidgets::radioGroupButtons(
+                    inputId = ns("c_type"),
+                    label = "Patienttype",
+                    justified = TRUE,
+                    choices = model1_parameters$c_type,
+                    status = "primary"
+                  ),
+
+
+
+
+                  # Add restart and
+                  # export buttons side-by-side
+                  bslib::layout_columns(
+                    col_widths = c(6,6),
+
+                    shinyWidgets::downloadBttn(
+                      outputId = ns("downloader"),
+                      label = "Eksporter",
+                      size = "s",
+                      style = "simple",
+                      color = "primary"
+
+                    ),
+
+                    shinyWidgets::actionBttn(
+                      inputId = ns("restart"),
+                      label = "Genstart",
+                      size = "s",
+                      style = "simple",
+                      color = "primary",
+                      #class = "btn-transparent",
+                      icon = bsicons::bs_icon(
+                        "arrow-counterclockwise"
+                        #,size = "1.5rem"
+                      )
+                    )
+                  )
+
                 )
+
+
+
               )
+
+
+
+
+
+
 
             )
           ),
@@ -270,7 +311,7 @@ mod_model1_server <- function(id, theme, init){
                   options = list(
                     popoverMaxWidth = "400px"
                   ),
-                  span(bsicons::bs_icon("gear"), "Effekter")
+                  span(bsicons::bs_icon("sliders"), "Effekter")
                   ,
                   lapply(
                     1:5,
@@ -477,9 +518,9 @@ mod_model1_server <- function(id, theme, init){
 
         # 2) Update the c_type
         # switcher input
-        shinyWidgets::updateSwitchInput(
+        shinyWidgets::updateRadioGroupButtons(
           inputId = "c_type",
-          value   = input$c_type
+          selected = input$c_type
         )
 
 
@@ -498,6 +539,9 @@ mod_model1_server <- function(id, theme, init){
       ignoreInit = TRUE,
       ignoreNULL = TRUE,
       {
+
+
+        bslib::toggle_popover(show = FALSE,id = "choice_popover")
 
 
         showModal(
@@ -740,11 +784,7 @@ mod_model1_server <- function(id, theme, init){
         lapply(
           num_tables(),
           function(i) {
-            final_data()[c_type %chin% data.table::fifelse(
-              test = input$c_type,
-              yes = "Incident",
-              no = "Prævalent"
-            )][k_allocator %chin% unique(final_data()$k_allocator)[i]]
+            final_data()[c_type %chin% input$c_type][k_allocator %chin% unique(final_data()$k_allocator)[i]]
           }
         )
       }
@@ -760,8 +800,6 @@ mod_model1_server <- function(id, theme, init){
         function(i) {
 
           DT <- data_list[[i]]
-
-          message(paste0("cost_output", i))
 
           output[[paste0("cost_output", i)]] <- plotly::renderPlotly(
             {
@@ -902,7 +940,7 @@ mod_model1_server <- function(id, theme, init){
       ]
 
       DT <-  data.table::dcast(
-        data = DT[c_type == "Incident"],
+        data = DT[c_type == input$c_type],
         formula = c_variable + group ~ k_assignment,
         value.var = "v_obs"
       )

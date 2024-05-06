@@ -182,3 +182,17 @@ html .btn-close {
 [data-bs-theme='light'] table.dataTable thead tr {
   --bs-table-bg: var(--bs-success);
 }
+
+
+
+
+
+[data-bs-theme='dark'] .btn-check:checked+.btn {
+  background-color: var(--bs-primary) !important;
+  border-color: transparent !important;
+}
+
+[data-bs-theme='light'] .btn-check:checked+.btn {
+  background-color:  var(--bs-success) !important;
+  border-color: transparent !important;
+}
