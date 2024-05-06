@@ -120,6 +120,21 @@ html, body {
   overflow: visible !important;
 }
 
+[data-bs-theme='dark'] .popover {
+  --bs-popover-header-bg: var(--bs-primary) !important;
+  color: white !important;
+}
+
+[data-bs-theme='light'] .popover {
+  --bs-popover-header-bg: var(--bs-success) !important;
+  color: white !important;
+}
+
+
+html .btn-close {
+  --bs-btn-close-opacity: 1 !important;
+  color: white !important;
+}
 
 [data-bs-theme='light'] .bttn {
   background-color: var(--bs-success) !important;
