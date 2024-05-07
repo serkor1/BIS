@@ -3,7 +3,6 @@
 
 /* Global transition rule for background-color */
 * {
-
   transition: background-color 0.3s ease;
 }
 
@@ -168,11 +167,20 @@ html .btn-close {
 
 [data-bs-theme='light'] .pagination {
   --bs-pagination-bg: var(--bs-success) !important;
+  --bs-pagination-disabled-bg: var(--bs-success) !important;
+  --bs-pagination-hover-bg: var(--bs-success-text-emphasis) !important;
+  --bs-pagination-active-bg: var(--bs-success-text-emphasis) !important;
 }
+
 
 [data-bs-theme='dark'] .pagination {
   --bs-pagination-bg: var(--bs-primary) !important;
+  --bs-pagination-disabled-bg: var(--bs-primary) !important;
+  --bs-pagination-hover-bg: var(--bs-primary-border-subtle) !important;
+  --bs-pagination-active-bg: var(--bs-primary-border-subtle) !important;
 }
+
+
 
 [data-bs-theme='dark'] table.dataTable thead tr {
   --bs-table-bg: var(--bs-primary);
