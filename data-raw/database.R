@@ -252,6 +252,22 @@ DBI::dbWriteTable(
   overwrite = TRUE
 )
 
+
+# 6) write model 2
+DT <- data.table::fread(
+  "inst/extdata/model2.csv"
+)
+
+
+DBI::dbWriteTable(
+  conn      = DB_connection,
+  value     = DT,
+  name      = "model2",
+  overwrite = TRUE
+)
+
+
+
 # script end;
 cli::cli_inform(
   message = c(
