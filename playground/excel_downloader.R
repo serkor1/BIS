@@ -58,103 +58,36 @@ DT_list <- split(
   DT$k_sector
 )
 
+DT_list <- lapply(
+  X = DT_list,
+  function(DT) {
 
-wb <- openxlsx::createWorkbook(
-  title = "Title"
-)
+    effect_data(
+      DT = DT,
+      effect = data.table::data.table(
+        effect = c(
+          0,
+          0,
+          0,
+          50/100,
+          50/100,
+          50/100,
+          50/100,
+          50/100
 
-sheet_name <- names(DT_list)
-
-
-lapply(
-  sheet_name,
-  function(name) {
-
-    openxlsx::addWorksheet(
-      wb = wb,
-      sheetName = name
-    )
-
-    openxlsx::writeDataTable(
-      wb = wb,
-      x = DT_list[[name]],
-      sheet = name
+        ),
+        k_year = -2:5
+      )
     )
 
   }
 )
 
 
-openxlsx::saveWorkbook(
-  wb = wb,
-  file = "playground/wb.xlsx"
+
+as_table(
+  DT = DT_list[[1]][c_type %chin% 'Incident']
 )
-
-
-
-
-
-create_workbook <- function(
-    DT,
-    f = NULL) {
-
-
-  if (!is.null(f)) {
-
-    DT_list <- split(
-      x = DT,
-      f = f
-    )
-
-  } else {
-
-    DT_list <- list(
-      DT
-    )
-
-    names(DT_list) <- "data"
-
-  }
-
-
-  # 1) create workbook
-  # locally
-  wb <- openxlsx::createWorkbook()
-
-  # 2) write data
-  # while createing sheets
-  invisible({
-    lapply(
-      X = names(DT_list),
-      FUN = function(name) {
-
-        # 2.1) add worksheet
-        # to the data
-        openxlsx::addWorksheet(
-          wb = wb,
-          sheetName = name
-        )
-
-        # 2.2) write as datatable
-        # to the work sheet
-        openxlsx::writeDataTable(
-          wb = wb,
-          x = DT_list[[name]],
-          sheet = name
-        )
-
-      }
-    )
-  })
-
-
-  wb
-
-
-}
-
-
-
 
 
 

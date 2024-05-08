@@ -731,7 +731,9 @@ mod_model1_server <- function(id, theme, init){
 
 
         wb <- create_workbook(
-          DT = flavored_data(),
+          DT = as_table(flavored_data()[
+            c_type %chin% input$c_type]
+            ),
           f  = expression(DT$k_sector)
         )
 
