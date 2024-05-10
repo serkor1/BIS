@@ -394,7 +394,7 @@ mod_model1_server <- function(id, theme, init){
                         label = NULL,
                         multiple = FALSE,
                         search = TRUE,
-                        choices = model1_parameters$k_disease,
+                        choices = c("Befolkningen", model1_parameters$k_disease),
                         size = 10
                       )
 
@@ -416,14 +416,6 @@ mod_model1_server <- function(id, theme, init){
 
       )
     )
-
-
-
-
-
-
-
-
 
 
 
@@ -582,7 +574,14 @@ mod_model1_server <- function(id, theme, init){
           ),
 
           control = list(
-            k_disease       = input$control_disease,
+            k_disease       = data.table::fifelse(
+              test = grepl(
+                x = input$control_disease,
+                pattern = "befolkning",
+                ignore.case = TRUE
+                ),
+              yes = paste0("pop_",input$treatment_disease),
+              no  = input$control_disease),
             c_gender        = input$control_c_gender,
             c_education     = input$control_c_education,
             c_socioeconomic = input$control_c_socioeconomic,
@@ -627,15 +626,51 @@ mod_model1_server <- function(id, theme, init){
     # SQL database
     DT <- shiny::reactive(
       {
-
         req(input$start)
 
-        extract_data(
+        treatment_disease <- input$treatment_disease
+        control_disease   <- input$control_disease
+
+        # extract data;
+        DT_ <- extract_data(
           DB_connection = DB_connection,
           table         = "model1",
           k_disease     = c(
-            input$treatment_disease,
-            input$control_disease)
+            treatment_disease,
+            control_disease
+            )
+        )
+
+        # NOTE: if general population
+        # is chosen then it wont return anything
+        # for the control
+        # it is in a different table
+        if (grepl(pattern = "befolkning", x = control_disease,ignore.case = TRUE)) {
+
+
+          DT_pop <- extract_data(
+            DB_connection = DB_connection,
+            table         = "population",
+            k_disease     = c(
+              treatment_disease
+            )
+          )
+
+          DT_pop[
+            ,
+            k_disease := paste0("pop_", k_disease)
+            ,
+          ]
+
+          DT_ <- rbind(
+            DT_,
+            DT_pop
+          )
+
+        }
+
+        return(
+          DT_
         )
       }
     )
