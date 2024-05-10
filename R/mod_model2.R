@@ -24,82 +24,75 @@ mod_model2_ui <- function(id){
           header = list(
             title = span(bsicons::bs_icon(name = "gear"), "Parametre"),
             content =list(
-              shiny::downloadButton(
-                outputId = ns("downloader"),
-                label = "Eksporter",
-              ),
               bslib::popover(
-                options = "400px",
-                span(bsicons::bs_icon("gear"), "Sygedage"),
-                shiny::sliderInput(
-                  inputId = ns("effect"),
-                  label   = "Sygedage",
-                  width   = "300px",
-                  value   = 1,
-                  min     = 1,
-                  max     = 28
+                id = ns("choice_popover"),
+                trigger = span(bsicons::bs_icon("gear"), "Menu"),
+                options = list(
+                  popoverMaxWidth = "400px"
+                ),
+                title = span(bsicons::bs_icon("gear"), "Menu"),
+
+                bslib::layout_columns(
+                  col_widths = 12,
+                  shiny::sliderInput(
+                    inputId = ns("effect"),
+                    label   = "Sygedage",
+                    width   = "300px",
+                    value   = 1,
+                    min     = 1,
+                    max     = 28
+                  ),
+
+                  shinyWidgets::downloadBttn(
+                    outputId = ns("downloader"),
+                    label = "Eksporter",
+                    size = "s",
+                    style = "simple",
+                    color = "primary"
+
+                  )
                 )
+
               )
             )
           ),
 
-          bslib::layout_columns(
-            col_widths = 12,
-            row_heights = "auto",
+          bslib::card_body(
+            picker_input(
+              inputid = ns("k_sector"),
+              label   = "Aldersgruppe",
+              choices = model2_parameters$k_sector,
+              multiple = TRUE,
+              selected = model2_parameters$k_sector,
+              search = TRUE,
+              placeholder_text = "Intet valgt"
 
-            shiny::div(
-              options_card(
-                header = NULL,
-                footer = NULL,
-                width = "100%",
-                picker_input(
-                  inputid = ns("k_sector"),
-                  label   = "Aldersgruppe",
-                  choices = model2_parameters$k_sector,
-                  multiple = TRUE,
-                  selected = model2_parameters$k_sector,
-                  search = TRUE,
-                  placeholder_text = "Intet valgt"
+            ),
+            picker_input(
+              inputid = ns("k_education"),
+              label   = "Udannelsesniveau",
+              choices = model2_parameters$k_education,
+              multiple = TRUE,
+              selected = model2_parameters$k_education,
+              search = FALSE,
+              placeholder_text = "Intet valgt"
 
-                )
-              ),
-              options_card(
-                header = NULL,
-                footer = NULL,
-                width = "100%",
-                picker_input(
-                  inputid = ns("k_education"),
-                  label   = "Udannelsesniveau",
-                  choices = model2_parameters$k_education,
-                  multiple = TRUE,
-                  selected = model2_parameters$k_education,
-                  search = FALSE,
-                  placeholder_text = "Intet valgt"
+            ),
 
-                )
-              ),
-              options_card(
-                header = NULL,
-                footer = NULL,
-                width = "100%",
-                picker_input(
-                  inputid = ns("k_allocator"),
-                  label   = "Hvem tager sygedagen?",
-                  choices = model2_parameters$k_allocator,
-                  multiple = TRUE,
-                  selected = model2_parameters$k_allocator,
-                  search = FALSE,
-                  placeholder_text = "Intet valgt"
+            picker_input(
+              inputid = ns("k_allocator"),
+              label   = "Hvem tager sygedagen?",
+              choices = model2_parameters$k_allocator,
+              multiple = TRUE,
+              selected = model2_parameters$k_allocator,
+              search = FALSE,
+              placeholder_text = "Intet valgt"
 
-                )
-              )
             )
 
-
-
-
-
           )
+
+
         ),
 
         # 2) table-card

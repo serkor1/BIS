@@ -1,0 +1,12 @@
+name: BIS2
+title: BIS2
+username: vive
+account: vive
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 11378998
+bundleId: 8591139
+url: https://vive.shinyapps.io/BIS2/
+version: 1
+asMultiple: FALSE
+asStatic: FALSE
