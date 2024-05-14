@@ -5,7 +5,10 @@
 # script start;
 
 as_table_model1 <- function(
-    DT
+    DT,
+    treatment_disease,
+    control_disease,
+    effect_data
 ) {
 
   # 0) sort data by
@@ -21,27 +24,57 @@ as_table_model1 <- function(
         value.var = value.var
       )
 
+      data.table::setcolorder(
+        x = DT,
+        neworder = c(
+          "k_year", "k_sector", "k_allocator", "c_type",
+          "treatment",
+          "control",
+          "difference",
+          "counter_factual"
+        )
+      )
+
       data.table::setnames(
         x = DT,
         old = c("control", "counter_factual", "difference", "treatment"),
         new = paste(
-          c("control", "counter_factual", "difference", "treatment"),
+          c(
+            paste0("Sammenligningsgruppe: ", control_disease),
+            "Kontrafaktisk [Valgt Gruppe]",
+            "Forskel",
+            paste0("Valgt Gruppe: ", treatment_disease)
+
+            ),
           data.table::fifelse(
             test = value.var == "v_qty",
             yes  = "(Forbrug)",
             no   = "(Omkostninger)"
           )
+
+          )
         )
-      )
+
 
 
     }
   )
 
+
   DT <- do.call(
     merge,
     DT_list
   )
+
+
+
+
+  DT <- merge(
+          x = DT,
+          y = effect_data,
+          by = "k_year",
+          all.x = TRUE
+        )
 
   data.table::setkey(
     x = DT,
@@ -49,6 +82,24 @@ as_table_model1 <- function(
     k_allocator,
     k_year
   )
+
+  data.table::setnames(
+    x = DT,
+    skip_absent = TRUE,
+    old = c(
+      "k_year",
+      "k_allocator",
+      "c_type",
+      "effect"
+    ),
+    new = c(
+      "Tid",
+      "Byrdemål",
+      "Patienttype",
+      "Effekt (%)")
+  )
+
+
 
   DT
 
@@ -58,8 +109,10 @@ as_table_model1 <- function(
 
 as_table <- function(
     DT,
-    model = 1
-) {
+    treatment_disease = NULL,
+    control_disease = NULL,
+    model = 1,
+    effect_data = NULL) {
 
   # 0) assert the
   # passed DT class
@@ -76,7 +129,10 @@ as_table <- function(
   DT <- get(
     x = paste0("as_table_model", model)
   )(
-    DT = DT
+    DT = DT,
+    treatment_disease = treatment_disease,
+    control_disease = control_disease,
+    effect_data = effect_data
   )
 
 

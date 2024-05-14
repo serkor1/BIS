@@ -123,148 +123,148 @@ mod_model1_ui <- function(id){
                       "Den valgte gruppes karakteristika"
                     )
                   )
-                  ),
-
-                  # content
-                  bslib::card_body(
-                    style = "gap: 5px !important;",
-                    lapply(
-                      names(
-                        subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")
-                      ),
-                      function(name){
-                        picker_input(
-                          inputid = ns(paste0(
-                            "treatment_",name
-                          )),
-                          choices = model1_parameters[[name]],
-                          label = HTML(data.table::fcase(
-                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-                            grepl(
-                              pattern = "educ",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-                            grepl(
-                              pattern = "gender",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-                            grepl(
-                              pattern = "socio",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-                          )),
-                          multiple = TRUE,
-                          selected = NULL,
-                          search = TRUE,
-                          placeholder_text = "Alle valgt"
-                        )
-
-                      }
-
-                    )
-                  )
                 ),
 
-                # control group parameters
-                card(
-                  header = list(
-                    title = shiny::uiOutput(
-                      outputId = ns("control_disease_label")
+                # content
+                bslib::card_body(
+                  style = "gap: 5px !important;",
+                  lapply(
+                    names(
+                      subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")
                     ),
-                    content = list(
-                      tooltip(
-                        "Sammenligningsgruppens karakteristika"
+                    function(name){
+                      picker_input(
+                        inputid = ns(paste0(
+                          "treatment_",name
+                        )),
+                        choices = model1_parameters[[name]],
+                        label = HTML(data.table::fcase(
+                          default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                          grepl(
+                            pattern = "educ",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                          grepl(
+                            pattern = "gender",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                          grepl(
+                            pattern = "socio",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                        )),
+                        multiple = TRUE,
+                        selected = NULL,
+                        search = TRUE,
+                        placeholder_text = "Alle valgt"
                       )
-                    )),
-                  bslib::card_body(
-                    height = "auto",
-                    style = "gap: 5px !important;",
-                    lapply(
-                      names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
-                      function(name){
-                        picker_input(
-                          inputid = ns(paste0(
-                            "control_",name
-                          )),
-                          choices = model1_parameters[[name]],
-                          label = HTML(data.table::fcase(
-                            default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-                            grepl(
-                              pattern = "educ",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-                            grepl(
-                              pattern = "gender",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-                            grepl(
-                              pattern = "socio",
-                              ignore.case = TRUE,
-                              x = name
-                            ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-                          )),
-                          multiple = TRUE,
-                          selected = NULL,
-                          search = TRUE,
-                          placeholder_text = "Alle valgt"
-                        )
 
-                      }
+                    }
 
-                    )
                   )
-
                 )
-              )
-            )
+              ),
 
-            # Left card end
-          ),
+              # control group parameters
+              card(
+                header = list(
+                  title = shiny::uiOutput(
+                    outputId = ns("control_disease_label")
+                  ),
+                  content = list(
+                    tooltip(
+                      "Sammenligningsgruppens karakteristika"
+                    )
+                  )),
+                bslib::card_body(
+                  height = "auto",
+                  style = "gap: 5px !important;",
+                  lapply(
+                    names(subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")),
+                    function(name){
+                      picker_input(
+                        inputid = ns(paste0(
+                          "control_",name
+                        )),
+                        choices = model1_parameters[[name]],
+                        label = HTML(data.table::fcase(
+                          default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+                          grepl(
+                            pattern = "educ",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+                          grepl(
+                            pattern = "gender",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+                          grepl(
+                            pattern = "socio",
+                            ignore.case = TRUE,
+                            x = name
+                          ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+                        )),
+                        multiple = TRUE,
+                        selected = NULL,
+                        search = TRUE,
+                        placeholder_text = "Alle valgt"
+                      )
 
-          card(
-            header = list(
-              title = span(bsicons::bs_icon("table"), "Baselinetabel")
-            ),
-            bslib::card_body(
+                    }
 
-              DT::dataTableOutput(
-                ns("baseline")
+                  )
+                )
+
               )
             )
           )
+
+          # Left card end
         ),
 
-        uiOutput(
-          ns("test")
+        card(
+          header = list(
+            title = span(bsicons::bs_icon("table"), "Baselinetabel")
+          ),
+          bslib::card_body(
+
+            DT::dataTableOutput(
+              ns("baseline")
+            )
+          )
         )
+      ),
 
-
-
+      uiOutput(
+        ns("test")
       )
 
 
 
     )
 
-    sidebar <- tagList(
-      h1("sidebar")
+
+
+  )
+
+  sidebar <- tagList(
+    h1("sidebar")
+  )
+
+
+  return(
+    list(
+      body = body,
+      sidebar = sidebar
     )
 
+  )
 
-    return(
-      list(
-        body = body,
-        sidebar = sidebar
-      )
-
-    )
-
-    }
+}
 
 #' model1 Server Functions
 #'
@@ -579,7 +579,7 @@ mod_model1_server <- function(id, theme, init){
                 x = input$control_disease,
                 pattern = "befolkning",
                 ignore.case = TRUE
-                ),
+              ),
               yes = paste0("pop_",input$treatment_disease),
               no  = input$control_disease),
             c_gender        = input$control_c_gender,
@@ -638,7 +638,7 @@ mod_model1_server <- function(id, theme, init){
           k_disease     = c(
             treatment_disease,
             control_disease
-            )
+          )
         )
 
         # NOTE: if general population
@@ -765,10 +765,78 @@ mod_model1_server <- function(id, theme, init){
         )
 
 
-        wb <- create_workbook(
-          DT = as_table(flavored_data()[
-            c_type %chin% input$c_type]
+        # 2) prepare data for export
+        #
+        #
+        # 2.1) store as DT while filtering for
+        # c_type
+        DT <- as_table(
+          flavored_data()[
+            c_type %chin% input$c_type
+          ],
+          treatment_disease = input$treatment_disease,
+          control_disease   = input$control_disease,
+          effect_data       = data.table::data.table(
+            effect = c(
+              NA,
+              NA,
+              NA,
+              input$effect_1/100,
+              input$effect_2/100,
+              input$effect_3/100,
+              input$effect_4/100,
+              input$effect_5/100
+
             ),
+            k_year = -2:5
+          )
+        )
+
+        # # 2.2) merge effect data
+        # # to the data
+        # DT <- merge(
+        #   x = DT,
+          # y = data.table::data.table(
+          #   effect = c(
+          #     NA,
+          #     NA,
+          #     NA,
+          #     input$effect_1/100,
+          #     input$effect_2/100,
+          #     input$effect_3/100,
+          #     input$effect_4/100,
+          #     input$effect_5/100
+          #
+          #   ),
+          #   k_year = -2:5
+          # ),
+        #   by = "k_year",
+        #   all.x = TRUE
+        # )
+
+        # # # 2.3) set names
+        # # # of the data
+        # data.table::setnames(
+        #   x = DT,
+        #   skip_absent = TRUE,
+        #   old = c(
+        #     "k_year",
+        #     "k_allocator",
+        #     "c_type",
+        #     "effect"
+        #     ),
+        #   new = c(
+        #     "Tid",
+        #     "Byrdemål",
+        #     "Patienttype",
+        #     "Effekt (%)")
+        # )
+
+
+
+
+        wb <- create_workbook(
+          DT = DT,
           f  = expression(DT$k_sector)
         )
 

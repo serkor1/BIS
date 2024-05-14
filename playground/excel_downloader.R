@@ -84,12 +84,36 @@ DT_list <- lapply(
 )
 
 
+DT <-  DT_list[[1]][c_type %chin% 'Incident']
 
-as_table(
-  DT = DT_list[[1]][c_type %chin% 'Incident']
+
+
+DT <- as_table(
+  DT = DT
 )
 
 
+DT <- merge(
+  x = DT,
+  y = data.table::data.table(
+    effect = c(
+      NA,
+      NA,
+      NA,
+      50/100,
+      50/100,
+      50/100,
+      50/100,
+      50/100
+
+    ),
+    k_year = -2:5
+  ),
+  by = "k_year",
+  all.x = TRUE
+)
+
+colnames(DT)
 
 
 # script end;

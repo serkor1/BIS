@@ -5,7 +5,7 @@ account: vive
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 11378998
-bundleId: 8591139
+bundleId: 8600034
 url: https://vive.shinyapps.io/BIS2/
 version: 1
 asMultiple: FALSE
