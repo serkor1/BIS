@@ -796,20 +796,20 @@ mod_model1_server <- function(id, theme, init){
         # # to the data
         # DT <- merge(
         #   x = DT,
-          # y = data.table::data.table(
-          #   effect = c(
-          #     NA,
-          #     NA,
-          #     NA,
-          #     input$effect_1/100,
-          #     input$effect_2/100,
-          #     input$effect_3/100,
-          #     input$effect_4/100,
-          #     input$effect_5/100
-          #
-          #   ),
-          #   k_year = -2:5
-          # ),
+        # y = data.table::data.table(
+        #   effect = c(
+        #     NA,
+        #     NA,
+        #     NA,
+        #     input$effect_1/100,
+        #     input$effect_2/100,
+        #     input$effect_3/100,
+        #     input$effect_4/100,
+        #     input$effect_5/100
+        #
+        #   ),
+        #   k_year = -2:5
+        # ),
         #   by = "k_year",
         #   all.x = TRUE
         # )
@@ -972,10 +972,88 @@ mod_model1_server <- function(id, theme, init){
     )
 
     output$baseline <- DT::renderDT({
-      generate_table(
-        DT = mtcars,
-        header = NULL
+
+      # 1) extract data
+      DT <- prepare_data(
+        extract_data(
+          DB_connection = DBI::dbConnect(
+            drv = RSQLite::SQLite(),
+            dbname = "inst/extdata/db.sqlite"
+          ),
+          table = "model1_baseline",
+          k_disease = c(input$treatment_disease, input$control_disease),
+          c_type    = input$c_type
+        ),
+        recipe = get_recipe()
       )
+
+      DT <- DT[
+        ,
+        .(
+          v_characteristics = sum(v_weights * v_characteristics, na.rm = TRUE) / sum(v_weights, na.rm = TRUE)
+        )
+        ,
+        by = .(
+          k_allocator,
+          k_assignment
+        )
+      ]
+
+      DT[
+        ,
+        group := data.table::fcase(
+          default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+          grepl(
+            pattern = "ufaglært|faglært|videregående uddannelse",
+            ignore.case = TRUE,
+            x = k_allocator
+          ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+          grepl(
+            pattern = "mand|kvinde",
+            ignore.case = TRUE,
+            x = k_allocator
+          ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+          grepl(
+            pattern = "aktiv|inaktiv|udenfor",
+            ignore.case = TRUE,
+            x = k_allocator
+          ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+        )
+        ,
+      ]
+
+      DT <- data.table::dcast(
+        data = DT,
+        formula = k_allocator + group ~ k_assignment,
+        value.var = "v_characteristics"
+      )
+
+      data.table::setnames(
+        DT,
+        old = c("k_allocator", "control", "treatment"),
+        new = c("Karakteristika", "Valgt Gruppe", "Sammenligningsgruppe"),
+        skip_absent = TRUE
+      )
+
+      data.table::setorder(
+        DT,
+        -group
+      )
+
+
+      generate_table(
+        header = NULL,
+        DT = DT
+      )
+
+
+
+      # generate_table(
+      #   DT = mtcars,
+      #   header = NULL
+      # )
+
+
     })
 
     # output$baseline <- DT::renderDT({
@@ -1042,24 +1120,24 @@ mod_model1_server <- function(id, theme, init){
     #
     #   DT[
     #     ,
-    #     group := data.table::fcase(
-    #       default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-    #       grepl(
-    #         pattern = "educ",
-    #         ignore.case = TRUE,
-    #         x = k_variable
-    #       ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-    #       grepl(
-    #         pattern = "gender",
-    #         ignore.case = TRUE,
-    #         x = k_variable
-    #       ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-    #       grepl(
-    #         pattern = "socio",
-    #         ignore.case = TRUE,
-    #         x = k_variable
-    #       ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-    #     )
+    # group := data.table::fcase(
+    #   default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+    #   grepl(
+    #     pattern = "educ",
+    #     ignore.case = TRUE,
+    #     x = k_variable
+    #   ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+    #   grepl(
+    #     pattern = "gender",
+    #     ignore.case = TRUE,
+    #     x = k_variable
+    #   ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+    #   grepl(
+    #     pattern = "socio",
+    #     ignore.case = TRUE,
+    #     x = k_variable
+    #   ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+    # )
     #     ,
     #   ]
     #
@@ -1069,10 +1147,10 @@ mod_model1_server <- function(id, theme, init){
     #     value.var = "v_obs"
     #   )
     #
-    #   data.table::setorder(
-    #     DT,
-    #     -group
-    #   )
+    # data.table::setorder(
+    #   DT,
+    #   -group
+    # )
     #
     #   data.table::setcolorder(
     #     DT,

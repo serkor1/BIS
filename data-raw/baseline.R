@@ -1,133 +1,75 @@
-## code to prepare `baseline` dataset goes here
+# script: Baseline
+# author: Serkan Korkmaz, serkor1@duck.com
+# date: 2024-05-15
+# objective: Baseline table prepartion. All data goes into the
+# sql server
+# script start;
 
-# 1) extract data without anu
-# arguments what so ever
-#
-# This will extract ALL
-# available data. Its equivalent
-# of SELECT * FROM table
-DT <- extract_data(
-  DB_connection = DBI::dbConnect(
-    drv = RSQLite::SQLite(),
-    dbname = "inst/extdata/db.sqlite"
+rm(list = ls()); invisible(gc()); devtools::load_all();
+
+# 1) load data; ####
+# NOTE: This step has to be replaced by acual data
+# at a later point.
+DT <- data.table::data.table(
+  data.table::CJ(
+    k_disease       = model1_parameters$k_disease,
+    c_type          = model1_parameters$c_type,
+    c_age           = model1_parameters$c_age,
+    c_socioeconomic = model1_parameters$c_socioeconomic,
+    c_education     = model1_parameters$c_education,
+    c_gender        = model1_parameters$c_gender,
+    k_allocator     = c(
+      "Aktiv",
+      "Alder",
+      "Faglært",
+      "Inaktiv",
+      "Kvinde",
+      "Mand",
+      "Udenfor",
+      "Ufaglært",
+      "Videregående Uddannelse"
+      )
   )
-)
-
-# 2) From baseline year
-# take all pairwise unique values
-# This is necessary as these numbers are
-# duiplicated across sectors.
-DT <- unique(
-  DT[
-    k_year == 0
-    ,
-    .(
-      k_disease = k_disease,
-      c_education = c_education,
-      c_age = c_age,
-      c_socioeconomic  = c_socioeconomic,
-      c_gender = c_gender,
-      c_type = c_type,
-      v_obs = v_obs
-    )
-    ,
-
-  ]
-)
-
-# 3) For each k_disease
-# and c_type count the number
-# of each category in the
-# other columns
-
-# 3.1) Define unique
-# diseases
-disease <- unique(DT$k_disease)
-type    <- unique(DT$c_type)
-
-
-# 3.2) define the columns
-# needed
-columns_needed <-  colnames(DT)[
-  grepl(pattern = "educ|age|socioeconomic|gender", x = colnames(DT))
-  ]
-
-
-DT <- data.table::rbindlist(
-  lapply(
-  X = disease,
-  FUN = function(x) {
-
-    # For each disease
-    # filter by each
-    # c_type
-    type_list <- data.table::rbindlist(
-      lapply(
-      X = type,
-      FUN = function(y) {
-
-        DT <- DT[
-          k_disease %chin% x & c_type %chin% y
-        ]
-
-        data.table::rbindlist(
-          lapply(
-            X = columns_needed,
-            FUN = function(z) {
-
-              DT[
-                ,
-                .(
-
-                  k_disease   = x,
-                  c_type      = y,
-                  k_variable  = z,
-                  v_obs = sum(
-                    v_obs,
-                    na.rm = TRUE
-                  )
-                )
-                ,
-                by = c(
-                  c_variable = z
-                )
-              ]
-
-            }
-          ),
-          fill = TRUE
-        )
-
-      }
-    )
-    )
-
-
-
-  }
-
-
-),
-fill = TRUE
 )
 
 DT[
   ,
-  model := "model1"
+  `:=`(
+    v_obs = runif(
+      n = .N,
+      min = 10000,
+      max = 20000
+    ),
+    v_weights = runif(
+      n = .N,
+      min = 0,
+      max = 1
+    ),
+    v_characteristics = rnorm(
+      n    = .N,
+      mean = 100,
+      sd   = 1
+    )
+  )
   ,
+  by = .(
+    c_type,
+    k_disease
+  )
 ]
 
 
-DB_connection = DBI::dbConnect(
+# 2) Store in SQL
+DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),
-  dbname = "inst/extdata/db.sqlite"
+  dbname = 'inst/extdata/db.sqlite',
 )
 
-
 DBI::dbWriteTable(
-  conn = DB_connection,
-  value =DT,
-  name = 'baseline',
+  conn      = DB_connection,
+  value     = DT,
+  name      = "model1_baseline",
   overwrite = TRUE
 )
 
+# script end;

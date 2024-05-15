@@ -28,7 +28,7 @@ generate_table <- function(
       rownames = FALSE,
         container = add_header(
           column_names = colnames(DT),
-        where        = header
+          where        = header
       ),
       extensions = c("Buttons", "RowGroup"),
       options = list(
@@ -92,7 +92,6 @@ add_header <- function(
 
   # NOTE: All the column names
   # get moved.
-
 
 
   # Generate a list of all subheader names to include those not explicitly mentioned
