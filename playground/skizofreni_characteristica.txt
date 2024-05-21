@@ -1,0 +1,353 @@
+c_gender,c_age,k_disease,c_socioeconomic,c_education,v_obs,v_weights,k_allocator,v_characteristica
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Aktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Alder,35.9757
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Faglært,0
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Inaktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Kvinde,0
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Udenfor,1
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Ufaglært,1
+Mand,18-49 år,skizofreni,Udenfor,Ufaglært,5473,.1839602,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Aktiv,0
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Alder,27.236151
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Faglært,0
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Inaktiv,1
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Kvinde,0
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Udenfor,0
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Ufaglært,1
+Mand,18-49 år,skizofreni,Inaktiv,Ufaglært,3430,.11529024,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Aktiv,1
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Alder,30.60215
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Faglært,0
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Inaktiv,0
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Kvinde,0
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Udenfor,0
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Ufaglært,1
+Mand,18-49 år,skizofreni,Aktiv,Ufaglært,372,.012503781,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Aktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Alder,41.659203
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Faglært,1
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Inaktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Kvinde,0
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Udenfor,1
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Ufaglært,0
+Mand,18-49 år,skizofreni,Udenfor,Faglært,1027,.034519847,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Aktiv,0
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Alder,33.924595
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Faglært,1
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Inaktiv,1
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Kvinde,0
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Udenfor,0
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Ufaglært,0
+Mand,18-49 år,skizofreni,Inaktiv,Faglært,557,.018722059,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Aktiv,1
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Alder,34.309238
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Faglært,1
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Inaktiv,0
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Kvinde,0
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Udenfor,0
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Ufaglært,0
+Mand,18-49 år,skizofreni,Aktiv,Faglært,249,.0083694663,Videregående uddannelse,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Aktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Alder,42.433071
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Faglært,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Inaktiv,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Kvinde,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Udenfor,1
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Ufaglært,0
+Mand,18-49 år,skizofreni,Udenfor,Videregående uddannelse,381,.012806293,Videregående uddannelse,1
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Aktiv,0
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Alder,35.641693
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Faglært,0
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Inaktiv,1
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Kvinde,0
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Udenfor,0
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Ufaglært,0
+Mand,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,307,.010318981,Videregående uddannelse,1
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Aktiv,1
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Alder,38.613209
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Faglært,0
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Inaktiv,0
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Kvinde,0
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Udenfor,0
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Ufaglært,0
+Mand,18-49 år,skizofreni,Aktiv,Videregående uddannelse,212,.0071258107,Videregående uddannelse,1
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Aktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Alder,55.895115
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Faglært,0
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Inaktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Kvinde,0
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Udenfor,1
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Ufaglært,1
+Mand,50-65 år,skizofreni,Udenfor,Ufaglært,2231,.074989073,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Aktiv,0
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Alder,53.863636
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Faglært,0
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Inaktiv,1
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Kvinde,0
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Udenfor,0
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Ufaglært,1
+Mand,50-65 år,skizofreni,Inaktiv,Ufaglært,88,.0029578838,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Aktiv,1
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Alder,53.793102
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Faglært,0
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Inaktiv,0
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Kvinde,0
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Udenfor,0
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Ufaglært,1
+Mand,50-65 år,skizofreni,Aktiv,Ufaglært,29,.00097475713,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Aktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Alder,56.730564
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Faglært,1
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Inaktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Kvinde,0
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Udenfor,1
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Ufaglært,0
+Mand,50-65 år,skizofreni,Udenfor,Faglært,939,.031561963,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Aktiv,0
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Alder,54.816902
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Faglært,1
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Inaktiv,1
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Kvinde,0
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Udenfor,0
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Ufaglært,0
+Mand,50-65 år,skizofreni,Inaktiv,Faglært,71,.0023864745,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Aktiv,1
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Alder,55.305557
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Faglært,1
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Inaktiv,0
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Kvinde,0
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Udenfor,0
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Ufaglært,0
+Mand,50-65 år,skizofreni,Aktiv,Faglært,36,.0012100433,Videregående uddannelse,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Aktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Alder,56.7575
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Faglært,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Inaktiv,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Kvinde,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Udenfor,1
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Ufaglært,0
+Mand,50-65 år,skizofreni,Udenfor,Videregående uddannelse,400,.013444927,Videregående uddannelse,1
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Aktiv,0
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Alder,54.051281
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Faglært,0
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Inaktiv,1
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Kvinde,0
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Udenfor,0
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Ufaglært,0
+Mand,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,39,.0013108803,Videregående uddannelse,1
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Aktiv,1
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Alder,54.585365
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Faglært,0
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Inaktiv,0
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Kvinde,0
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Udenfor,0
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Ufaglært,0
+Mand,50-65 år,skizofreni,Aktiv,Videregående uddannelse,41,.0013781049,Videregående uddannelse,1
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Aktiv,0
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Alder,70.62751
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Faglært,0
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Inaktiv,0
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Kvinde,0
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Udenfor,1
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Ufaglært,1
+Mand,>65 år,skizofreni,Udenfor,Ufaglært,647,.021747168,Videregående uddannelse,0
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Aktiv,0
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Alder,69.92128
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Faglært,1
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Inaktiv,0
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Kvinde,0
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Udenfor,1
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Ufaglært,0
+Mand,>65 år,skizofreni,Udenfor,Faglært,343,.011529025,Videregående uddannelse,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Aktiv,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Alder,69.171425
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Faglært,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Inaktiv,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Kvinde,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Udenfor,1
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Ufaglært,0
+Mand,>65 år,skizofreni,Udenfor,Videregående uddannelse,175,.0058821552,Videregående uddannelse,1
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Aktiv,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Alder,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Faglært,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Inaktiv,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Kvinde,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Udenfor,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Ufaglært,
+Mand,>65 år,skizofreni,Aktiv,Videregående uddannelse,,.000067224631,Videregående uddannelse,
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Aktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Alder,35.492844
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Faglært,0
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Kvinde,1
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Udenfor,1
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Ufaglært,1
+Kvinde,18-49 år,skizofreni,Udenfor,Ufaglært,3283,.11034923,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Aktiv,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Alder,25.365776
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Faglært,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Inaktiv,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Kvinde,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Udenfor,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Ufaglært,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Ufaglært,2507,.084266074,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Aktiv,1
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Alder,28.465969
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Faglært,0
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Kvinde,1
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Udenfor,0
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Ufaglært,1
+Kvinde,18-49 år,skizofreni,Aktiv,Ufaglært,191,.0064199525,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Aktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Alder,40.567009
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Faglært,1
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Kvinde,1
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Udenfor,1
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Udenfor,Faglært,582,.019562367,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Aktiv,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Alder,32.388588
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Faglært,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Inaktiv,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Kvinde,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Udenfor,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Faglært,368,.012369332,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Aktiv,1
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Alder,34.436241
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Faglært,1
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Kvinde,1
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Udenfor,0
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Aktiv,Faglært,149,.0050082351,Videregående uddannelse,0
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Aktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Alder,42.194267
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Faglært,0
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Kvinde,1
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Udenfor,1
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Udenfor,Videregående uddannelse,314,.010554267,Videregående uddannelse,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Aktiv,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Alder,36.271126
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Faglært,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Inaktiv,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Kvinde,1
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Udenfor,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Inaktiv,Videregående uddannelse,284,.0095458981,Videregående uddannelse,1
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Aktiv,1
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Alder,37.13295
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Faglært,0
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Inaktiv,0
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Kvinde,1
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Udenfor,0
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Ufaglært,0
+Kvinde,18-49 år,skizofreni,Aktiv,Videregående uddannelse,173,.0058149304,Videregående uddannelse,1
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Aktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Alder,56.30344
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Faglært,0
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Kvinde,1
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Udenfor,1
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Ufaglært,1
+Kvinde,50-65 år,skizofreni,Udenfor,Ufaglært,1773,.059594635,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Aktiv,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Alder,54.081081
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Faglært,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Inaktiv,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Kvinde,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Udenfor,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Ufaglært,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Ufaglært,74,.0024873114,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Aktiv,1
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Alder,54.57143
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Faglært,0
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Kvinde,1
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Udenfor,0
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Ufaglært,1
+Kvinde,50-65 år,skizofreni,Aktiv,Ufaglært,21,.00070585863,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Aktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Alder,56.991749
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Faglært,1
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Kvinde,1
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Udenfor,1
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Udenfor,Faglært,606,.020369064,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Aktiv,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Alder,54.403847
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Faglært,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Inaktiv,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Kvinde,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Udenfor,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Faglært,52,.0017478404,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Aktiv,1
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Alder,55.023254
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Faglært,1
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Kvinde,1
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Udenfor,0
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Aktiv,Faglært,43,.0014453295,Videregående uddannelse,0
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Aktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Alder,57.493645
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Faglært,0
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Kvinde,1
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Udenfor,1
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Udenfor,Videregående uddannelse,472,.015865013,Videregående uddannelse,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Aktiv,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Alder,54.44186
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Faglært,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Inaktiv,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Kvinde,1
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Udenfor,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Inaktiv,Videregående uddannelse,43,.0014453295,Videregående uddannelse,1
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Aktiv,1
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Alder,54.21875
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Faglært,0
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Inaktiv,0
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Kvinde,1
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Udenfor,0
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Ufaglært,0
+Kvinde,50-65 år,skizofreni,Aktiv,Videregående uddannelse,32,.0010755941,Videregående uddannelse,1
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Aktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Alder,73.207695
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Faglært,0
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Inaktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Kvinde,1
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Udenfor,1
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Ufaglært,1
+Kvinde,>65 år,skizofreni,Udenfor,Ufaglært,1040,.034956809,Videregående uddannelse,0
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Aktiv,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Alder,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Faglært,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Inaktiv,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Kvinde,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Udenfor,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Ufaglært,
+Kvinde,>65 år,skizofreni,Aktiv,Ufaglært,,.000033612316,Videregående uddannelse,
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Aktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Alder,71.464104
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Faglært,1
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Inaktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Kvinde,1
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Udenfor,1
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Ufaglært,0
+Kvinde,>65 år,skizofreni,Udenfor,Faglært,390,.013108803,Videregående uddannelse,0
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Aktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Alder,70.848686
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Faglært,0
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Inaktiv,0
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Kvinde,1
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Udenfor,1
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Ufaglært,0
+Kvinde,>65 år,skizofreni,Udenfor,Videregående uddannelse,304,.010218143,Videregående uddannelse,1

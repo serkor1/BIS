@@ -78,7 +78,7 @@ mod_model1_ui <- function(id){
 
                     shinyWidgets::actionBttn(
                       inputId = ns("restart"),
-                      label = "Genstart",
+                      label = "Tilbage",
                       size = "s",
                       style = "simple",
                       color = "primary",
@@ -694,19 +694,25 @@ mod_model1_server <- function(id, theme, init){
     cooked_data <-shiny::reactive(
       {
 
-
-
         aggregate_data(
           DT = prepared_data(),
           calc = expression(
             .(
-              v_qty = sum(
-                v_qty * v_weights, na.rm = TRUE
-              )/sum(v_weights, na.rm = TRUE),
+              v_qty = round(
+                x = sum(
+                  v_qty * v_weights, na.rm = TRUE
+                )/sum(v_weights, na.rm = TRUE),
+                digits = 2
+              ),
 
-              v_cost = sum(
-                v_cost * v_weights, na.rm = TRUE
-              )/sum(v_weights, na.rm = TRUE)
+              v_cost = round(
+                x = sum(
+                  v_cost * v_weights, na.rm = TRUE
+                )/sum(v_weights, na.rm = TRUE),
+                digits = 2
+              ),
+              qty_missing = all(is.na(v_qty)),
+              cost_missing = all(is.na(v_cost))
             )
           ),
           by = c(
@@ -868,7 +874,7 @@ mod_model1_server <- function(id, theme, init){
 
         flavored_data()[
           k_assignment %chin% c('control', 'treatment', 'counter_factual') &
-            k_sector  %chin% input$k_sector,
+            k_sector  %chin% input$k_sector
         ][
           ,
           k_assignment := data.table::fcase(
@@ -922,18 +928,19 @@ mod_model1_server <- function(id, theme, init){
             {
               layout(
                 plot = plot(
-                  data = DT,
-                  x = setNames("k_year", "Tid"),
+                  data = DT[cost_missing == FALSE],
+                  x = setNames("k_year", "År"),
                   y = setNames(
                     "v_cost",
-                    paste("Pris pr.",unique(DT$c_unit))
+                    unique(DT$c_unit)
+                    #paste("Pris pr.",unique(DT$c_unit))
                   ),
                   color = ~k_assignment,
                   type = 'scatter',
                   mode = 'lines+markers',
                   line = list(shape = 'spline', smoothing = 1.3)
                 ),
-                title = "Omkostninger",
+                title = "Omkostninger (pr. person)",
                 dark = as.logical(
                   theme() == "dark"
                 )
@@ -945,18 +952,19 @@ mod_model1_server <- function(id, theme, init){
             {
               layout(
                 plot = plot(
-                  data = DT,
-                  x = setNames("k_year", "Tid"),
+                  data = DT[qty_missing == FALSE],
+                  x = setNames("k_year", "År"),
                   y = setNames(
                     "v_qty",
-                    paste("Antal", unique(DT$c_unit), "pr. person")
+                    unique(DT$c_unit)
+                    #paste("Antal", unique(DT$c_unit), "pr. person")
                   ),
                   color = ~k_assignment,
                   type = 'scatter',
                   mode = 'lines+markers',
                   line = list(shape = 'spline', smoothing = 1.3)
                 ),
-                title = "Forbrug",
+                title = "Forbrug (pr. person)",
                 dark = as.logical(
                   theme() == "dark"
                 )
@@ -1030,7 +1038,7 @@ mod_model1_server <- function(id, theme, init){
 
       data.table::setnames(
         DT,
-        old = c("k_allocator", "control", "treatment"),
+        old = c("k_allocator", "treatment", "control"),
         new = c("Karakteristika", "Valgt Gruppe", "Sammenligningsgruppe"),
         skip_absent = TRUE
       )

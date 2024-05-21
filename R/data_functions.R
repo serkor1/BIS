@@ -265,7 +265,7 @@ effect_data <- function(
   ]
 
   DT_ <- DT_[
-    k_assignment %chin% c("treatment", "difference") & k_year >= 0
+    k_assignment %chin% c("treatment", "difference") & k_year >= 1
     ,
     lapply(
       .SD,

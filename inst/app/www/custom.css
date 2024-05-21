@@ -204,3 +204,8 @@ html .btn-close {
   background-color:  var(--bs-success) !important;
   border-color: transparent !important;
 }
+
+
+[data-bs-theme = "dark"] .nav-tabs .nav-link.active {
+  color: #415c77 !important;
+}
