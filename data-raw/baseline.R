@@ -67,6 +67,32 @@ data.table::setnames(
   new = "v_characteristics"
 )
 
+
+DT[
+  ,
+  c_group := data.table::fcase(
+    default = as.character(span(bsicons::bs_icon("people"), "Alder")),
+    grepl(
+      pattern = "ufaglært|faglært|videregående uddannelse",
+      ignore.case = TRUE,
+      x = k_allocator
+    ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
+    grepl(
+      pattern = "mand|kvinde",
+      ignore.case = TRUE,
+      x = k_allocator
+    ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
+    grepl(
+      pattern = "aktiv|inaktiv|udenfor",
+      ignore.case = TRUE,
+      x = k_allocator
+    ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
+  )
+  ,
+]
+
+
+
 # 2) Store in SQL
 DB_connection <- DBI::dbConnect(
   drv = RSQLite::SQLite(),

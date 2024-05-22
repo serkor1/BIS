@@ -4,42 +4,103 @@
 # objective: Generate Baseline table
 # script start;
 
-# rm(list = ls()); invisible(gc()); devtools::load_all()
-#
-#
-# DT <- extract_data(
-#   DB_connection = DBI::dbConnect(
-#     drv = RSQLite::SQLite(),
-#     dbname = "inst/extdata/db.sqlite"
-#   ),
-#   table = "model1_baseline",
-#   k_disease = c("astma", "psoriasis"),
-#   c_type    = "Incident"
-# )
+rm(list = ls()); invisible(gc()); devtools::load_all()
 
 
-DT <- data.table::fread(
-  "playground/skizofreni_characteristica.txt"
+DT <- extract_data(
+  DB_connection = DBI::dbConnect(
+    drv = RSQLite::SQLite(),
+    dbname = "inst/extdata/db.sqlite"
+  ),
+  table = "model1_baseline",
+  k_disease = c("Astma", "Alkoholrelateret sygdom"),
+  c_type    = "Incident"
 )
 
-data.table::setkey(
+DT <- prepare_data(
+  DT = DT,
+  recipe = recipe(
+    treatment = list(
+      k_disease = "Astma"
+    ),
+    control   = list(
+      k_disease = "Alkoholrelateret sygdom"
+    )
+  )
+)
+
+
+total_obs <- aggregate_data(
   DT,
-  k_allocator
+  calc = expression(
+    .(
+      k_allocator       = "Total",
+      v_characteristics = sum(unique(v_obs))
+    )
+  ),
+  by = c(
+    "k_assignment"
+  )
 )
 
-unique(DT$k_allocator)
+grouped_obs <- data.table::rbindlist(
+  lapply(
+    grep("^c", colnames(DT), value = TRUE),
+    function(x) {
 
-DT[
-  c_socioeconomic %chin% "Udenfor"
-  ,
-  .(
-    v_characteristica = sum(v_weights * v_characteristica, na.rm = TRUE) / sum(v_weights, na.rm = TRUE)
+      aggregate_data(
+        DT,
+        calc = expression(
+          .(
+
+            v_characteristics = sum(unique(v_obs))
+          )
+        ),
+        by = c(
+          "k_assignment",
+          "k_allocator" = x
+        )
+      )
+
+    }
   )
-  ,
-  by = .(
-    k_allocator
+)
+
+grouped_vals <- aggregate_data(
+  DT = DT,
+  calc = expression(
+    .(
+      v_characteristics = round(
+        weighted.mean(
+          x     = v_characteristics,
+          w     = v_weights,
+          na.rm = TRUE
+        ),
+        digits = 2
+      )
+    )
+  ),
+  by =  c(
+    "k_assignment",
+    "k_allocator"
   )
-]
+
+)
+
+DT_ <- merge(
+  grouped_vals,
+  grouped_obs,
+  by = c("k_assignment", "k_allocator")
+)
+
+
+data.table::rbindlist(
+  list(
+    total_obs,
+    DT_
+  ),
+  fill = TRUE
+)
 
 
 # script end;

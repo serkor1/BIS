@@ -4,7 +4,7 @@ devtools::load_all()
 
 
 
-disease <- c("ADHD", sample(model1_parameters$k_disease, 1))
+disease <- c("Prostatakræft")
 
 DT <- extract_data(
   DB_connection = DB_connection,
@@ -15,8 +15,10 @@ DT <- extract_data(
   k_disease = disease
 )
 
+
+
 DT <- DT[
-  k_allocator %chin% "Kommunal sygepleje"
+  k_allocator %chin% "Personlig pleje"
 ]
 
 

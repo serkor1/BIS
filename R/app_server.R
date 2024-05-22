@@ -51,6 +51,9 @@ app_server <- function(input, output, session) {
 
         )
 
+        module_baseline_model1(
+          "model1"
+        )
         mod_model1_server(
           "model1",
           theme = reactive({input$app_theme})

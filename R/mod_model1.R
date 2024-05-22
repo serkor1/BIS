@@ -133,6 +133,7 @@ mod_model1_ui <- function(id){
                       subset_list(list = model1_parameters, pattern = "age|educ|gender|socio")
                     ),
                     function(name){
+
                       picker_input(
                         inputid = ns(paste0(
                           "treatment_",name
@@ -574,7 +575,7 @@ mod_model1_server <- function(id, theme, init){
           ),
 
           control = list(
-            k_disease       = data.table::fifelse(
+            k_disease = data.table::fifelse(
               test = grepl(
                 x = input$control_disease,
                 pattern = "befolkning",
@@ -612,7 +613,7 @@ mod_model1_server <- function(id, theme, init){
 
         shiny::p(
           bsicons::bs_icon("virus"),
-          shiny::strong("Valg gruppe:"),
+          shiny::strong("Valgt gruppe:"),
           input$treatment_disease
 
         )
@@ -979,202 +980,10 @@ mod_model1_server <- function(id, theme, init){
     }
     )
 
-    output$baseline <- DT::renderDT({
-
-      # 1) extract data
-      DT <- prepare_data(
-        extract_data(
-          DB_connection = DBI::dbConnect(
-            drv = RSQLite::SQLite(),
-            dbname = "inst/extdata/db.sqlite"
-          ),
-          table = "model1_baseline",
-          k_disease = c(input$treatment_disease, input$control_disease),
-          c_type    = input$c_type
-        ),
-        recipe = get_recipe()
-      )
-
-      DT <- DT[
-        ,
-        .(
-          v_characteristics = sum(v_weights * v_characteristics, na.rm = TRUE) / sum(v_weights, na.rm = TRUE)
-        )
-        ,
-        by = .(
-          k_allocator,
-          k_assignment
-        )
-      ]
-
-      DT[
-        ,
-        group := data.table::fcase(
-          default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-          grepl(
-            pattern = "ufaglært|faglært|videregående uddannelse",
-            ignore.case = TRUE,
-            x = k_allocator
-          ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-          grepl(
-            pattern = "mand|kvinde",
-            ignore.case = TRUE,
-            x = k_allocator
-          ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-          grepl(
-            pattern = "aktiv|inaktiv|udenfor",
-            ignore.case = TRUE,
-            x = k_allocator
-          ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-        )
-        ,
-      ]
-
-      DT <- data.table::dcast(
-        data = DT,
-        formula = k_allocator + group ~ k_assignment,
-        value.var = "v_characteristics"
-      )
-
-      data.table::setnames(
-        DT,
-        old = c("k_allocator", "treatment", "control"),
-        new = c("Karakteristika", "Valgt Gruppe", "Sammenligningsgruppe"),
-        skip_absent = TRUE
-      )
-
-      data.table::setorder(
-        DT,
-        -group
-      )
-
-
-      generate_table(
-        header = NULL,
-        DT = DT
-      )
 
 
 
-      # generate_table(
-      #   DT = mtcars,
-      #   header = NULL
-      # )
 
-
-    })
-
-    # output$baseline <- DT::renderDT({
-    #
-    #
-    #   req(input$start)
-    #
-    #
-    #   # treatment = list(
-    #   #   k_disease       = input$treatment_disease,
-    #   #   c_gender        = input$treatment_c_gender,
-    #   #   c_education     = input$treatment_c_education,
-    #   #   c_socioeconomic = input$treatment_c_socioeconomic,
-    #   #   c_age           = input$treatment_c_age
-    #   # ),
-    #   #
-    #   # control = list(
-    #   #   k_disease       = input$control_disease,
-    #   #   c_gender        = input$control_c_gender,
-    #   #   c_education     = input$control_c_education,
-    #   #   c_socioeconomic = input$control_c_socioeconomic,
-    #   #   c_age           = input$control_c_age
-    #   # )
-    #
-    #   recipe_list <- recipe(
-    #     treatment = list(
-    #       k_disease  = input$treatment_disease
-    #     ),
-    #     control = list(
-    #       k_disease = input$control_disease
-    #     )
-    #   )
-    #
-    #
-    #   DT <- extract_data(
-    #     DB_connection = DBI::dbConnect(
-    #       drv = RSQLite::SQLite(),
-    #       dbname = "inst/extdata/db.sqlite"
-    #     ),
-    #     table = "baseline",
-    #     k_disease = c(
-    #       input$treatment_disease,
-    #       input$control_disease
-    #     )
-    #   )
-    #
-    #
-    #
-    #   # This filters all the
-    #   # data. We need a new function
-    #   # that sets to 0 if not chosen.
-    #   #
-    #   #
-    #   # NOTE: If empty, everything should
-    #   # be displayed.
-    #
-    #   DT <- prepare_data(
-    #     DT = DT,
-    #     recipe = recipe_list
-    #   )
-    #
-    #
-    #
-    #
-    #   DT[
-    #     ,
-    # group := data.table::fcase(
-    #   default = as.character(span(bsicons::bs_icon("people"), "Alder")),
-    #   grepl(
-    #     pattern = "educ",
-    #     ignore.case = TRUE,
-    #     x = k_variable
-    #   ), as.character(span(bsicons::bs_icon(name = "book"),"Uddannelse")),
-    #   grepl(
-    #     pattern = "gender",
-    #     ignore.case = TRUE,
-    #     x = k_variable
-    #   ), as.character(span(bsicons::bs_icon(name= "gender-ambiguous"), "Køn")),
-    #   grepl(
-    #     pattern = "socio",
-    #     ignore.case = TRUE,
-    #     x = k_variable
-    #   ), as.character(span(bsicons::bs_icon(name= "building"), "Arbejdsmarkedstatus"))
-    # )
-    #     ,
-    #   ]
-    #
-    #   DT <-  data.table::dcast(
-    #     data = DT[c_type == input$c_type],
-    #     formula = c_variable + group ~ k_assignment,
-    #     value.var = "v_obs"
-    #   )
-    #
-    # data.table::setorder(
-    #   DT,
-    #   -group
-    # )
-    #
-    #   data.table::setcolorder(
-    #     DT,
-    #     c('c_variable', colnames(DT)[grepl(pattern = "valgt", ignore.case = TRUE, x = colnames(DT))])
-    #   )
-    #
-    #   data.table::setnames(
-    #     x = DT,
-    #     old = c("c_variable", "control", "treatment"),
-    #     new = c("Karakteristika", input$control_disease, input$treatment_disease)
-    #   )
-    #   generate_table(
-    #     DT = DT,
-    #     header = NULL
-    #   )
-    # })
 
 
 

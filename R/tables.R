@@ -30,7 +30,11 @@ generate_table <- function(
           column_names = colnames(DT),
           where        = header
       ),
-      extensions = c("Buttons", "RowGroup"),
+      extensions = c(
+        "RowGroup"
+        #,
+        #"Buttons"
+        ),
       options = list(
         rowGroup = list(dataSrc = grep(
           pattern = "group",
@@ -43,15 +47,15 @@ generate_table <- function(
           ),
           search = "Søg:"
         ),
-
-
         buttons = c(
           "csv",
           "excel"
         ),
+        deferRender = TRUE,
+        scrollCollapse = FALSE,
         searching = FALSE,
         lengthChange = FALSE,
-        dom = "ptBR",
+        dom = "tBR",
         ordering = FALSE,
         columnDefs = list(
           list(visible = FALSE, targets = grep(pattern = "group", x = colnames(DT), ignore.case = TRUE) - 1),
