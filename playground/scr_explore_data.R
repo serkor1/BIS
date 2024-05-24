@@ -4,7 +4,7 @@ devtools::load_all()
 
 
 
-disease <- c("Prostatakræft")
+disease <- c("Diabetes type I", "ADHD")
 
 DT <- extract_data(
   DB_connection = DB_connection,
@@ -12,13 +12,11 @@ DT <- extract_data(
   #   drv = RSQLite::SQLite(),
   #   dbname = "inst/extdata/db.sqlite"
   # ),
-  k_disease = disease
+  k_disease = disease,table = "model1"
 )
 
-
-
 DT <- DT[
-  k_allocator %chin% "Personlig pleje"
+  k_sector %chin% "Kommunal"
 ]
 
 
@@ -27,13 +25,25 @@ DT <- prepare_data(
   DT = DT,
   recipe = recipe(
     treatment = list(
-      k_disease = disease[1]
+      k_disease = disease[1],
+      c_age     = "50-65 år",
+      c_socioeconomic = "Udenfor",
+      c_education     = "Videregående uddannelse",
+      c_gender   = "Mand",
+      c_type = "Prævalent"
     ),
     control = list(
-      k_disease = disease[2]
+      k_disease = disease[2],
+      c_age     = "50-65 år",
+      c_socioeconomic = "Udenfor",
+      c_education     = "Videregående uddannelse",
+      c_gender   = "Mand",
+      c_type = "Prævalent"
     )
   )
 )
+
+DT <- DT[k_allocator %chin% "Kommunal sygepleje"]
 
 
 DT <- aggregate_data(
@@ -68,7 +78,7 @@ DT <- aggregate_data(
   )
 )
 
-
+DT[k_year == 3]
 
 DT <- effect_data(
   DT = DT,
@@ -87,22 +97,13 @@ DT <- effect_data(
     k_year = -2:5
   )
 
-)[
-  k_allocator %chin% "Kommunal sygepleje"
+)
+
+DT[
+  k_year == 3
 ]
 
 
-DT <- DT[
-  k_assignment %chin% c('control', 'treatment', 'counter_factual')
-][
-  ,
-  k_assignment := data.table::fcase(
-    default = 'Sygdomsgruppe',
-    k_assignment %chin% 'control', 'Sammenligningsgruppe',
-    k_assignment %chin% 'counter_factual', 'Kontrafaktisk sygdomsgruppe'
-  )
-  ,
-]
 
 
 plotly::plot_ly(

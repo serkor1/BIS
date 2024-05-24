@@ -13,7 +13,7 @@ DT <- extract_data(
     dbname = "inst/extdata/db.sqlite"
   ),
   table = "model1_baseline",
-  k_disease = c("Astma", "Alkoholrelateret sygdom"),
+  k_disease = c("Svær psykisk sygdom"),
   c_type    = "Incident"
 )
 
@@ -21,7 +21,7 @@ DT <- prepare_data(
   DT = DT,
   recipe = recipe(
     treatment = list(
-      k_disease = "Astma"
+      k_disease = "Svær psykisk sygdom"
     ),
     control   = list(
       k_disease = "Alkoholrelateret sygdom"
@@ -87,10 +87,12 @@ grouped_vals <- aggregate_data(
 
 )
 
+
 DT_ <- merge(
   grouped_vals,
   grouped_obs,
-  by = c("k_assignment", "k_allocator")
+  by = c("k_assignment", "k_allocator"),
+  all.x = TRUE
 )
 
 

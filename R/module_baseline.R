@@ -163,6 +163,7 @@ module_baseline_model1 <- function(
         DT,
         calc = expression(
           .(
+            c_group           = as.character(shiny::span(bsicons::bs_icon(name = "person-raised-hand"), "Antal")),
             k_allocator       = "Total",
             v_characteristics = sum(unique(v_obs))
           )
@@ -181,7 +182,6 @@ module_baseline_model1 <- function(
               DT,
               calc = expression(
                 .(
-
                   v_obs = sum(unique(v_obs))
                 )
               ),
@@ -222,8 +222,10 @@ module_baseline_model1 <- function(
       DT_ <- merge(
         grouped_vals,
         grouped_obs,
-        by = c("k_assignment", "k_allocator", "c_group")
+        by = c("k_assignment", "k_allocator", "c_group"),
+        all.x = TRUE
       )
+
 
       DT_[
         !(k_allocator %chin% "Alder")
@@ -237,9 +239,10 @@ module_baseline_model1 <- function(
         v_characteristics := data.table::fifelse(
           k_allocator %chin% "Alder",
           paste0(
-            v_characteristics," (N = ", v_obs,")"
-          ),paste0(
-            v_characteristics,"% (N = ", v_obs,")"
+            v_characteristics
+          ),
+          paste0(
+            v_characteristics,"% (N = ", data.table::fifelse(is.na(v_obs),"0", as.character(v_obs)), ")"
           )
         )
         ,

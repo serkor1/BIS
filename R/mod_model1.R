@@ -229,7 +229,12 @@ mod_model1_ui <- function(id){
 
         card(
           header = list(
-            title = span(bsicons::bs_icon("table"), "Baselinetabel")
+            title = span(bsicons::bs_icon("table"), "Baselinetabel"),
+            content = list(
+              tooltip(
+                "Sygdomsgruppernes karakteristika. All procenter er opgjort indenfor den valgte sygdomsgruppes karakteristika. Forskellene er opgjort i procentpoint."
+              )
+            )
           ),
           bslib::card_body(
 
@@ -341,6 +346,18 @@ mod_model1_server <- function(id, theme, init){
 
                   ),
                   title = span(bsicons::bs_icon("sliders"), "Effekter")
+
+                )
+              ),
+
+              bslib::nav_item(
+                tooltip(
+                  HTML(
+                  "
+                  For prævalente er År 0 identifikationsåret. <br><br>
+                  For incidente er År 0 diagnoseåret.
+                  "
+                  )
 
                 )
               ),
@@ -726,6 +743,16 @@ mod_model1_server <- function(id, theme, init){
             "c_unit"
           )
         )
+
+        # DT[
+        #   qty_missing == TRUE,
+        #   `:=`(
+        #     v_qty = NA,
+        #     v_cost = NA
+        #   )
+        # ]
+        #
+        # DT
       }
     )
 
@@ -749,6 +776,7 @@ mod_model1_server <- function(id, theme, init){
             k_year = -2:5
           )
         )
+
       }
     )
 
@@ -929,7 +957,7 @@ mod_model1_server <- function(id, theme, init){
             {
               layout(
                 plot = plot(
-                  data = DT[cost_missing == FALSE],
+                  data = DT, #[cost_missing == FALSE],
                   x = setNames("k_year", "År"),
                   y = setNames(
                     "v_cost",
@@ -953,7 +981,7 @@ mod_model1_server <- function(id, theme, init){
             {
               layout(
                 plot = plot(
-                  data = DT[qty_missing == FALSE],
+                  data = DT, #[qty_missing == FALSE],
                   x = setNames("k_year", "År"),
                   y = setNames(
                     "v_qty",

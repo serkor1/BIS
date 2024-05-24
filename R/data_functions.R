@@ -183,20 +183,24 @@ aggregate_data <- function(
       .SD,
       function(x) {
 
-        sum(x)
+        sum(x, na.rm = FALSE)
 
       }
     )
     ,
     .SDcols = names(DT)[grep(pattern = "v_", ignore.case = TRUE, x = names(DT))],
     by = c(
-      names(DT)[!grepl(pattern = "k_assignment|k_disease|v_",x = names(DT))]
+      names(DT)[!grepl(pattern = "missing|k_assignment|k_disease|v_",x = names(DT))]
     )
   ][
     ,
-    k_assignment := "difference"
+    `:=`(
+      k_assignment = "difference"
+    )
     ,
   ]
+
+
 
   DT <- rbind(
     DT,
@@ -218,10 +222,7 @@ aggregate_data <- function(
     .SDcols = names(DT)[grep(pattern = "v_", ignore.case = TRUE, x = names(DT))]
   ]
 
-
-
-
-  DT[]
+  DT
 
 }
 
@@ -239,7 +240,8 @@ effect_data <- function(
   # 0) Merge the data
   DT <- merge(
     DT,
-    effect
+    effect,
+    all.x = TRUE
   )
 
 
@@ -256,7 +258,7 @@ effect_data <- function(
       .SD,
       function(x) {
 
-        -abs(x) *effect
+        -abs(x) * effect
 
       }
     )
@@ -278,7 +280,7 @@ effect_data <- function(
     ,
     .SDcols = names(DT)[grep(pattern = "v_", ignore.case = TRUE, x = names(DT))],
     by = c(
-      names(DT)[!grepl(pattern = "k_assignment|k_disease|v_",x = names(DT))]
+      names(DT)[!grepl(pattern = "missing|k_assignment|k_disease|v_",x = names(DT))]
     )
   ][
     ,
