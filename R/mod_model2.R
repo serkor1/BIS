@@ -262,6 +262,16 @@ mod_model2_server <- function(id, theme){
           value.var = 'v_cost'
         )
 
+        order_columns <- c("0-2 år", "3-6 år", "7-11 år", "12-17 år")
+
+        # Find the columns that actually exist in the data.table
+        existing_columns <- order_columns[order_columns %in% colnames(table_DT)]
+
+        data.table::setcolorder(
+          table_DT,
+          c("k_allocator",existing_columns)
+        )
+
         data.table::setnames(
           table_DT,
           old = "k_allocator",
