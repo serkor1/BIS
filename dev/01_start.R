@@ -19,14 +19,14 @@
 ## to change the name in the app_sys() function in app_config.R /!\
 ##
 golem::fill_desc(
-  pkg_name = "BIS", # The Name of the package containing the App
-  pkg_title = "PKG_TITLE", # The Title of the package containing the App
-  pkg_description = "PKG_DESC.", # The Description of the package containing the App
+  pkg_name          = "BIS", # The Name of the package containing the App
+  pkg_title         = "Beregner til Investeringer i Sundhed", # The Title of the package containing the App
+  pkg_description   = "En sundhedsøkonomisk beregningsmodel baseret på dansk registerdata.", # The Description of the package containing the App
   author_first_name = "Serkan", # Your First Name
-  author_last_name = "Korkmaz", # Your Last Name
-  author_email = "serkor1@duck.com", # Your Email
-  repo_url = "https://github.com/serkor1/bis-main", # The URL of the GitHub Repo (optional),
-  pkg_version = "0.0.0" # The Version of the package containing the App
+  author_last_name  = "Korkmaz", # Your Last Name
+  author_email      = "serkor1@duck.com", # Your Email
+  repo_url          = "https://github.com/serkor1/bis-main", # The URL of the GitHub Repo (optional),
+  pkg_version       = "2.0.0" # The Version of the package containing the App
 )
 
 ## Set {golem} options ----

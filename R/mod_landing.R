@@ -78,7 +78,7 @@ mod_landing_ui <- function(id){
                   ),
                   bslib::card_body(
                     "
-                    Beregn produktivitetstab ved syge
+                    Beregn produktionstab ved syge
                     børn.
                     "
                   ),
@@ -87,6 +87,7 @@ mod_landing_ui <- function(id){
                 )
 
               )
+
 
 
             )

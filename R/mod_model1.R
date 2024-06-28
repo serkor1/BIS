@@ -827,6 +827,7 @@ mod_model1_server <- function(id, theme, init){
           )
         )
 
+
         # # 2.2) merge effect data
         # # to the data
         # DT <- merge(
@@ -961,7 +962,8 @@ mod_model1_server <- function(id, theme, init){
                   x = setNames("k_year", "År"),
                   y = setNames(
                     "v_cost",
-                    unique(DT$c_unit)
+                    "Kroner"
+                    #unique(DT$c_unit)
                     #paste("Pris pr.",unique(DT$c_unit))
                   ),
                   color = ~k_assignment,

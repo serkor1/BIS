@@ -258,7 +258,14 @@ effect_data <- function(
       .SD,
       function(x) {
 
-        -abs(x) * effect
+
+        -x * effect
+        # if (any(x < 0)) {
+        #   abs(x) * effect
+        # } else {
+        #   -abs(x) * effect
+        # }
+
 
       }
     )

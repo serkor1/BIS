@@ -67,6 +67,17 @@ app_ui <- function(request) {
         )
       ),
 
+      bslib::nav_item(
+        shinyWidgets::actionBttn(
+          inputId = "openLinkBtnDocs",
+          label = NULL,
+          icon = bsicons::bs_icon("book"),
+          style = "simple",
+          color = "default",
+          class = "btn-transparent"
+        )
+      ),
+
       bslib::nav_panel_hidden(
         value = "s",
         # page body;

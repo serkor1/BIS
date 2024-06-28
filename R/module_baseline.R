@@ -238,8 +238,9 @@ module_baseline_model1 <- function(
         ,
         v_characteristics := data.table::fifelse(
           k_allocator %chin% "Alder",
-          paste0(
-            v_characteristics
+          formatC(
+            v_characteristics,
+            digits = 2
           ),
           paste0(
             v_characteristics,"% (N = ", data.table::fifelse(is.na(v_obs),"0", as.character(v_obs)), ")"
@@ -267,6 +268,8 @@ module_baseline_model1 <- function(
         formula = k_allocator + c_group ~ k_assignment,
         value.var = "v_characteristics"
       )
+
+
 
 
 

@@ -158,6 +158,9 @@ plot <- function(
 
 create_workbook <- function(
     DT,
+    # NOTE to self: adding this will
+    # enable baseline tables in the output.
+    DT_baseline = NULL,
     f = NULL) {
 
 
@@ -175,6 +178,13 @@ create_workbook <- function(
     )
 
     names(DT_list) <- "data"
+
+  }
+
+  if (!is.null(DT_baseline)) {
+
+
+    DT_list$baseline <- mtcars
 
   }
 

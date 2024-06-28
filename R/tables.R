@@ -31,9 +31,8 @@ generate_table <- function(
           where        = header
       ),
       extensions = c(
-        "RowGroup"
-        #,
-        #"Buttons"
+        "RowGroup",
+        "Buttons"
         ),
       options = list(
         rowGroup = list(dataSrc = grep(
@@ -55,7 +54,7 @@ generate_table <- function(
         scrollCollapse = FALSE,
         searching = FALSE,
         lengthChange = FALSE,
-        dom = "tBR",
+        dom = "BRt",
         ordering = FALSE,
         columnDefs = list(
           list(visible = FALSE, targets = grep(pattern = "group", x = colnames(DT), ignore.case = TRUE) - 1),

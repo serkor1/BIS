@@ -1,8 +1,8 @@
 Package: BIS
-Title: PKG_TITLE
-Version: 0.0.0
+Title: Beregner til Investeringer i Sundhed
+Version: 2.0.0
 Authors@R: person('Serkan', 'Korkmaz', email = 'serkor1@duck.com', role = c('cre', 'aut'))
-Description: PKG_DESC.
+Description: En sundhedsøkonomisk beregningsmodel baseret på dansk registerdata.
 License: GPL (>= 2)
 URL: https://github.com/serkor1/bis-main
 BugReports: https://github.com/serkor1/bis-main/issues
