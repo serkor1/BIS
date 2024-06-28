@@ -13,29 +13,31 @@ DT <- extract_data(
     dbname = "inst/extdata/db.sqlite"
   ),
   table = "model1_baseline",
-  k_disease = c("Svær psykisk sygdom"),
-  c_type    = "Incident"
+  k_disease = c("Epilepsi", "Undervægt/underernæring (blandt ældre)"),
+  c_type    = "Prævalent"
 )
 
 DT <- prepare_data(
   DT = DT,
   recipe = recipe(
     treatment = list(
-      k_disease = "Svær psykisk sygdom"
+      k_disease = "Epilepsi"
     ),
     control   = list(
-      k_disease = "Alkoholrelateret sygdom"
+      k_disease = "Undervægt/underernæring (blandt ældre)"
     )
   )
 )
 
 
+
 total_obs <- aggregate_data(
-  DT,
+  unique(DT[,.(v_obs = sum((v_obs))), by = .(k_allocator, k_assignment)])
+  ,
   calc = expression(
     .(
       k_allocator       = "Total",
-      v_characteristics = sum(unique(v_obs))
+      v_characteristics = unique((v_obs))
     )
   ),
   by = c(

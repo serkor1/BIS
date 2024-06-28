@@ -160,12 +160,13 @@ module_baseline_model1 <- function(
 
 
       total_obs <- aggregate_data(
-        DT,
+        unique(DT[,.(v_obs = sum((v_obs))), by = .(k_allocator, k_assignment)])
+        ,
         calc = expression(
           .(
             c_group           = as.character(shiny::span(bsicons::bs_icon(name = "person-raised-hand"), "Antal")),
             k_allocator       = "Total",
-            v_characteristics = sum(unique(v_obs))
+            v_characteristics = unique(v_obs)
           )
         ),
         by = c(
